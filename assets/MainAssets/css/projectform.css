@@ -1,0 +1,297 @@
+body{
+
+    margin: 0px;
+    padding: 0px;
+    width: auto;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: fixed;
+    font-family: sans-serif;
+    background-color: white;!important;
+}
+.about1{
+    padding: 250px 0px 0px 0px;
+}
+.buttton {
+    float: right!important;
+}
+.buttton .btn{
+     
+    background: aqua;
+    padding: 6px 30px;
+
+}
+.buttton .btn:hover {
+    border: 2px solid black;
+}
+.menu3{
+    display: flex;
+padding: 20px;
+margin: 20px;
+list-style: none;
+}
+.menu3 li{
+ padding: 30px;
+  padding-left: 30px;
+text-decoration: none !important;
+font-family: arial;
+font-weight: bold;
+}
+.logo{
+    float: right;
+    margin-top: 90px;
+    margin-right: 30px;
+}
+.logo1{
+    
+    float: left;
+    margin-top: 50px;
+    margin-left: 30px;
+}
+.label{
+    float: right;
+    background: #25AEA6;
+      padding: 6px 30px;
+      margin-top: 50px;
+      margin-right: 20px;
+      margin-left: -142px;
+}
+
+.div1{
+    float: right;
+width: 260px;
+}
+.type1{
+padding: 12px 10px;
+background: black;
+opacity: 0.6;
+border: black;
+border-radius: 4px;
+width: 25%;
+margin-left: 50px;
+color: white;
+}
+.type2{
+padding: 12px 10px;
+background: black;
+opacity: 0.6;
+border: black;
+border-radius: 4px;
+width: 25%;
+margin-left: 72px;
+color: white;
+}
+.type4{
+padding: 12px 10px;
+background: black;
+opacity: 0.6;
+border: black;
+border-radius: 4px;
+width: 25%;
+margin-left: 86px;
+color: white;
+}
+.type5{
+padding: 12px 10px;
+background: black;
+opacity: 0.6;
+border: black;
+border-radius: 4px;
+width: 45%;
+margin-left: 50px;
+color: white;
+}
+.type6{
+padding: 12px 10px;
+background: black;
+opacity: 0.6;
+border: black;
+border-radius: 4px;
+width: 45%;
+margin-left: 92px;
+color: white;
+}
+
+
+.type3{
+padding: 12px 10px;
+background: black;
+opacity: 0.6;
+border: #25AEA6;
+border-radius: 4px;
+width: 67%;
+text-transform: uppercase;
+margin-left: 55px;
+color: white;
+
+}
+form{
+    
+}
+.text1{
+    color: black;
+    margin-top: 8px;
+    text-align: center;
+    
+}
+p{
+    font-family: roboto;
+
+}
+.about{
+    padding-top: 100px;
+padding-right: 100px;
+padding-bottom: 100px;
+padding-left: 150px;
+}
+select{
+    background: red;
+}
+.work {
+    
+    margin-left: 500px;
+    margin-top: -45px;
+}
+.work1 {
+    padding-left: 500px;
+    margin-top: -70px;
+}
+.work2 {
+    margin-left: 500px;
+    margin-top: -48px;
+}
+.tablesec {
+    margin-top: 50px!important;
+}
+    
+table th {
+    border: 2px solid;
+}
+th {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+tbody td {
+    border: 2px solid;
+    padding: 15px;
+}
+label.weight {
+    font-weight: 600;
+}
+
+
+
+/*mobile responsive*/
+@media screen and (max-width: 600px) {
+    .about{
+        padding: 0px;
+    }
+    .row {
+        width: 100%;
+  padding-top: 110px;
+  padding-bottom: 120px;
+  margin-left: 40px;
+}
+.div1{
+    width: auto;
+    padding-bottom: 20px;
+    float: none;
+}
+.menu3{
+display: block;
+padding: 0px;
+}
+.menu3 li{
+ padding: 15px;
+  padding-left: 8px;
+
+
+
+}
+.work {
+    margin-left: unset!important;
+    margin-top: unset!important;
+}
+.work1 {
+    padding-left: 0px!important;
+    margin-top: 0px!important;
+}
+.work2 {
+    margin-left: unset!important;
+    margin-top: unset!important;
+}
+.type1 {
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 80%;
+    margin-left: 50px;
+    color: white;
+}
+.type2 {
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 80%;
+    margin-left: 50px;
+}
+.type4 {
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 80%;
+    margin-left: 50px;
+    color: white;
+}
+.type3 {
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: #25AEA6;
+    border-radius: 4px;
+    width: 80%;
+    text-transform: uppercase;
+    margin-left: 50px;
+    color: white;
+}
+.type5 {
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 80%;
+    margin-left: 50px;
+    color: white;
+    
+}
+.type6 {
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 80%;
+    margin-left: 50px;
+    color: white;
+    margin-top: 0px;
+}
+label.weight {
+   margin-top: 10px;
+   margin-bottom: 10px;
+}
+.row {
+    margin: auto;
+    padding-top: 0px;
+}
+
+
+
+}

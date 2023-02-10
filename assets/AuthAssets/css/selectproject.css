@@ -1,0 +1,104 @@
+body{
+
+	margin: 0px;
+	padding: 0px;
+    width: auto;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: fixed;
+    font-family: sans-serif;
+	background-color: 	#aaa5a5!important;
+}
+.logo{
+	float: right;
+	margin-top: 50px;
+	margin-right: 27px;
+}
+.label{
+	float: right;
+	background: #25AEA6;
+	  padding: 6px 30px;
+	  margin-top: 50px;
+      margin-right: 20px;
+      margin-left: -142px;
+}
+
+.div1{
+	float: inline-end;
+width: 260px;
+}
+.type1{
+padding: 15px 10px;
+background: black;
+opacity: 0.6;
+border: black;
+border-radius: 4px;
+width: 80%;
+margin-left: 25px;
+}
+.type2{
+padding: 15px 10px;
+background: black;
+opacity: 0.6;
+border: black;
+border-radius: 4px;
+width: 80%;
+margin-left: 25px;
+}
+.type3{
+padding: 15px 10px;
+background: #25AEA6;
+opacity: 0.6;
+border: #25AEA6;
+border-radius: 4px;
+width: 80%;
+text-transform: uppercase;
+margin-left: 25px;
+
+}
+form{
+	
+}
+.text1{
+	color: black;
+	margin-top: 8px;
+	text-align: center;
+	
+}
+p{
+	font-family: roboto;
+
+}
+.about{
+	padding-top: 200px;
+padding-right: 200px;
+padding-bottom: 200px;
+padding-left: 200px;
+}
+select{
+	background: red;
+}
+
+
+
+
+
+
+/*mobile responsive*/
+@media screen and (max-width: 600px) {
+	.about{
+		padding: 0px;
+	}
+	.row {
+		width: 100%;
+  padding-top: 110px;
+  padding-bottom: 120px;
+  margin-left: 40px;
+}
+.div1{
+	width: auto;
+	padding-bottom: 20px;
+	float: none;
+}
+}
