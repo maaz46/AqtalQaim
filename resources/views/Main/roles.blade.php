@@ -44,10 +44,7 @@
             <label class="form-check-label" for="flexCheckDefault">
                    Print
                                    </label>
-             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                   Approved
-                                   </label>
+             
           <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
             <label class="form-check-label" for="flexCheckDefault">
                    Approved
@@ -64,6 +61,10 @@
             <label class="form-check-label" for="flexCheckDefault">
                    Un-Void
                                    </label>
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                  Lock
+                                   </label>
                                    
           </div>
          
@@ -72,17 +73,18 @@
         <div class="row">
         <div class="col-md-12">
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                  Lock
-                                   </label>
+            
          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
             <label class="form-check-label" for="flexCheckDefault">
                   Un-Lock
                                    </label>
-                                   <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
             <label class="form-check-label" for="flexCheckDefault">
                   Checked
+                                   </label>
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                 Un-Checked
                                    </label>
         </div>
         </div>
@@ -104,6 +106,7 @@
         <th>Lock</th>
         <th>Un-Lock</th>
         <th>Checked</th>
+        <th>Un-Checked</th>
         <th></th>
         <th></th>
     </thead>
@@ -114,6 +117,7 @@
         @endphp
         <tr>
             <td>{{$item->role_name}}</td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
