@@ -2,23 +2,108 @@
 
 @section('MainSection')
 
-<form action="/Roles" method="POST">
-    @csrf
-    <div class="form-group">
-        <label for="">Role Name*</label>
-        <input type="text" placeholder="Enter Role" class="type5" name="role_name">
-        @error('role_name')
-        <p class="text-danger">{{$message}}</p>
-        @enderror
+
+<h2 style="color:black;">USER RIGHTS ROLES</h2>
+
+
+<div class="about1">
+			    <div class="container">
+        <div class="row">
+          
+          <div class="col-md-12">
+          	<div class="buttton">
+          		<div class="btn">New</div>
+          		<div class="btn">Save</div>
+          		<div class="btn">Cancel</div>
+          	</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-success btn-sm">
+    
+    <div class="about2">
+			    <div class="container">
+        <div class="row">
+          
+          <div class="col-md-12">
+            <div class="txt">Rights for the Role</div>
+          	<div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                  New
+                                   </label>
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                   Edit
+                                   </label>                       
+           <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                   Delete
+                                   </label> 
+             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                   Print
+                                   </label>
+             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                   Approved
+                                   </label>
+          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                   Approved
+                                   </label> 
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                  Un-Approved
+                                   </label>
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                   Void
+                                   </label>
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                   Un-Void
+                                   </label>
+                                   
+          </div>
+         
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                  Lock
+                                   </label>
+         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                  Un-Lock
+                                   </label>
+                                   <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                  Checked
+                                   </label>
+        </div>
+        </div>
+      </div>
     </div>
-</form>
+
+   
 
 <table class="table">
     <thead class="thead-dark">
-        <th>Roles</th>
+        <th>User Roles</th>
+        <th>Edit</th>
+        <th>Delete</th>
+        <th>Print</th>
+        <th>Approve</th>
+        <th>Un-Approve</th>
+        <th>Void</th>
+        <th>Un-void</th>
+        <th>Lock</th>
+        <th>Un-Lock</th>
+        <th>Checked</th>
         <th></th>
         <th></th>
     </thead>
@@ -29,6 +114,16 @@
         @endphp
         <tr>
             <td>{{$item->role_name}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td><a href="/EditRole/{{$item->role_id}}">Edit</a></td>
             <td><a href="/DeleteRole/{{$item->role_id}}">Delete</a></td>
         </tr>
@@ -38,4 +133,5 @@
         @endphp
     </tbody>
 </table>
+
 @endsection
