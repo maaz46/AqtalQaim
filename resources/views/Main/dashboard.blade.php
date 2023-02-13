@@ -2,6 +2,6 @@
 
 @section('MainSection')
 
-<h1>hello {{Session::get('user_name')}}</h1>
+<h1>testing {{Session::get('user_name')}}</h1>
 
 @endsection
