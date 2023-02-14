@@ -6,7 +6,7 @@
 <h2 style="color:black;">USER RIGHTS ROLES</h2>
 
 
-<div class="about1">
+<div class="abot1">
 			    <div class="container">
         <div class="row">
           

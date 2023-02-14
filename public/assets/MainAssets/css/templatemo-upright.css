@@ -197,8 +197,8 @@ hr { border-top: 4px solid #CCC; }
 }
 
 .tm-section-wrap {
-	width: calc(100% - 450px);
-	margin-left: 400px;
+	width: calc(100% - 400px);
+	margin-left: 350px;
 	margin-right: 0;
 	position: relative;
 }
@@ -767,7 +767,7 @@ select.form-control option { height: 30px; }
 
 select:not([multiple]) {
     -webkit-appearance: auto;
-    -moz-appearance: none;
+    /*select:not([multiple])*/
     background-position: right 15px center;
     background-repeat: no-repeat;
     background-image: none;
@@ -818,7 +818,7 @@ select:not([multiple]) {
 @media (max-width: 1400px) {
 	.tm-section-wrap {
 		width: calc(100% - 430px);
-		margin-left: 400px;
+		margin-left: 350px;
 	}
 }
 

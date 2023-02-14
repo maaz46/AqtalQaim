@@ -16,8 +16,11 @@ body{
 .form-check-label{
     margin-right: 40px;
 }
+.abot1{
+    padding: 20px 0px 20px 0px;
+}
 .about1{
-    padding: 20px 0px 0px 0px;
+    padding: 20px 0px 80px 0px;
 }
 .buttton {
     float: right!important;
@@ -67,6 +70,26 @@ font-weight: bold;
 .div1{
     float: right;
 width: 260px;
+}
+.Maintype{
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 60%;
+    margin-bottom: 20px;
+    color: white;
+}
+.Maintype1{
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 40%;
+    margin-bottom: 20px;
+    color: white;
 }
 .type1{
 padding: 12px 10px;
