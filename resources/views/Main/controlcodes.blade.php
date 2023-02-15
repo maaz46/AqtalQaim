@@ -12,7 +12,7 @@
     </div>
 
     <div class="form-group">
-        <label for="">Control Type</label>
+        <label for=""style="margin-right:28px">Control Type</label>
         <select name="control_type_id" required class="type2">
             <option disabled selected>Select A Control Type</option>
             @php
@@ -32,7 +32,7 @@
     </div>
 
     <div class="form-group">
-        <label for="">Group Code*</label>
+        <label for="" style="margin-right:28px">Group Code*</label>
     <select name="group_code_id" required class="type2">
         <option disabled selected>Select A Group Code</option>
         @php

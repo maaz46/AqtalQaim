@@ -260,6 +260,7 @@ padding: 0px;
     margin-left: 50px;
     color: white;
 }
+
 .type2 {
     padding: 12px 10px;
     background: black;
@@ -312,6 +313,15 @@ padding: 0px;
     color: white;
     margin-top: 0px;
 }
+.type8 #group_code_id {
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 80%;
+    margin-left: 98px;
+}
 label.weight {
    margin-top: 10px;
    margin-bottom: 10px;
@@ -319,7 +329,26 @@ label.weight {
 .row {
     margin: auto;
     padding-top: 0px;
+    padding-bottom: 0px;
 }
+.about1 .container{
+    padding-right: 0px;
+padding-left: 0px;
+
+}
+.abot1 .container{
+    padding-right: 0px;
+padding-left: 0px;
+
+}
+#col1 {
+    padding-left: 0px !important;
+    border-left: none !important;
+    padding-top: 20px;
+  }
+  .form-check-label {
+    margin-right: 280px;
+  }
 
 
 

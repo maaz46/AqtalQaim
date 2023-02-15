@@ -15,7 +15,7 @@
 
     <div class="form-group">
         <label for="">Control Type</label>
-        <select name="control_type_id" required class="type2">
+        <select name="control_type_id" required class="type7">
             <option disabled selected>Select A Control Type</option>
             @php
             if(count($control_types)>0):
@@ -35,7 +35,7 @@
 
     <div class="form-group">
         <label for="">Group Code*</label>
-    <select name="group_code_id" required class="type2">
+    <select name="group_code_id" required class="type7">
         <option disabled selected>Select A Group Code</option>
         @php
         if(count($group_codes)>0):

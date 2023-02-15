@@ -4,7 +4,7 @@
 <form action="/ChartOfAccounts" method="POST">
     @csrf
     <div class="form-group">
-        <label for="">Chart Of Account*</label>
+        <label for="" style="margin-right:38px">Chart Of Account*</label>
         <input type="text" class="type5" value="{{old('chart_of_account')}}" name="chart_of_account">
         @error('chart_of_account')
         <p class="text-danger">{{$message}}</p>
@@ -14,7 +14,7 @@
 
 
     <div class="form-group">
-        <label for="">Group Code*</label>
+        <label for="" style="margin-right:50px">Group Code*</label>
         <select name="group_code_id" id="group_code_id" required class="type2">
             <option disabled value="">Select A Group Code</option>
             @php
@@ -34,7 +34,7 @@
 
 
     <div class="form-group ControlCodeFormGroup">
-        <label for="">Control Code*</label>
+        <label for="" style="margin-right:42px">Control Code*</label>
         <select name="control_code_id" id="control_code_id" required class="type2">
             <option disabled selected value="">Select A Group Code First</option>
         </select>

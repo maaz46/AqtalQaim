@@ -116,7 +116,7 @@
           
           </div>
           
-          <div class="col-md-6" style="padding-left: 65px; border-left:2px solid;x" >
+          <div class="col-md-6"  style="padding-left: 65px; border-left:2px solid;"  id="col1">
           <div class="form-check">
             
             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="margin-top: 1.0rem;">
