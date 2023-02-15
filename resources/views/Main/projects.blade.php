@@ -4,7 +4,7 @@
 <form action="/Projects" method="POST">
     @csrf
     <div class="form-group">
-        <label for="">Project Name*</label>
+        <label for="" style="margin-right:45px">Project Name*</label>
         <input type="text" placeholder="Enter Project Name" class="type5" value="{{ old('project_name') }}"
             name="project_name">
         @error('project_name')
