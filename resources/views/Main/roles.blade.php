@@ -21,7 +21,7 @@
       </div>
     </div>
     
-    <div class="about2">
+    <div class="abot2">
 			    <div class="container">
         <div class="row">
           
@@ -65,6 +65,15 @@
             <label class="form-check-label" for="flexCheckDefault">
                   Lock
                                    </label>
+                                   <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                  Un-Lock
+                                   </label>
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                  Checked
+                                   </label>
+            
                                    
           </div>
          
@@ -73,15 +82,7 @@
         <div class="row">
         <div class="col-md-12">
         <div class="form-check">
-            
-         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                  Un-Lock
-                                   </label>
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                  Checked
-                                   </label>
+          
             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
             <label class="form-check-label" for="flexCheckDefault">
                  Un-Checked
