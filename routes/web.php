@@ -107,6 +107,14 @@ Route::post('/UpdateUser', [MainController::class, 'UpdateUser']);
 Route::get('/DeleteUser/{UserID}', [MainController::class, 'DeleteUser']);
 #endregion USERS
 
+#region USERS CATEGORIES
+Route::get('/UserCategories', [MainController::class, 'UserCategories']);
+// Route::post('/Users', [MainController::class, 'AddUser']);
+// Route::get('/EditUser/{UserID}', [MainController::class, 'EditUser']);
+// Route::post('/UpdateUser', [MainController::class, 'UpdateUser']);
+// Route::get('/DeleteUser/{UserID}', [MainController::class, 'DeleteUser']);
+#endregion USERS CATEGORIES
+
 
 Route::get('/Logout',function(){
     Session::forget(['user_id','user_name']);

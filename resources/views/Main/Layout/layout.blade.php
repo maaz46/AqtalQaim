@@ -118,9 +118,11 @@
                                 </a>
                                 <div class="item">
                                     <ul>
-                                        <li><a href="/Users">Users</a></li>
-                                        <hr class="dropdown-divider">
                                         <li><a href="/Roles">Roles</a></li>
+                                        <hr class="dropdown-divider">
+                                        <li><a href="/UserCategories">User Categories</a></li>
+                                        <hr class="dropdown-divider">
+                                        <li><a href="/Users">Users</a></li>
                                     </ul>
                                 </div>
                             </li>
