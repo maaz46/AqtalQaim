@@ -123,6 +123,10 @@
                                         <li><a href="/UserCategories">User Categories</a></li>
                                         <hr class="dropdown-divider">
                                         <li><a href="/Users">Users</a></li>
+                                        <hr class="dropdown-divider">
+                                        <li><a href="/Suppliers">Suppliers</a></li>
+                                        <hr class="dropdown-divider">
+                                        <li><a href="/Customers">Customers</a></li>
                                     </ul>
                                 </div>
                             </li>

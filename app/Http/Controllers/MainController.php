@@ -701,6 +701,115 @@ class MainController extends Controller
     #endregion USERS CATEGORIES
 
 
+     #region  SUPPLIERS
+     public function Suppliers(){
+        // $group_types = GroupTypes::get();
+        return view('Main.suppliers');
+    }
+
+
+    // public function AddGroupType(Request $req){
+    //     $validatedData = $req->validate([
+    //         'group_type' => ['required'],
+    //     ]);
+       
+    //     $group_types = new GroupTypes();
+    //     $group_types->group_type = $req->group_type;
+    //     if($group_types->save()):
+    //         $req->session()->flash('status', 'Group Type Added Successfully');
+
+    //     else:
+    //         $req->session()->flash('status', 'Some Error Occured');
+    //     endif;
+
+    //     return redirect('GroupTypes');
+    // }
+
+
+    // public function EditGroupType(Request $req){
+    //     $result = GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->first();
+    //     return view('Main.edit_grouptypes', compact('result'));
+    // }
+
+    // public function UpdateGroupType(Request $req){
+    //     $validatedData = $req->validate([
+    //         'group_type' => ['required'],
+    //     ]);
+    //    if(GroupTypes::where(['group_type_id'=>$req->group_type_id])->update(['group_type'=>$req->group_type])):
+    //         $req->session()->flash('status', 'Group Type Update Successfully');
+    //    else:
+    //         $req->session()->flash('status', 'Some Error Occured');
+    //    endif;
+
+    //    return redirect('GroupTypes');
+    // }
+
+    // public function DeleteGroupType(Request $req){
+    //    if(GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->delete()):
+    //         $req->session()->flash('status', 'Group Type Deleted Successfully');
+    //    else:
+    //         $req->session()->flash('status', 'Some Error Occured');
+    //    endif;
+
+    //    return redirect('GroupTypes');
+    // }
+    #endregion SUPPLIERS
+
+
+     #region  CUSTOMERS
+     public function Customers(){
+        // $group_types = GroupTypes::get();
+        return view('Main.customers');
+    }
+
+
+    // public function AddGroupType(Request $req){
+    //     $validatedData = $req->validate([
+    //         'group_type' => ['required'],
+    //     ]);
+       
+    //     $group_types = new GroupTypes();
+    //     $group_types->group_type = $req->group_type;
+    //     if($group_types->save()):
+    //         $req->session()->flash('status', 'Group Type Added Successfully');
+
+    //     else:
+    //         $req->session()->flash('status', 'Some Error Occured');
+    //     endif;
+
+    //     return redirect('GroupTypes');
+    // }
+
+
+    // public function EditGroupType(Request $req){
+    //     $result = GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->first();
+    //     return view('Main.edit_grouptypes', compact('result'));
+    // }
+
+    // public function UpdateGroupType(Request $req){
+    //     $validatedData = $req->validate([
+    //         'group_type' => ['required'],
+    //     ]);
+    //    if(GroupTypes::where(['group_type_id'=>$req->group_type_id])->update(['group_type'=>$req->group_type])):
+    //         $req->session()->flash('status', 'Group Type Update Successfully');
+    //    else:
+    //         $req->session()->flash('status', 'Some Error Occured');
+    //    endif;
+
+    //    return redirect('GroupTypes');
+    // }
+
+    // public function DeleteGroupType(Request $req){
+    //    if(GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->delete()):
+    //         $req->session()->flash('status', 'Group Type Deleted Successfully');
+    //    else:
+    //         $req->session()->flash('status', 'Some Error Occured');
+    //    endif;
+
+    //    return redirect('GroupTypes');
+    // }
+    #endregion CUSTOMERS
+
 
 }
 
