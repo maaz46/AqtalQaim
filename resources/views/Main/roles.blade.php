@@ -129,8 +129,8 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><a href="/EditRole/{{$item->role_id}}">Edit</a></td>
-            <td><a href="/DeleteRole/{{$item->role_id}}">Delete</a></td>
+            <td style="text-align:center;"><a href="/EditRole/{{$item->role_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+            <td style="text-align:center;"><a href="/DeleteRole/{{$item->role_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
         </tr>
         @php
         endforeach;

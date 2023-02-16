@@ -68,8 +68,12 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>Edit</td>
-            <td>Delete</td>
+            <td style="text-align:center;">
+            <i class="far fa-edit" style="font-size:24px;"></i>
+            </td>
+            <td style="text-align:center;">
+            <i class="fas fa-trash-alt" style="font-size:24px;"></i>
+        </td>
         </tr>
 </tbody>
 </table>

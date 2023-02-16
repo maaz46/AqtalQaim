@@ -94,8 +94,8 @@
             <td>{{$item->chart_of_account}}</td>
             <td>{{$item->opening_balance_debit}}</td>
             <td>{{$item->opening_balance_credit}}</td>
-            <td><a href="/EditChartOfAccount/{{$item->chart_of_account_id}}">Edit</a></td>
-            <td><a href="/DeleteChartOfAccount/{{$item->chart_of_account_id}}">Delete</a></td>
+            <td style="text-align:center;"><a href="/EditChartOfAccount/{{$item->chart_of_account_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+            <td style="text-align:center;"><a href="/DeleteChartOfAccount/{{$item->chart_of_account_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
         </tr>
         @php
         endforeach;

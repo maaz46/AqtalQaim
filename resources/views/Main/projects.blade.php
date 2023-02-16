@@ -51,8 +51,8 @@
         <tr>
             <td>{{$item->project_name}}</td>
             <td>{{$item->project_category}}</td>
-            <td><a href="/EditProject/{{$item->project_id}}">Edit</a></td>
-            <td><a href="/DeleteProject/{{$item->project_id}}">Delete</a></td>
+            <td style="text-align:center;"><a href="/EditProject/{{$item->project_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+            <td style="text-align:center;"><a href="/DeleteProject/{{$item->project_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
         </tr>
         @php
         endforeach;

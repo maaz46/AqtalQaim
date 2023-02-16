@@ -30,9 +30,9 @@
         @endphp
         <tr>
             <td>{{$item->control_type}}</td>
-            <td><a href="/EditControlType/{{$item->control_type_id}}">Edit</a></td>
-            <td><a
-                    href="/DeleteControlType/{{$item->control_type_id}}">Delete</a></td>
+            <td style="text-align:center;"><a href="/EditControlType/{{$item->control_type_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+            <td style="text-align:center;"><a
+                    href="/DeleteControlType/{{$item->control_type_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
         </tr>
         @php
         endforeach;

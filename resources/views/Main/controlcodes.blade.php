@@ -82,8 +82,8 @@
             <td>{{$item->group_account}}</td>
             <td>{{$item->control_type}}</td>
             <td>{{$item->isPnL=="1" ? 'P&L' : ''}}</td>
-            <td><a href="/EditControlCode/{{$item->control_code_id}}">Edit</a></td>
-            <td><a href="/DeleteGroupCode/{{$item->control_code_id}}">Delete</a></td>
+            <td style="text-align:center;"><a href="/EditControlCode/{{$item->control_code_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+            <td style="text-align:center;"><a href="/DeleteGroupCode/{{$item->control_code_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
         </tr>
         @php
         endforeach;

@@ -215,8 +215,9 @@
             <td>{{$item->user_name}}</td>
             <td>{{$item->role_name}}</td>
             <td>{{$item->project_name}}</td>
-            <td><a href="/EditUser/{{$item->user_id}}">Edit</a></td>
-            <td><a href="/DeleteUser/{{$item->user_id}}">Delete</a></td>
+            <td style="text-align:center;">
+            <a href="/EditUser/{{$item->user_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+            <td style="text-align:center;"><a href="/DeleteUser/{{$item->user_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
         </tr>
         @php
         endforeach;

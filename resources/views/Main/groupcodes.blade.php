@@ -53,8 +53,8 @@
             <td>{{$item->group_code}}</td>
             <td>{{$item->group_account}}</td>
             <td>{{$item->group_type}}</td>
-            <td><a href="/EditGroupCode/{{$item->group_code_id}}">Edit</a></td>
-            <td><a href="/DeleteGroupCode/{{$item->group_code_id}}">Delete</a></td>
+            <td style="text-align:center;"><a href="/EditGroupCode/{{$item->group_code_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+            <td style="text-align:center;"><a href="/DeleteGroupCode/{{$item->group_code_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
         </tr>
         @php
         endforeach;
