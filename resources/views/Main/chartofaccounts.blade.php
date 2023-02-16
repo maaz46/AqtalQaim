@@ -77,8 +77,8 @@
         <th>Chart Of Accounts</th>
         <th>Opening Balance Debit</th>
         <th>Opening Balance Credit</th>
-        <th></th>
-        <th></th>
+        <th class="size"></th>
+        <th class="size"></th>
     </thead>
     <tbody>
         @php

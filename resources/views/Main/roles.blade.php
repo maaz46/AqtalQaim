@@ -108,8 +108,8 @@
         <th>Un-Lock</th>
         <th>Checked</th>
         <th>Un-Checked</th>
-        <th></th>
-        <th></th>
+        <th class="size"></th>
+        <th class="size"></th>
     </thead>
     <tbody>
         @php

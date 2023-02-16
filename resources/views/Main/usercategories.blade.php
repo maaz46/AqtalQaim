@@ -59,8 +59,8 @@
         <th>Category Name</th>
         <th>Login Date From</th>
         <th>Login Date To</th>
-        <th></th>
-        <th></th>
+        <th class="size"></th>
+        <th class="size"></th>
     </thead>
     <tbody>
         <tr>

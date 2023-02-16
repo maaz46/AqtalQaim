@@ -41,8 +41,8 @@
         <th>Group Code</th>
         <th>Group Account</th>
         <th>Group Type</th>
-        <th></th>
-        <th></th>
+        <th class="size"></th>
+        <th class="size"></th>
     </thead>
     <tbody>
         @php

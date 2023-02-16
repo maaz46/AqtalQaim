@@ -208,6 +208,9 @@ tbody td {
 label.weight {
     font-weight: 600;
 }
+.size {
+    width: 80px;
+  }
 
 
 

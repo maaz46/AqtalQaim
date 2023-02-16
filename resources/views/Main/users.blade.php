@@ -203,8 +203,8 @@
         <th>User Name</th>
         <th>Role Name</th>
         <th>Project Name</th>
-        <th></th>
-        <th></th>
+        <th class="size"></th>
+        <th class="size"></th>
     </thead>
     <tbody>
         @php

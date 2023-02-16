@@ -20,8 +20,8 @@
 <table class="table">
     <thead class="thead-dark">
         <th>Group Types</th>
-        <th></th>
-        <th></th>
+        <th class="size"></th>
+        <th class="size"></th>
     </thead>
     <tbody>
         @php

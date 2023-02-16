@@ -67,8 +67,8 @@
         <th>Group Account</th>
         <th>Control Type</th>
         <th>P&L</th>
-        <th></th>
-        <th></th>
+        <th class="size"></th>
+        <th class="size"></th>
     </thead>
     <tbody>
         @php

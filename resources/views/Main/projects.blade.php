@@ -40,8 +40,8 @@
     <thead class="thead-dark">
         <th>Project Name</th>
         <th>Project Category</th>
-        <th></th>
-        <th></th>
+        <th class="size"></th>
+        <th class="size"></th>
     </thead>
     <tbody>
         @php
