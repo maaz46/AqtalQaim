@@ -53,7 +53,7 @@
     </div>
 
     <div class="form-group">
-        <label for="">Opening Balance Credit</label>
+        <label for="" style="">Opening Balance Credit</label>
         <input type="number" class="type5" name="opening_balance_credit" value="{{$result->opening_balance_credit}}">
         @error('opening_balance_credit')
         <p class="text-danger">{{$message}}</p>
