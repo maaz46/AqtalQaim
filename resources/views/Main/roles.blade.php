@@ -11,10 +11,10 @@
         <div class="row">
           
           <div class="col-md-12">
-          	<div class="buttton">
-          		<div class="btn">New</div>
-          		<div class="btn">Save</div>
-          		<div class="btn">Cancel</div>
+          <div class="buttton">
+          		<button class=bet>New</button>
+          		<button class=bet>Save</button>
+          		<button class=bet>Cancel</button>
           	</div>
           </div>
         </div>

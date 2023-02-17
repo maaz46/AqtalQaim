@@ -81,6 +81,16 @@ width: 260px;
     margin-bottom: 20px;
     color: white;
 }
+.Maintypee{
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 35%;
+    margin-bottom: 20px;
+    color: white;
+}
 .Maintype1{
     padding: 12px 10px;
     background: black;
@@ -210,6 +220,18 @@ label.weight {
 }
 .size {
     width: 80px;
+  }
+
+  .bet{
+    background: #0ff;
+    border: #0ff solid;
+    padding: 8px 45px;
+    margin-right: 15px;
+    border-radius: 4px;
+  }
+  .bet:hover {
+    border-color: black;
+    background: none;
   }
 
 
