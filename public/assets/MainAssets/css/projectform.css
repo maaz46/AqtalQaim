@@ -107,7 +107,7 @@ background: black;
 opacity: 0.6;
 border: black;
 border-radius: 4px;
-width: 25%;
+width: 35%;
 margin-left: 50px;
 color: white;
 }
@@ -180,9 +180,9 @@ p{
 }
 .about{
     padding-top: 100px;
-padding-right: 100px;
+padding-right: 0px;
 padding-bottom: 100px;
-padding-left: 150px;
+padding-left: 0px;
 }
 select{
     background: red;
