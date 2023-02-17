@@ -8,9 +8,9 @@
                                        
                     <section id="home" class="tm-section">
                                      
-                        <h2 class="tm-text-primary">AQT-AL Qaim Trust Pakistan</h2>
+                        <h2 class="tm-text-primary">AQT - Al Qaim Trust Pakistan</h2>
                         <img src="http://127.0.0.1:8000/assets/MainAssets/img/AQT Logo.PNG" class="piks">
-                        <hr class="mb-5">
+                        <hr class="mb-4">
                         <div class="header2">
                             
                                 <div class="col-12">
