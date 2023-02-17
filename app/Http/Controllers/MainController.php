@@ -11,6 +11,7 @@ use App\Models\ProjectCategories;
 use App\Models\Projects;
 use App\Models\Roles;
 use App\Models\Users;
+use App\Models\UserCategories;
 use App\Models\ChartOfAccounts;
 use Illuminate\Support\Facades\Hash;
 use Session;
@@ -648,46 +649,58 @@ class MainController extends Controller
 
     #region  USERS CATEGORIES
     public function UserCategories(){
-        // $group_types = GroupTypes::get();
-        return view('Main.usercategories');
+        $user_categories = UserCategories::get();
+        return view('Main.usercategories', ['user_categories'=>$user_categories]);
     }
 
 
-    // public function AddGroupType(Request $req){
-    //     $validatedData = $req->validate([
-    //         'group_type' => ['required'],
-    //     ]);
+    public function AddUserCategory(Request $req){
+        $validatedData = $req->validate([
+            'user_category_code' => ['required'],
+            'user_category_name' => ['required'],
+        ]);
        
-    //     $group_types = new GroupTypes();
-    //     $group_types->group_type = $req->group_type;
-    //     if($group_types->save()):
-    //         $req->session()->flash('status', 'Group Type Added Successfully');
+        $user_categories = new UserCategories();
+        $user_categories->user_category_code = $req->user_category_code;
+        $user_categories->user_category_name = $req->user_category_name;
+        $user_categories->login_date_from = $req->login_date_from;
+        $user_categories->login_date_to = $req->login_date_to;
+        if($user_categories->save()):
+            $req->session()->flash('status', 'User Category Added Successfully');
 
-    //     else:
-    //         $req->session()->flash('status', 'Some Error Occured');
-    //     endif;
+        else:
+            $req->session()->flash('status', 'Some Error Occured');
+        endif;
 
-    //     return redirect('GroupTypes');
-    // }
+        return redirect('UserCategories');
+    }
 
 
-    // public function EditGroupType(Request $req){
-    //     $result = GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->first();
-    //     return view('Main.edit_grouptypes', compact('result'));
-    // }
+    public function EditUserCategory(Request $req){
+        $result = UserCategories::where(['user_category_id'=>$req->UserCategoryID])->first();
+        return view('Main.edit_usercategories', compact('result'));
+    }
 
-    // public function UpdateGroupType(Request $req){
-    //     $validatedData = $req->validate([
-    //         'group_type' => ['required'],
-    //     ]);
-    //    if(GroupTypes::where(['group_type_id'=>$req->group_type_id])->update(['group_type'=>$req->group_type])):
-    //         $req->session()->flash('status', 'Group Type Update Successfully');
-    //    else:
-    //         $req->session()->flash('status', 'Some Error Occured');
-    //    endif;
+    public function UpdateUserCategory(Request $req){
+        $validatedData = $req->validate([
+            'user_category_code' => ['required'],
+            'user_category_name' => ['required'],
+        ]);
 
-    //    return redirect('GroupTypes');
-    // }
+        $DataToUpdate = [
+            'user_category_code'=>$req->user_category_code,
+            'user_category_name'=>$req->user_category_name,
+            'login_date_from'=>$req->login_date_from,
+            'login_date_to'=>$req->login_date_to,
+        ];
+       if(UserCategories::where(['user_category_id'=>$req->user_category_id])->update($DataToUpdate)):
+            $req->session()->flash('status', 'User Category Update Successfully');
+       else:
+            $req->session()->flash('status', 'Some Error Occured');
+       endif;
+
+       return redirect('UserCategories');
+    }
 
     // public function DeleteGroupType(Request $req){
     //    if(GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->delete()):
