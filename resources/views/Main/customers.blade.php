@@ -66,7 +66,7 @@
           </div>
           
           <div class="col-md-6"  style="padding-left: 20px;   id="col1">
-          <div class="form-check">
+          <div class="form">
 
           <label class="weight"  style="margin-right:35px;">Account Code</label>
                 <input type="url" name="text" class="Maintype">

@@ -125,8 +125,8 @@ width: 35%;
 padding: 12px;
 background: #069;
 border: none;
-margin-left: 45px;
-margin-right: 45px;
+margin-left: 35px;
+margin-right: 40px;
 
 }
 i.fa.fa-envelope.me-lg-2 {
@@ -256,8 +256,9 @@ hr { border-top: 4px solid #CCC; }
     color: white;
     display: flex;
     align-items: center;
-	justify-content: center;
+	justify-content: left;
 	margin-bottom: 0px;
+	margin-left: 25px;
 }
 .tm-mt-100 {
     margin-top: 30px;

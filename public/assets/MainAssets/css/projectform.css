@@ -247,6 +247,13 @@ label.weight {
   padding-bottom: 120px;
   margin-left: 40px;
 }
+.bet {
+    background: #0ff;
+    border: #0ff solid;
+    padding: 6px 25px;
+    margin-right: 15px;
+    border-radius: 4px;
+}
 .div1{
     width: auto;
     padding-bottom: 20px;

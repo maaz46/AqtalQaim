@@ -35,7 +35,7 @@
                     </button>
                     <div>
                         <div class="tm-brand-box">
-                            <img src="{{asset('assets/MainAssets/img/Qaabil logo.jpg')}}" width="160px" height="85px">
+                            <img src="{{asset('assets/MainAssets/img/Qaabil logo.jpg')}}" width="130px" height="70px">
 
                         </div>
                         <ul id="tm-main-nav">
