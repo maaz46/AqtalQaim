@@ -118,9 +118,9 @@ Route::get('/DeleteUserCategory/{UserCategoryID}', [MainController::class, 'Dele
 #region SUPPLIERS
 Route::get('/Suppliers', [MainController::class, 'Suppliers']);
 Route::post('/Suppliers', [MainController::class, 'AddSupplier']);
-// Route::get('/EditUser/{UserID}', [MainController::class, 'EditUser']);
-// Route::post('/UpdateUser', [MainController::class, 'UpdateUser']);
-// Route::get('/DeleteUser/{UserID}', [MainController::class, 'DeleteUser']);
+Route::get('/EditSupplier/{SupplierID}', [MainController::class, 'EditSupplier']);
+Route::post('/UpdateSupplier', [MainController::class, 'UpdateSupplier']);
+Route::get('/DeleteSupplier/{SupplierID}', [MainController::class, 'DeleteSupplier']);
 #endregion SUPPLIERS
 
 

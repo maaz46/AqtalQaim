@@ -13,6 +13,7 @@ use App\Models\Roles;
 use App\Models\Users;
 use App\Models\UserCategories;
 use App\Models\ChartOfAccounts;
+use App\Models\Suppliers;
 use Illuminate\Support\Facades\Hash;
 use Session;
 
@@ -716,46 +717,75 @@ class MainController extends Controller
 
      #region  SUPPLIERS
      public function Suppliers(){
-        // $group_types = GroupTypes::get();
-        return view('Main.suppliers');
+        $chart_of_accounts = ChartOfAccounts::get();
+        $suppliers = Suppliers::join('chart_of_accounts AS COA','COA.chart_of_account_id','=','suppliers.chart_of_account_id','left')->get();
+        return view('Main.suppliers',['chart_of_accounts'=>$chart_of_accounts,'suppliers'=>$suppliers]);
     }
 
 
-    // public function AddGroupType(Request $req){
-    //     $validatedData = $req->validate([
-    //         'group_type' => ['required'],
-    //     ]);
+    public function AddSupplier(Request $req){
+        $validatedData = $req->validate([
+            'supplier_code' => ['required'],
+            'supplier_name' => ['required'],
+            'contact_no' => ['required'],
+            'email_address' => ['required'],
+        ]);
        
-    //     $group_types = new GroupTypes();
-    //     $group_types->group_type = $req->group_type;
-    //     if($group_types->save()):
-    //         $req->session()->flash('status', 'Group Type Added Successfully');
+        $suppliers = new Suppliers();
+        $suppliers->supplier_code = $req->supplier_code;
+        $suppliers->supplier_name = $req->supplier_name;
+        $suppliers->poc_name = $req->poc_name;
+        $suppliers->address = $req->address;
+        $suppliers->contact_no = $req->contact_no;
+        $suppliers->email_address = $req->email_address;
+        $suppliers->website = $req->website;
+        $suppliers->account_code = $req->account_code;
+        $suppliers->chart_of_account_id = $req->chart_of_account_id;
+        if($suppliers->save()):
+            $req->session()->flash('status', 'Supplier Added Successfully');
 
-    //     else:
-    //         $req->session()->flash('status', 'Some Error Occured');
-    //     endif;
+        else:
+            $req->session()->flash('status', 'Some Error Occured');
+        endif;
 
-    //     return redirect('GroupTypes');
-    // }
+        return redirect('Suppliers');
+    }
 
 
-    // public function EditGroupType(Request $req){
-    //     $result = GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->first();
-    //     return view('Main.edit_grouptypes', compact('result'));
-    // }
+    public function EditSupplier(Request $req){
+        $chart_of_accounts = ChartOfAccounts::get();
+        $result = Suppliers::where(['supplier_id'=>$req->SupplierID])->first();
+        return view('Main.edit_suppliers', ['chart_of_accounts'=>$chart_of_accounts,'result'=>$result]);
+    }
 
-    // public function UpdateGroupType(Request $req){
-    //     $validatedData = $req->validate([
-    //         'group_type' => ['required'],
-    //     ]);
-    //    if(GroupTypes::where(['group_type_id'=>$req->group_type_id])->update(['group_type'=>$req->group_type])):
-    //         $req->session()->flash('status', 'Group Type Update Successfully');
-    //    else:
-    //         $req->session()->flash('status', 'Some Error Occured');
-    //    endif;
+    public function UpdateSupplier(Request $req){
+        $validatedData = $req->validate([
+            'supplier_code' => ['required'],
+            'supplier_name' => ['required'],
+            'contact_no' => ['required'],
+            'email_address' => ['required'],
+        ]);
+       
+        $suppliers = array();
+        $suppliers['supplier_code'] = $req->supplier_code;
+        $suppliers['supplier_name'] = $req->supplier_name;
+        $suppliers['poc_name'] = $req->poc_name;
+        $suppliers['address'] = $req->address;
+        $suppliers['contact_no'] = $req->contact_no;
+        $suppliers['email_address'] = $req->email_address;
+        $suppliers['website'] = $req->website;
+        $suppliers['account_code'] = $req->account_code;
+        $suppliers['chart_of_account_id'] = $req->chart_of_account_id;
 
-    //    return redirect('GroupTypes');
-    // }
+
+       if(Suppliers::where(['supplier_id'=>$req->supplier_id])->update($suppliers)):
+            $req->session()->flash('status', 'Supplier Update Successfully');
+       else:
+            $req->session()->flash('status', 'Some Error Occured');
+       endif;
+
+       return redirect('Suppliers');
+    }
 
     // public function DeleteGroupType(Request $req){
     //    if(GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->delete()):
@@ -825,6 +855,3 @@ class MainController extends Controller
 
 
 }
-
-
-
