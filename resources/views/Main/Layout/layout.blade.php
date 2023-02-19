@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans&display=swap" rel="stylesheet">
     <!-- https://fonts.google.com/specimen/Kumbh+Sans -->
     <link rel="stylesheet" href="{{asset('assets/MainAssets/fontawesome/css/all.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/MainAssets/css/datatable.min.css')}}"/>
     <!-- https://fontawesome.com/-->
     <link rel="stylesheet" href="{{asset('assets/MainAssets/css/magnific-popup.css')}}">
     <!-- https://dimsemenov.com/plugins/magnific-popup/ -->
@@ -257,6 +258,7 @@
         </div> <!-- .row -->
     </div> <!-- .container-fluid -->
     <script src="{{asset('assets/MainAssets/js/jquery-3.4.1.min.js')}}"></script> <!-- https://jquery.com/ -->
+    <script type="text/javascript" src="{{asset('assets/MainAssets/js/datatable.min.js')}}"></script>
     <script src="{{asset('assets/MainAssets/js/jquery.singlePageNav.min.js')}}"></script>
     <!-- https://github.com/ChrisWojcik/single-page-nav -->
     <script src="{{asset('assets/MainAssets/js/parallax/parallax.min.js')}}"></script>
