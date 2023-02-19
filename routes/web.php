@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MainController;
 use App\Http\Middleware\CheckSession;
+use App\Http\Middleware\CheckLoginSession;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,8 +16,11 @@ use App\Http\Middleware\CheckSession;
 |
 */
 
-Route::get('/', [AuthController::class, 'Login']);
-Route::post('/', [AuthController::class, 'LoginPost']);
+Route::middleware([CheckLoginSession::class])->group(function(){
+    Route::get('/', [AuthController::class, 'Login']);
+    Route::post('/', [AuthController::class, 'LoginPost']);
+});
+
 
 Route::middleware([CheckSession::class])->group(function(){
 
@@ -131,6 +135,7 @@ Route::get('/EditCustomer/{CustomerID}', [MainController::class, 'EditCustomer']
 Route::post('/UpdateCustomer', [MainController::class, 'UpdateCustomer']);
 Route::get('/DeleteCustomer/{CustomerID}', [MainController::class, 'DeleteCustomer']);
 #endregion SUPPLIERS
+
 
 Route::get('/Logout',function(){
     Session::forget(['user_id','user_name']);
