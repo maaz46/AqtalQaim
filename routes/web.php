@@ -124,13 +124,13 @@ Route::get('/DeleteSupplier/{SupplierID}', [MainController::class, 'DeleteSuppli
 #endregion SUPPLIERS
 
 
-#region CUSTOMERS
+#region SUPPLIERS
 Route::get('/Customers', [MainController::class, 'Customers']);
-// Route::post('/Users', [MainController::class, 'AddUser']);
-// Route::get('/EditUser/{UserID}', [MainController::class, 'EditUser']);
-// Route::post('/UpdateUser', [MainController::class, 'UpdateUser']);
-// Route::get('/DeleteUser/{UserID}', [MainController::class, 'DeleteUser']);
-#endregion CUSTOMERS
+Route::post('/Customers', [MainController::class, 'AddCustomer']);
+Route::get('/EditCustomer/{CustomerID}', [MainController::class, 'EditCustomer']);
+Route::post('/UpdateCustomer', [MainController::class, 'UpdateCustomer']);
+Route::get('/DeleteCustomer/{CustomerID}', [MainController::class, 'DeleteCustomer']);
+#endregion SUPPLIERS
 
 Route::get('/Logout',function(){
     Session::forget(['user_id','user_name']);

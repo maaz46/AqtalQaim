@@ -14,6 +14,7 @@ use App\Models\Users;
 use App\Models\UserCategories;
 use App\Models\ChartOfAccounts;
 use App\Models\Suppliers;
+use App\Models\Customers;
 use Illuminate\Support\Facades\Hash;
 use Session;
 
@@ -799,48 +800,77 @@ class MainController extends Controller
     #endregion SUPPLIERS
 
 
-     #region  CUSTOMERS
-     public function Customers(){
-        // $group_types = GroupTypes::get();
-        return view('Main.customers');
+      #region  CUSTOMERS
+      public function Customers(){
+        $chart_of_accounts = ChartOfAccounts::get();
+        $customers = Customers::join('chart_of_accounts AS COA','COA.chart_of_account_id','=','customers.chart_of_account_id','left')->get();
+        return view('Main.customers',['chart_of_accounts'=>$chart_of_accounts,'customers'=>$customers]);
     }
 
 
-    // public function AddGroupType(Request $req){
-    //     $validatedData = $req->validate([
-    //         'group_type' => ['required'],
-    //     ]);
+    public function AddCustomer(Request $req){
+        $validatedData = $req->validate([
+            'customer_code' => ['required'],
+            'customer_name' => ['required'],
+            'contact_no' => ['required'],
+            'email_address' => ['required'],
+        ]);
        
-    //     $group_types = new GroupTypes();
-    //     $group_types->group_type = $req->group_type;
-    //     if($group_types->save()):
-    //         $req->session()->flash('status', 'Group Type Added Successfully');
+        $customers = new Customers();
+        $customers->customer_code = $req->customer_code;
+        $customers->customer_name = $req->customer_name;
+        $customers->poc_name = $req->poc_name;
+        $customers->address = $req->address;
+        $customers->contact_no = $req->contact_no;
+        $customers->email_address = $req->email_address;
+        $customers->website = $req->website;
+        $customers->account_code = $req->account_code;
+        $customers->chart_of_account_id = $req->chart_of_account_id;
+        if($customers->save()):
+            $req->session()->flash('status', 'Customer Added Successfully');
 
-    //     else:
-    //         $req->session()->flash('status', 'Some Error Occured');
-    //     endif;
+        else:
+            $req->session()->flash('status', 'Some Error Occured');
+        endif;
 
-    //     return redirect('GroupTypes');
-    // }
+        return redirect('Customers');
+    }
 
 
-    // public function EditGroupType(Request $req){
-    //     $result = GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->first();
-    //     return view('Main.edit_grouptypes', compact('result'));
-    // }
+    public function EditCustomer(Request $req){
+        $chart_of_accounts = ChartOfAccounts::get();
+        $result = Customers::where(['customer_id'=>$req->CustomerID])->first();
+        return view('Main.edit_customers', ['chart_of_accounts'=>$chart_of_accounts,'result'=>$result]);
+    }
 
-    // public function UpdateGroupType(Request $req){
-    //     $validatedData = $req->validate([
-    //         'group_type' => ['required'],
-    //     ]);
-    //    if(GroupTypes::where(['group_type_id'=>$req->group_type_id])->update(['group_type'=>$req->group_type])):
-    //         $req->session()->flash('status', 'Group Type Update Successfully');
-    //    else:
-    //         $req->session()->flash('status', 'Some Error Occured');
-    //    endif;
+    public function UpdateCustomer(Request $req){
+        $validatedData = $req->validate([
+            'customer_code' => ['required'],
+            'customer_name' => ['required'],
+            'contact_no' => ['required'],
+            'email_address' => ['required'],
+        ]);
+       
+        $customers = array();
+        $customers['customer_code'] = $req->customer_code;
+        $customers['customer_name'] = $req->customer_name;
+        $customers['poc_name'] = $req->poc_name;
+        $customers['address'] = $req->address;
+        $customers['contact_no'] = $req->contact_no;
+        $customers['email_address'] = $req->email_address;
+        $customers['website'] = $req->website;
+        $customers['account_code'] = $req->account_code;
+        $customers['chart_of_account_id'] = $req->chart_of_account_id;
 
-    //    return redirect('GroupTypes');
-    // }
+
+       if(Customers::where(['customer_id'=>$req->customer_id])->update($customers)):
+            $req->session()->flash('status', 'Customer Update Successfully');
+       else:
+            $req->session()->flash('status', 'Some Error Occured');
+       endif;
+
+       return redirect('Customers');
+    }
 
     // public function DeleteGroupType(Request $req){
     //    if(GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->delete()):
