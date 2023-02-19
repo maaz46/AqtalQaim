@@ -15,6 +15,9 @@ use App\Models\UserCategories;
 use App\Models\ChartOfAccounts;
 use App\Models\Suppliers;
 use App\Models\Customers;
+use App\Models\Pages;
+use App\Models\Rights;
+use App\Models\RightsMapping;
 use Illuminate\Support\Facades\Hash;
 use Session;
 
@@ -23,30 +26,33 @@ use Session;
 class MainController extends Controller
 {
     #region DASHBOARD
-    public function Dashboard(){
+    public function Dashboard()
+    {
         return view('Main.dashboard');
     }
     #endregion
 
 
     #region GroupType
-    public function GroupTypes(){
+    public function GroupTypes()
+    {
         $group_types = GroupTypes::get();
-        return view('Main.grouptypes', ['group_types'=>$group_types]);
+        return view('Main.grouptypes', ['group_types' => $group_types]);
     }
 
 
-    public function AddGroupType(Request $req){
+    public function AddGroupType(Request $req)
+    {
         $validatedData = $req->validate([
             'group_type' => ['required'],
         ]);
-       
+
         $group_types = new GroupTypes();
         $group_types->group_type = $req->group_type;
-        if($group_types->save()):
+        if ($group_types->save()) :
             $req->session()->flash('status', 'Group Type Added Successfully');
 
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -54,64 +60,69 @@ class MainController extends Controller
     }
 
 
-    public function EditGroupType(Request $req){
-        $result = GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->first();
+    public function EditGroupType(Request $req)
+    {
+        $result = GroupTypes::where(['group_type_id' => $req->GroupTypeID])->first();
         return view('Main.edit_grouptypes', compact('result'));
     }
 
-    public function UpdateGroupType(Request $req){
+    public function UpdateGroupType(Request $req)
+    {
         $validatedData = $req->validate([
             'group_type' => ['required'],
         ]);
-       if(GroupTypes::where(['group_type_id'=>$req->group_type_id])->update(['group_type'=>$req->group_type])):
+        if (GroupTypes::where(['group_type_id' => $req->group_type_id])->update(['group_type' => $req->group_type])) :
             $req->session()->flash('status', 'Group Type Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('GroupTypes');
+        return redirect('GroupTypes');
     }
 
-    public function DeleteGroupType(Request $req){
-       if(GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->delete()):
+    public function DeleteGroupType(Request $req)
+    {
+        if (GroupTypes::where(['group_type_id' => $req->GroupTypeID])->delete()) :
             $req->session()->flash('status', 'Group Type Deleted Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('GroupTypes');
+        return redirect('GroupTypes');
     }
     #endregion GroupType
 
 
 
 
-     #region GroupCode
-     public function GroupCodes(){
+    #region GroupCode
+    public function GroupCodes()
+    {
         $group_types = GroupTypes::get();
-        $group_codes = GroupCodes::join('group_types','group_types.group_type_id','=','group_codes.group_type_id','left')->get(['group_types.group_type','group_codes.group_code_id','group_codes.group_account','group_codes.group_code']);
-        return view('Main.groupcodes', ['group_types'=>$group_types,'group_codes'=>$group_codes]);
+        $group_codes = GroupCodes::join('group_types', 'group_types.group_type_id', '=', 'group_codes.group_type_id', 'left')->get(['group_types.group_type', 'group_codes.group_code_id', 'group_codes.group_account', 'group_codes.group_code']);
+        return view('Main.groupcodes', ['group_types' => $group_types, 'group_codes' => $group_codes]);
     }
 
 
-    public function AddGroupCode(Request $req){
+    public function AddGroupCode(Request $req)
+    {
         $validatedData = $req->validate([
             'group_account' => ['required'],
             'group_type_id' => ['required'],
-        ],[
-            'group_account.required'=>'Group Account Field Is Required', 
-        'group_type_id.required'=>'Select A Group Type'
-    ]);
+        ], [
+            'group_account.required' => 'Group Account Field Is Required',
+            'group_type_id.required' => 'Select A Group Type'
+        ]);
 
-        
-    $group_code_type_id_count = GroupCodes::where(['group_type_id'=>$req->group_type_id])->get()->count();
+
+        $group_code_type_id_count = GroupCodes::where(['group_type_id' => $req->group_type_id])->get()->count();
         $group_codes = new GroupCodes();
-        $group_codes->group_code = $req->group_type_id.'-'.sprintf('%02d',$group_code_type_id_count);
+        $group_codes->group_code = $req->group_type_id . '-' . sprintf('%02d', $group_code_type_id_count);
         $group_codes->group_account = $req->group_account;
         $group_codes->group_type_id = $req->group_type_id;
-        if($group_codes->save()):
+        if ($group_codes->save()) :
             $req->session()->flash('status', 'Group Code Added Successfully');
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -119,62 +130,65 @@ class MainController extends Controller
     }
 
 
-    public function EditGroupCode(Request $req){
-        $result = GroupCodes::join('group_types','group_types.group_type_id','=','group_codes.group_type_id')->where(['group_codes.group_code_id'=>$req->GroupCodeID])->first();
-        
-        $group_types = GroupTypes::get();
-        return view('Main.edit_groupcodes', ['group_types'=>$group_types,'result'=>$result]);
+    public function EditGroupCode(Request $req)
+    {
+        $result = GroupCodes::join('group_types', 'group_types.group_type_id', '=', 'group_codes.group_type_id')->where(['group_codes.group_code_id' => $req->GroupCodeID])->first();
 
+        $group_types = GroupTypes::get();
+        return view('Main.edit_groupcodes', ['group_types' => $group_types, 'result' => $result]);
     }
 
-    public function UpdateGroupCode(Request $req){
+    public function UpdateGroupCode(Request $req)
+    {
         $validatedData = $req->validate([
             'group_account' => ['required'],
             'group_type_id' => ['required'],
-        ],[
-            'group_account.required'=>'Group Account Field Is Required', 
-        'group_type_id.required'=>'Select A Group Type'
-    ]);
+        ], [
+            'group_account.required' => 'Group Account Field Is Required',
+            'group_type_id.required' => 'Select A Group Type'
+        ]);
 
-       if(GroupCodes::where(['group_code_id'=>$req->group_code_id])->update(['group_account'=>$req->group_account,'group_type_id'=>$req->group_type_id])):
+        if (GroupCodes::where(['group_code_id' => $req->group_code_id])->update(['group_account' => $req->group_account, 'group_type_id' => $req->group_type_id])) :
             $req->session()->flash('status', 'Group Code Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
-       return redirect('GroupCodes');
-   
+        endif;
+        return redirect('GroupCodes');
     }
 
-    public function DeleteGroupCode(Request $req){
-       if(GroupCodes::where(['group_code_id'=>$req->GroupCodeID])->delete()):
+    public function DeleteGroupCode(Request $req)
+    {
+        if (GroupCodes::where(['group_code_id' => $req->GroupCodeID])->delete()) :
             $req->session()->flash('status', 'Group Code Deleted Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('GroupCodes');
+        return redirect('GroupCodes');
     }
     #endregion Group Code
 
 
     #region ControlType
-    public function ControlTypes(){
+    public function ControlTypes()
+    {
         $control_types = ControlTypes::get();
-        return view('Main.controltypes', ['control_types'=>$control_types]);
+        return view('Main.controltypes', ['control_types' => $control_types]);
     }
 
 
-    public function AddControlType(Request $req){
+    public function AddControlType(Request $req)
+    {
         $validatedData = $req->validate([
             'control_type' => ['required'],
         ]);
-       
+
         $control_types = new ControlTypes();
         $control_types->control_type = $req->control_type;
-        if($control_types->save()):
+        if ($control_types->save()) :
             $req->session()->flash('status', 'Control Type Added Successfully');
 
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -182,32 +196,35 @@ class MainController extends Controller
     }
 
 
-    public function EditControlType(Request $req){
-        $result = ControlTypes::where(['control_type_id'=>$req->ControlTypeID])->first();
+    public function EditControlType(Request $req)
+    {
+        $result = ControlTypes::where(['control_type_id' => $req->ControlTypeID])->first();
         return view('Main.edit_controltypes', compact('result'));
     }
 
-    public function UpdateControlType(Request $req){
+    public function UpdateControlType(Request $req)
+    {
         $validatedData = $req->validate([
             'control_type' => ['required'],
         ]);
-       if(ControlTypes::where(['control_type_id'=>$req->control_type_id])->update(['control_type'=>$req->control_type])):
+        if (ControlTypes::where(['control_type_id' => $req->control_type_id])->update(['control_type' => $req->control_type])) :
             $req->session()->flash('status', 'Control Type Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('ControlTypes');
+        return redirect('ControlTypes');
     }
 
-    public function DeleteControlType(Request $req){
-       if(ControlTypes::where(['control_type_id'=>$req->ControlTypeID])->delete()):
+    public function DeleteControlType(Request $req)
+    {
+        if (ControlTypes::where(['control_type_id' => $req->ControlTypeID])->delete()) :
             $req->session()->flash('status', 'Control Type Deleted Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('ControlTypes');
+        return redirect('ControlTypes');
     }
     #endregion ControlType
 
@@ -215,84 +232,87 @@ class MainController extends Controller
 
 
     #region Control Code
-    public function ControlCodes(){
+    public function ControlCodes()
+    {
         // SELECT control_codes.control_code_id, control_codes.control_code, control_codes.control_description, GC.group_code_id, GC.group_code, GC.group_account, CT.control_type_id, CT.control_type, control_codes.isPnL FROM `control_codes` AS control_codes 
         //LEFT JOIN control_types AS CT ON control_codes.control_type_id = CT.control_type_id 
         //LEFT JOIN group_codes AS GC ON control_codes.group_code_id = GC.group_code_id 
         //ORDER BY control_codes.control_code ASC; 
-        $control_codes = ControlCodes::join('control_types AS CT','control_codes.control_type_id','=','CT.control_type_id','left')
-        ->join('group_codes AS GC','control_codes.group_code_id','=','GC.group_code_id','left')->orderBy('control_codes.control_code','ASC')->get(
-            ['control_codes.control_code_id',
-            'control_codes.control_code',
-            'control_codes.control_description',
-            'CT.control_type',
-            'control_codes.group_code_id',
-            'GC.group_code',
-            'GC.group_account',
-            'control_codes.isPnL'
-            ]
-        );
+        $control_codes = ControlCodes::join('control_types AS CT', 'control_codes.control_type_id', '=', 'CT.control_type_id', 'left')
+            ->join('group_codes AS GC', 'control_codes.group_code_id', '=', 'GC.group_code_id', 'left')->orderBy('control_codes.control_code', 'ASC')->get(
+                [
+                    'control_codes.control_code_id',
+                    'control_codes.control_code',
+                    'control_codes.control_description',
+                    'CT.control_type',
+                    'control_codes.group_code_id',
+                    'GC.group_code',
+                    'GC.group_account',
+                    'control_codes.isPnL'
+                ]
+            );
         $group_codes = GroupCodes::get();
         $control_types = ControlTypes::get();
-        return view('Main.controlcodes', ['group_codes'=>$group_codes,'control_types'=>$control_types,'control_codes'=>$control_codes]);
+        return view('Main.controlcodes', ['group_codes' => $group_codes, 'control_types' => $control_types, 'control_codes' => $control_codes]);
     }
 
 
-    public function AddControlCode(Request $req){
+    public function AddControlCode(Request $req)
+    {
         // echo $req->isPnL=="on"?'1':'0';
-        
+
         $validatedData = $req->validate([
             'control_description' => ['required'],
             'group_code_id' => ['required'],
-        ],[
-            'control_description.required'=>'Control Description Field Is Required', 
-        'group_code_id.required'=>'Select A Group Code'
-    ]);
+        ], [
+            'control_description.required' => 'Control Description Field Is Required',
+            'group_code_id.required' => 'Select A Group Code'
+        ]);
 
-    $group_code = GroupCodes::where(['group_code_id'=>$req->group_code_id])->first();
-    $control_code_control_code_count = ControlCodes::where(['group_code_id'=>$req->group_code_id])->get()->count();
-    $finalControlCode = $group_code->group_code.'-'.sprintf('%02d',($control_code_control_code_count+1));
-    $control_codes = new ControlCodes();
+        $group_code = GroupCodes::where(['group_code_id' => $req->group_code_id])->first();
+        $control_code_control_code_count = ControlCodes::where(['group_code_id' => $req->group_code_id])->get()->count();
+        $finalControlCode = $group_code->group_code . '-' . sprintf('%02d', ($control_code_control_code_count + 1));
+        $control_codes = new ControlCodes();
         $control_codes->control_code = $finalControlCode;
         $control_codes->control_description = $req->control_description;
         $control_codes->control_type_id = $req->control_type_id;
         $control_codes->group_code_id = $req->group_code_id;
-        $control_codes->isPnL = $req->isPnL=="on"?'1':'0';
+        $control_codes->isPnL = $req->isPnL == "on" ? '1' : '0';
 
-            if($control_codes->save()):
+        if ($control_codes->save()) :
             $req->session()->flash('status', 'Control Code Added Successfully');
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
         return redirect('ControlCodes');
-    
     }
 
 
-    public function EditControlCode(Request $req){
-        $result = ControlCodes::join('control_types AS CT','control_codes.control_type_id','=','CT.control_type_id','left')->join('group_codes AS GC','control_codes.group_code_id','=','GC.group_code_id','left')->where(['control_codes.control_code_id'=>$req->ControlCodeID])->first();
+    public function EditControlCode(Request $req)
+    {
+        $result = ControlCodes::join('control_types AS CT', 'control_codes.control_type_id', '=', 'CT.control_type_id', 'left')->join('group_codes AS GC', 'control_codes.group_code_id', '=', 'GC.group_code_id', 'left')->where(['control_codes.control_code_id' => $req->ControlCodeID])->first();
         $group_codes = GroupCodes::get();
         $control_types = ControlTypes::get();
-        return view('Main.edit_controlcodes', ['group_codes'=>$group_codes,'control_types'=>$control_types,'result'=>$result]);
+        return view('Main.edit_controlcodes', ['group_codes' => $group_codes, 'control_types' => $control_types, 'result' => $result]);
     }
 
-    public function UpdateControlCode(Request $req){
+    public function UpdateControlCode(Request $req)
+    {
         $validatedData = $req->validate([
             'control_description' => ['required'],
             'group_code_id' => ['required'],
-        ],[
-            'control_description.required'=>'Control Description Field Is Required', 
-        'group_code_id.required'=>'Select A Group Code'
-    ]);
+        ], [
+            'control_description.required' => 'Control Description Field Is Required',
+            'group_code_id.required' => 'Select A Group Code'
+        ]);
 
-       if(ControlCodes::where(['control_code_id'=>$req->control_code_id])->update(['control_description'=>$req->control_description,'control_type_id'=>$req->control_type_id,'group_code_id'=>$req->group_code_id,'isPnL'=>$req->isPnL=="on"?"1":"0"])):
+        if (ControlCodes::where(['control_code_id' => $req->control_code_id])->update(['control_description' => $req->control_description, 'control_type_id' => $req->control_type_id, 'group_code_id' => $req->group_code_id, 'isPnL' => $req->isPnL == "on" ? "1" : "0"])) :
             $req->session()->flash('status', 'Control Code Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
-       return redirect('ControlCodes');
-   
+        endif;
+        return redirect('ControlCodes');
     }
 
     // public function DeleteGroupCode(Request $req){
@@ -307,24 +327,26 @@ class MainController extends Controller
     #endregion Control Code
 
 
-     #region ProjectCategory
-     public function ProjectCategories(){
+    #region ProjectCategory
+    public function ProjectCategories()
+    {
         $project_categories = ProjectCategories::get();
-        return view('Main.projectcategories', ['project_categories'=>$project_categories]);
+        return view('Main.projectcategories', ['project_categories' => $project_categories]);
     }
 
 
-    public function AddProjectCategory(Request $req){
+    public function AddProjectCategory(Request $req)
+    {
         $validatedData = $req->validate([
             'project_category' => ['required'],
         ]);
-       
+
         $project_categories = new ProjectCategories();
         $project_categories->project_category = $req->project_category;
-        if($project_categories->save()):
+        if ($project_categories->save()) :
             $req->session()->flash('status', 'Project Category Added Successfully');
 
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -332,70 +354,75 @@ class MainController extends Controller
     }
 
 
-    public function EditProjectCategory(Request $req){
-        $result = ProjectCategories::where(['project_category_id'=>$req->ProjectCategoryID])->first();
+    public function EditProjectCategory(Request $req)
+    {
+        $result = ProjectCategories::where(['project_category_id' => $req->ProjectCategoryID])->first();
         return view('Main.edit_projectcategories', compact('result'));
     }
 
-    public function UpdateProjectCategory(Request $req){
+    public function UpdateProjectCategory(Request $req)
+    {
         $validatedData = $req->validate([
             'project_category' => ['required'],
         ]);
-       if(ProjectCategories::where(['project_category_id'=>$req->project_category_id])->update(['project_category'=>$req->project_category])):
+        if (ProjectCategories::where(['project_category_id' => $req->project_category_id])->update(['project_category' => $req->project_category])) :
             $req->session()->flash('status', 'Project Category Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('ProjectCategories');
+        return redirect('ProjectCategories');
     }
 
-    public function DeleteProjectCategory(Request $req){
-        $projects = Projects::where(['project_category_id'=>$req->ProjectCategoryID])->get();
-        
-        if(count($projects)==0):
-            if(ProjectCategories::where(['project_category_id'=>$req->ProjectCategoryID])->delete()):
-                $req->session()->flash('status', 'Project Category Deleted Successfully');
-           else:
-                $req->session()->flash('status', 'Some Error Occured');
-           endif;
+    public function DeleteProjectCategory(Request $req)
+    {
+        $projects = Projects::where(['project_category_id' => $req->ProjectCategoryID])->get();
 
-        else:
+        if (count($projects) == 0) :
+            if (ProjectCategories::where(['project_category_id' => $req->ProjectCategoryID])->delete()) :
+                $req->session()->flash('status', 'Project Category Deleted Successfully');
+            else :
+                $req->session()->flash('status', 'Some Error Occured');
+            endif;
+
+        else :
             $req->session()->flash('status', 'You cannot delete this project category. Some projects are associated with this category.');
         endif;
-      
 
-       return redirect('ProjectCategories');
+
+        return redirect('ProjectCategories');
     }
     #endregion ProjectCategory
-    
-    
+
+
 
     #region Project
-     public function Projects(){
+    public function Projects()
+    {
         $project_categories = ProjectCategories::get();
-        $projects = Projects::join('project_categories','project_categories.project_category_id','=','projects.project_category_id','left')->get(['project_categories.project_category','projects.project_id','projects.project_name']);
-        return view('Main.projects', ['project_categories'=>$project_categories,'projects'=>$projects]);
+        $projects = Projects::join('project_categories', 'project_categories.project_category_id', '=', 'projects.project_category_id', 'left')->get(['project_categories.project_category', 'projects.project_id', 'projects.project_name']);
+        return view('Main.projects', ['project_categories' => $project_categories, 'projects' => $projects]);
     }
 
 
-    public function AddProject(Request $req){
+    public function AddProject(Request $req)
+    {
         $validatedData = $req->validate([
             'project_name' => ['required'],
             'project_category_id' => ['required'],
-        ],[
-            'project_name.required'=>'Project Name Field Is Required', 
-        'project_category_id.required'=>'Select A Project Category'
-    ]);
+        ], [
+            'project_name.required' => 'Project Name Field Is Required',
+            'project_category_id.required' => 'Select A Project Category'
+        ]);
 
-        
- 
+
+
         $projects = new Projects();
         $projects->project_name = $req->project_name;
         $projects->project_category_id = $req->project_category_id;
-        if($projects->save()):
+        if ($projects->save()) :
             $req->session()->flash('status', 'Project Added Successfully');
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -403,40 +430,41 @@ class MainController extends Controller
     }
 
 
-    public function EditProject(Request $req){
-        $result = Projects::join('project_categories','project_categories.project_category_id','=','projects.project_category_id')->where(['projects.project_id'=>$req->ProjectID])->first();
-        
-        $project_categories = ProjectCategories::get();
-        return view('Main.edit_projects', ['project_categories'=>$project_categories,'result'=>$result]);
+    public function EditProject(Request $req)
+    {
+        $result = Projects::join('project_categories', 'project_categories.project_category_id', '=', 'projects.project_category_id')->where(['projects.project_id' => $req->ProjectID])->first();
 
+        $project_categories = ProjectCategories::get();
+        return view('Main.edit_projects', ['project_categories' => $project_categories, 'result' => $result]);
     }
 
-    public function UpdateProject(Request $req){
+    public function UpdateProject(Request $req)
+    {
         $validatedData = $req->validate([
             'project_name' => ['required'],
             'project_category_id' => ['required'],
-        ],[
-            'project_name.required'=>'Project Name Field Is Required', 
-        'project_category_id.required'=>'Select A Project Category'
-    ]);
+        ], [
+            'project_name.required' => 'Project Name Field Is Required',
+            'project_category_id.required' => 'Select A Project Category'
+        ]);
 
-       if(Projects::where(['project_id'=>$req->project_id])->update(['project_name'=>$req->project_name,'project_category_id'=>$req->project_category_id])):
+        if (Projects::where(['project_id' => $req->project_id])->update(['project_name' => $req->project_name, 'project_category_id' => $req->project_category_id])) :
             $req->session()->flash('status', 'Project Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
-       return redirect('Projects');
-   
+        endif;
+        return redirect('Projects');
     }
 
-    public function DeleteProject(Request $req){
-       if(Projects::where(['project_id'=>$req->ProjectID])->delete()):
+    public function DeleteProject(Request $req)
+    {
+        if (Projects::where(['project_id' => $req->ProjectID])->delete()) :
             $req->session()->flash('status', 'Project Deleted Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('Projects');
+        return redirect('Projects');
     }
     #endregion Project
 
@@ -447,23 +475,95 @@ class MainController extends Controller
 
 
     #region ROLES
-    public function Roles(){
-        $roles = Roles::get();
-        return view('Main.roles', ['roles'=>$roles]);
+    public function Roles()
+    {
+        $roles = Roles::join('rights_mapping AS RM', 'roles.role_id', '=', 'RM.role_id', 'left')->join('rights AS RI', 'RI.right_id', '=', 'RM.right_id', 'left')->get(['roles.role_id', 'roles.role_name', 'RI.right_id', 'RI.right_name', 'RM.has_right']);
+
+        $rights = Rights::get();
+
+
+        $mydata = array();
+        foreach ($roles as $key => $item) :
+            $mydata[$key]['role_id'] = $item->role_id;
+            $mydata[$key]['role_name'] = $item->role_name;
+            $mydata[$key]['right_id'] = $item->right_id;
+            $mydata[$key]['right_name'] = $item->right_name;
+            $mydata[$key]['has_right'] = $item->has_right;
+        endforeach;
+
+
+        $uniqueRoles = array();
+
+        foreach ($mydata as $key => $item) :
+            $dataSubjectsValue = array_column($uniqueRoles, 'role_id');
+            if (!in_array($item['role_id'], $dataSubjectsValue)) :
+                $datatopush['role_id'] = $item['role_id'];
+                $datatopush['role_name'] = $item['role_name'];
+                $datatopush['rights'] = array();
+                // $datatopush['rights']['right_name'] = $item['right_name'];
+                // $datatopush['rights']['has_right'] = $item['has_right'];
+                array_push($uniqueRoles, $datatopush);
+            endif;
+        endforeach;
+
+
+        foreach ($uniqueRoles as $key => $uniqueroleitem) :
+            foreach ($mydata as $key2 => $roleitem) :
+
+                if ($roleitem['role_id'] == $uniqueroleitem['role_id']) :
+                    array_push($uniqueRoles[$key]['rights'], $roleitem);
+                endif;
+            endforeach;
+        endforeach;
+        // foreach ($mynewdata as $key => $item) :
+        //     foreach ($mydata as $key2 => $item2) :
+        //         if (($item['role_id'] == $item2['role_id']) && $item2['right_id'] != "") :
+        //             array_push($mynewdata[$key]['rights'], $item2['right_id']);
+        //         endif;
+        //     endforeach;
+        // endforeach;
+
+        $data['roles'] = $uniqueRoles;
+        $data['rights'] = Rights::get();
+
+        return view('Main.roles', $data);
     }
 
 
-    public function AddRole(Request $req){
+    public function AddRole(Request $req)
+    {
         $validatedData = $req->validate([
             'role_name' => ['required'],
         ]);
-       
+
+        $rights = Rights::get();
+
         $roles = new Roles();
         $roles->role_name = $req->role_name;
-        if($roles->save()):
-            $req->session()->flash('status', 'Role Added Successfully');
 
-        else:
+
+        if ($roles->save()) :
+            $role_id = $roles->id;
+            if (!empty($req->right_id)) :
+                if (count($req->right_id) > 0) :
+                    $datatoadd = array();
+                    // for ($i = 0; $i < count($req->right_id); $i++) :
+                    //     $datatoadd[$i]['right_id'] = $req->right_id[$i];
+                    //     $datatoadd[$i]['role_id'] = $role_id;
+                    // endfor;
+                    foreach ($rights as $key => $item) :
+                        $datatoadd[$key]['right_id'] = $item->right_id;
+                        $datatoadd[$key]['role_id'] = $role_id;
+                        $datatoadd[$key]['has_right'] = "0";
+                        if (in_array($item->right_id, $req->right_id)) :
+                            $datatoadd[$key]['has_right'] = "1";
+                        endif;
+                    endforeach;
+                    RightsMapping::upsert($datatoadd, ['right_id', 'role_id']);
+                endif;
+            endif;
+            $req->session()->flash('status', 'Role Added Successfully');
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -471,47 +571,58 @@ class MainController extends Controller
     }
 
 
-    public function EditRole(Request $req){
-        $result = Roles::where(['role_id'=>$req->RoleID])->first();
-        return view('Main.edit_roles', compact('result'));
+    public function EditRole(Request $req)
+    {
+        // SELECT R.role_id, R.role_name, RI.right_id, RI.right_name FROM roles AS R LEFT JOIN rights_mapping AS RM ON R.role_id = RM.role_id LEFT JOIN rights AS RI ON RI.right_id = RM.right_id; 
+
+        $data['rightmapping'] = RightsMapping::where(['role_id' => $req->RoleID])->get();
+        $data['result'] = Roles::where(['role_id' => $req->RoleID])->first();
+        $data['rights'] = Rights::get();
+        return view('Main.edit_roles', $data);
     }
 
-    public function UpdateRole(Request $req){
+    public function UpdateRole(Request $req)
+    {
         $validatedData = $req->validate([
             'role_name' => ['required'],
         ]);
-       if(Roles::where(['role_id'=>$req->role_id])->update(['role_name'=>$req->role_name])):
+        if (Roles::where(['role_id' => $req->role_id])->update(['role_name' => $req->role_name])) :
             $req->session()->flash('status', 'Role Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('Roles');
+        return redirect('Roles');
     }
 
-    public function DeleteRole(Request $req){
-       if(Roles::where(['role_id'=>$req->RoleID])->delete()):
+    public function DeleteRole(Request $req)
+    {
+        if (Roles::where(['role_id' => $req->RoleID])->delete()) :
             $req->session()->flash('status', 'Role Deleted Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('Roles');
+        return redirect('Roles');
     }
     #endregion ROLES
 
 
 
     #region USERS
-    public function Users(){
+    public function Users()
+    {
         $roles = Roles::get();
         $projects = Projects::get();
-        $users = Users::join('roles as R','users.role_id','=','R.role_id','left')->join('projects as P','users.project_id','=','P.project_id','left')->get(['users.user_id','users.user_name','users.role_id','users.project_id','R.role_name','P.project_name']);
-        return view('Main.users', ['roles'=>$roles,'projects'=>$projects,'users'=>$users]);
+        $pages = Pages::get();
+
+        $users = Users::join('roles as R', 'users.role_id', '=', 'R.role_id', 'left')->join('projects as P', 'users.project_id', '=', 'P.project_id', 'left')->get(['users.user_id', 'users.user_name', 'users.role_id', 'users.project_id', 'R.role_name', 'P.project_name']);
+        return view('Main.users', ['roles' => $roles, 'projects' => $projects, 'users' => $users, 'pages' => $pages]);
     }
 
 
-    public function AddUser(Request $req){
+    public function AddUser(Request $req)
+    {
         $validatedData = $req->validate([
             'user_name' => ['required'],
             'password' => ['required'],
@@ -524,11 +635,11 @@ class MainController extends Controller
         $users->password = Hash::make($req->password);
         $users->role_id = $req->role_id;
         $users->project_id = $req->project_id;
-       
-        if($users->save()):
+
+        if ($users->save()) :
             $req->session()->flash('status', 'User Added Successfully');
 
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -536,60 +647,66 @@ class MainController extends Controller
     }
 
 
-    public function EditUser(Request $req){
+    public function EditUser(Request $req)
+    {
         $roles = Roles::get();
         $projects = Projects::get();
-        $result = Users::where(['user_id'=>$req->UserID])->first();
-        return view('Main.edit_users', ['roles'=>$roles,'projects'=>$projects,'result'=>$result]);
+        $result = Users::where(['user_id' => $req->UserID])->first();
+        return view('Main.edit_users', ['roles' => $roles, 'projects' => $projects, 'result' => $result]);
     }
 
-    public function UpdateUser(Request $req){
+    public function UpdateUser(Request $req)
+    {
         $validatedData = $req->validate([
             'user_name' => ['required'],
             'project_id' => ['required'],
             'role_id' => ['required']
         ]);
 
-       if(Users::where(['user_id'=>$req->user_id])->update(['user_name'=>$req->user_name,'role_id'=>$req->role_id,'project_id'=>$req->project_id])):
+        if (Users::where(['user_id' => $req->user_id])->update(['user_name' => $req->user_name, 'role_id' => $req->role_id, 'project_id' => $req->project_id])) :
             $req->session()->flash('status', 'User Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('Users');
+        return redirect('Users');
     }
 
-    public function DeleteUser(Request $req){
-       if(Users::where(['user_id'=>$req->UserID])->delete()):
+    public function DeleteUser(Request $req)
+    {
+        if (Users::where(['user_id' => $req->UserID])->delete()) :
             $req->session()->flash('status', 'Role Deleted Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('Users');
+        return redirect('Users');
     }
     #endregion USERS
 
 
     #region GET CONTROL CODES
 
-    public function GetControlCodesByGroupCodeID(Request $req){
-        $result = ControlCodes::where(['group_code_id'=>$req->GroupCodeID])->get();
+    public function GetControlCodesByGroupCodeID(Request $req)
+    {
+        $result = ControlCodes::where(['group_code_id' => $req->GroupCodeID])->get();
         return response()->json($result);
     }
 
     #endregion
 
     #region CHART OF ACCOUNTS
-    public function ChartOfAccounts(){
+    public function ChartOfAccounts()
+    {
         $group_codes = GroupCodes::get();
-        $chart_of_accounts = ChartOfAccounts::join('control_codes AS CC','CC.control_code_id','chart_of_accounts.control_code_id','left')->join('group_codes AS GC','GC.group_code_id','=','CC.group_code_id','left')->get(['chart_of_accounts.chart_of_account_id','GC.group_code','GC.group_account','CC.control_code','CC.control_description','chart_of_accounts.chart_of_account_code','chart_of_accounts.chart_of_account','chart_of_accounts.opening_balance_debit','chart_of_accounts.opening_balance_credit']);
+        $chart_of_accounts = ChartOfAccounts::join('control_codes AS CC', 'CC.control_code_id', 'chart_of_accounts.control_code_id', 'left')->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')->get(['chart_of_accounts.chart_of_account_id', 'GC.group_code', 'GC.group_account', 'CC.control_code', 'CC.control_description', 'chart_of_accounts.chart_of_account_code', 'chart_of_accounts.chart_of_account', 'chart_of_accounts.opening_balance_debit', 'chart_of_accounts.opening_balance_credit']);
 
-        return view('Main.chartofaccounts',['group_codes'=>$group_codes,'chart_of_accounts'=>$chart_of_accounts]);
+        return view('Main.chartofaccounts', ['group_codes' => $group_codes, 'chart_of_accounts' => $chart_of_accounts]);
     }
 
 
-    public function AddChartOfAccount(Request $req){
+    public function AddChartOfAccount(Request $req)
+    {
         $validatedData = $req->validate([
             'chart_of_account' => ['required'],
             'group_code_id' => ['required'],
@@ -598,22 +715,22 @@ class MainController extends Controller
 
         $chart_of_accounts = new ChartOfAccounts();
 
-        $control_code = ControlCodes::where(['control_code_id'=>$req->control_code_id])->first(['control_code']);
-        
-
-        $control_code_group_code_count = ChartOfAccounts::join('control_codes AS CC','CC.control_code_id','=','chart_of_accounts.control_code_id','left')->where(['CC.control_code'=>$control_code->control_code])->get()->count();
+        $control_code = ControlCodes::where(['control_code_id' => $req->control_code_id])->first(['control_code']);
 
 
-        $chart_of_accounts->chart_of_account_code = $control_code->control_code.'-'.sprintf('%04d',$control_code_group_code_count);
+        $control_code_group_code_count = ChartOfAccounts::join('control_codes AS CC', 'CC.control_code_id', '=', 'chart_of_accounts.control_code_id', 'left')->where(['CC.control_code' => $control_code->control_code])->get()->count();
+
+
+        $chart_of_accounts->chart_of_account_code = $control_code->control_code . '-' . sprintf('%04d', $control_code_group_code_count);
         $chart_of_accounts->chart_of_account = $req->chart_of_account;
         $chart_of_accounts->control_code_id = $req->control_code_id;
         $chart_of_accounts->opening_balance_debit = $req->opening_balance_debit;
         $chart_of_accounts->opening_balance_credit = $req->opening_balance_credit;
 
-        if($chart_of_accounts->save()):
+        if ($chart_of_accounts->save()) :
             $req->session()->flash('status', 'Chart Of Account Added Successfully');
 
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -621,27 +738,28 @@ class MainController extends Controller
     }
 
 
-    public function EditChartOfAccount(Request $req){
+    public function EditChartOfAccount(Request $req)
+    {
 
         $group_codes = GroupCodes::get();
-        $result = ChartOfAccounts::where(['chart_of_account_id'=>$req->ChartOfAccountID])->join('control_codes AS CC','CC.control_code_id','chart_of_accounts.control_code_id','left')->join('group_codes AS GC','GC.group_code_id','=','CC.group_code_id','left')->first(['chart_of_accounts.chart_of_account_id','GC.group_code_id','CC.control_code_id','chart_of_accounts.chart_of_account','chart_of_accounts.opening_balance_debit','chart_of_accounts.opening_balance_credit']);
-        return view('Main.edit_chartofaccounts',['group_codes'=>$group_codes,'result'=>$result]);
+        $result = ChartOfAccounts::where(['chart_of_account_id' => $req->ChartOfAccountID])->join('control_codes AS CC', 'CC.control_code_id', 'chart_of_accounts.control_code_id', 'left')->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')->first(['chart_of_accounts.chart_of_account_id', 'GC.group_code_id', 'CC.control_code_id', 'chart_of_accounts.chart_of_account', 'chart_of_accounts.opening_balance_debit', 'chart_of_accounts.opening_balance_credit']);
+        return view('Main.edit_chartofaccounts', ['group_codes' => $group_codes, 'result' => $result]);
     }
 
 
-    public function UpdateChartOfAccount(Request $req){
+    public function UpdateChartOfAccount(Request $req)
+    {
         $validatedData = $req->validate([
             'chart_of_account' => ['required'],
             'group_code_id' => ['required'],
             'control_code_id' => ['required'],
         ]);
-       if(ChartOfAccounts::where(['chart_of_account_id'=>$req->chart_of_account_id])->update(['chart_of_account'=>$req->chart_of_account,'control_code_id'=>$req->control_code_id,'opening_balance_debit'=>$req->opening_balance_debit,'opening_balance_credit'=>$req->opening_balance_credit])):
+        if (ChartOfAccounts::where(['chart_of_account_id' => $req->chart_of_account_id])->update(['chart_of_account' => $req->chart_of_account, 'control_code_id' => $req->control_code_id, 'opening_balance_debit' => $req->opening_balance_debit, 'opening_balance_credit' => $req->opening_balance_credit])) :
             $req->session()->flash('status', 'Chart Of Account Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
-       return redirect('ChartOfAccounts');
-   
+        endif;
+        return redirect('ChartOfAccounts');
     }
 
     #endregion
@@ -650,27 +768,29 @@ class MainController extends Controller
 
 
     #region  USERS CATEGORIES
-    public function UserCategories(){
+    public function UserCategories()
+    {
         $user_categories = UserCategories::get();
-        return view('Main.usercategories', ['user_categories'=>$user_categories]);
+        return view('Main.usercategories', ['user_categories' => $user_categories]);
     }
 
 
-    public function AddUserCategory(Request $req){
+    public function AddUserCategory(Request $req)
+    {
         $validatedData = $req->validate([
             'user_category_code' => ['required'],
             'user_category_name' => ['required'],
         ]);
-       
+
         $user_categories = new UserCategories();
         $user_categories->user_category_code = $req->user_category_code;
         $user_categories->user_category_name = $req->user_category_name;
         $user_categories->login_date_from = $req->login_date_from;
         $user_categories->login_date_to = $req->login_date_to;
-        if($user_categories->save()):
+        if ($user_categories->save()) :
             $req->session()->flash('status', 'User Category Added Successfully');
 
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -678,30 +798,32 @@ class MainController extends Controller
     }
 
 
-    public function EditUserCategory(Request $req){
-        $result = UserCategories::where(['user_category_id'=>$req->UserCategoryID])->first();
+    public function EditUserCategory(Request $req)
+    {
+        $result = UserCategories::where(['user_category_id' => $req->UserCategoryID])->first();
         return view('Main.edit_usercategories', compact('result'));
     }
 
-    public function UpdateUserCategory(Request $req){
+    public function UpdateUserCategory(Request $req)
+    {
         $validatedData = $req->validate([
             'user_category_code' => ['required'],
             'user_category_name' => ['required'],
         ]);
 
         $DataToUpdate = [
-            'user_category_code'=>$req->user_category_code,
-            'user_category_name'=>$req->user_category_name,
-            'login_date_from'=>$req->login_date_from,
-            'login_date_to'=>$req->login_date_to,
+            'user_category_code' => $req->user_category_code,
+            'user_category_name' => $req->user_category_name,
+            'login_date_from' => $req->login_date_from,
+            'login_date_to' => $req->login_date_to,
         ];
-       if(UserCategories::where(['user_category_id'=>$req->user_category_id])->update($DataToUpdate)):
+        if (UserCategories::where(['user_category_id' => $req->user_category_id])->update($DataToUpdate)) :
             $req->session()->flash('status', 'User Category Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('UserCategories');
+        return redirect('UserCategories');
     }
 
     // public function DeleteGroupType(Request $req){
@@ -716,22 +838,24 @@ class MainController extends Controller
     #endregion USERS CATEGORIES
 
 
-     #region  SUPPLIERS
-     public function Suppliers(){
+    #region  SUPPLIERS
+    public function Suppliers()
+    {
         $chart_of_accounts = ChartOfAccounts::get();
-        $suppliers = Suppliers::join('chart_of_accounts AS COA','COA.chart_of_account_id','=','suppliers.chart_of_account_id','left')->get();
-        return view('Main.suppliers',['chart_of_accounts'=>$chart_of_accounts,'suppliers'=>$suppliers]);
+        $suppliers = Suppliers::join('chart_of_accounts AS COA', 'COA.chart_of_account_id', '=', 'suppliers.chart_of_account_id', 'left')->get();
+        return view('Main.suppliers', ['chart_of_accounts' => $chart_of_accounts, 'suppliers' => $suppliers]);
     }
 
 
-    public function AddSupplier(Request $req){
+    public function AddSupplier(Request $req)
+    {
         $validatedData = $req->validate([
             'supplier_code' => ['required'],
             'supplier_name' => ['required'],
             'contact_no' => ['required'],
             'email_address' => ['required'],
         ]);
-       
+
         $suppliers = new Suppliers();
         $suppliers->supplier_code = $req->supplier_code;
         $suppliers->supplier_name = $req->supplier_name;
@@ -742,10 +866,10 @@ class MainController extends Controller
         $suppliers->website = $req->website;
         $suppliers->account_code = $req->account_code;
         $suppliers->chart_of_account_id = $req->chart_of_account_id;
-        if($suppliers->save()):
+        if ($suppliers->save()) :
             $req->session()->flash('status', 'Supplier Added Successfully');
 
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -753,20 +877,22 @@ class MainController extends Controller
     }
 
 
-    public function EditSupplier(Request $req){
+    public function EditSupplier(Request $req)
+    {
         $chart_of_accounts = ChartOfAccounts::get();
-        $result = Suppliers::where(['supplier_id'=>$req->SupplierID])->first();
-        return view('Main.edit_suppliers', ['chart_of_accounts'=>$chart_of_accounts,'result'=>$result]);
+        $result = Suppliers::where(['supplier_id' => $req->SupplierID])->first();
+        return view('Main.edit_suppliers', ['chart_of_accounts' => $chart_of_accounts, 'result' => $result]);
     }
 
-    public function UpdateSupplier(Request $req){
+    public function UpdateSupplier(Request $req)
+    {
         $validatedData = $req->validate([
             'supplier_code' => ['required'],
             'supplier_name' => ['required'],
             'contact_no' => ['required'],
             'email_address' => ['required'],
         ]);
-       
+
         $suppliers = array();
         $suppliers['supplier_code'] = $req->supplier_code;
         $suppliers['supplier_name'] = $req->supplier_name;
@@ -779,13 +905,13 @@ class MainController extends Controller
         $suppliers['chart_of_account_id'] = $req->chart_of_account_id;
 
 
-       if(Suppliers::where(['supplier_id'=>$req->supplier_id])->update($suppliers)):
+        if (Suppliers::where(['supplier_id' => $req->supplier_id])->update($suppliers)) :
             $req->session()->flash('status', 'Supplier Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('Suppliers');
+        return redirect('Suppliers');
     }
 
     // public function DeleteGroupType(Request $req){
@@ -800,22 +926,24 @@ class MainController extends Controller
     #endregion SUPPLIERS
 
 
-      #region  CUSTOMERS
-      public function Customers(){
+    #region  CUSTOMERS
+    public function Customers()
+    {
         $chart_of_accounts = ChartOfAccounts::get();
-        $customers = Customers::join('chart_of_accounts AS COA','COA.chart_of_account_id','=','customers.chart_of_account_id','left')->get();
-        return view('Main.customers',['chart_of_accounts'=>$chart_of_accounts,'customers'=>$customers]);
+        $customers = Customers::join('chart_of_accounts AS COA', 'COA.chart_of_account_id', '=', 'customers.chart_of_account_id', 'left')->get();
+        return view('Main.customers', ['chart_of_accounts' => $chart_of_accounts, 'customers' => $customers]);
     }
 
 
-    public function AddCustomer(Request $req){
+    public function AddCustomer(Request $req)
+    {
         $validatedData = $req->validate([
             'customer_code' => ['required'],
             'customer_name' => ['required'],
             'contact_no' => ['required'],
             'email_address' => ['required'],
         ]);
-       
+
         $customers = new Customers();
         $customers->customer_code = $req->customer_code;
         $customers->customer_name = $req->customer_name;
@@ -826,10 +954,10 @@ class MainController extends Controller
         $customers->website = $req->website;
         $customers->account_code = $req->account_code;
         $customers->chart_of_account_id = $req->chart_of_account_id;
-        if($customers->save()):
+        if ($customers->save()) :
             $req->session()->flash('status', 'Customer Added Successfully');
 
-        else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -837,20 +965,22 @@ class MainController extends Controller
     }
 
 
-    public function EditCustomer(Request $req){
+    public function EditCustomer(Request $req)
+    {
         $chart_of_accounts = ChartOfAccounts::get();
-        $result = Customers::where(['customer_id'=>$req->CustomerID])->first();
-        return view('Main.edit_customers', ['chart_of_accounts'=>$chart_of_accounts,'result'=>$result]);
+        $result = Customers::where(['customer_id' => $req->CustomerID])->first();
+        return view('Main.edit_customers', ['chart_of_accounts' => $chart_of_accounts, 'result' => $result]);
     }
 
-    public function UpdateCustomer(Request $req){
+    public function UpdateCustomer(Request $req)
+    {
         $validatedData = $req->validate([
             'customer_code' => ['required'],
             'customer_name' => ['required'],
             'contact_no' => ['required'],
             'email_address' => ['required'],
         ]);
-       
+
         $customers = array();
         $customers['customer_code'] = $req->customer_code;
         $customers['customer_name'] = $req->customer_name;
@@ -863,13 +993,13 @@ class MainController extends Controller
         $customers['chart_of_account_id'] = $req->chart_of_account_id;
 
 
-       if(Customers::where(['customer_id'=>$req->customer_id])->update($customers)):
+        if (Customers::where(['customer_id' => $req->customer_id])->update($customers)) :
             $req->session()->flash('status', 'Customer Update Successfully');
-       else:
+        else :
             $req->session()->flash('status', 'Some Error Occured');
-       endif;
+        endif;
 
-       return redirect('Customers');
+        return redirect('Customers');
     }
 
     // public function DeleteGroupType(Request $req){

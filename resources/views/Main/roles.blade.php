@@ -5,138 +5,116 @@
 
 <h2 style="color:black;">USER RIGHTS ROLES</h2>
 
+<form action="/Roles" method="post">
+  @csrf
+  <div class="abot1">
+    <div class="container">
+      <div class="row">
 
-<div class="abot1">
-			    <div class="container">
-        <div class="row">
-          
-          <div class="col-md-12">
-          <div class="buttton">
-          		<button class=bet>New</button>
-          		<button class=bet>Save</button>
-          		<button class=bet>Cancel</button>
-          	</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="abot2">
-			    <div class="container">
-        <div class="row">
-          
-          <div class="col-md-12">
-            <div class="txt">Rights for the Role</div>
-          	<div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                  New
-                                   </label>
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                   Edit
-                                   </label>                       
-           <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                   Delete
-                                   </label> 
-             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                   Print
-                                   </label>
-             
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                   Approved
-                                   </label> 
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                  Un-Approved
-                                   </label>
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                   Void
-                                   </label>
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                   Un-Void
-                                   </label>
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                  Lock
-                                   </label>
-                                   <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                  Un-Lock
-                                   </label>
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                  Checked
-                                   </label>
-            
-                                   
-          </div>
-         
-          </div>
-        </div>
-        <div class="row">
         <div class="col-md-12">
-        <div class="form-check">
-          
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-                 Un-Checked
-                                   </label>
-        </div>
+          <div class="buttton">
+            <button class=bet>New</button>
+            <button class=bet type="submit">Save</button>
+            <button class=bet>Cancel</button>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-   
+  <div class="abot2">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="txt">
+            <input type="text" class="form-control" name="role_name" placeholder="Enter Role Name">
+          </div>
+          <div class="form-check">
+
+            @php
+            if(count($rights)>0):
+            foreach($rights as $key=>$item):
+            @endphp
+            <input class="form-check-input" name="right_id[]" type="checkbox" value="{{$item->right_id}}" id="CBRight_{{$item->right_id}}">
+            <label class="form-check-label" for="CBRight_{{$item->right_id}}">
+              {{$item->right_name}}
+            </label>
+            @php
+            endforeach;
+            endif;
+            @endphp
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+</form>
+
+
 
 <table class="table">
-    <thead class="thead-dark">
-        <th>User Roles</th>
-        <th>Edit</th>
-        <th>Delete</th>
-        <th>Print</th>
-        <th>Approve</th>
-        <th>Un-Approve</th>
-        <th>Void</th>
-        <th>Un-void</th>
-        <th>Lock</th>
-        <th>Un-Lock</th>
-        <th>Checked</th>
-        <th>Un-Checked</th>
-        <th class="size"></th>
-        <th class="size"></th>
-    </thead>
-    <tbody>
+  <thead class="thead-dark">
+    <th>User Role ID</th>
+    <th>User Roles</th>
+    @php
+    if(count($rights)>0):
+    foreach($rights as $key=>$item):
+    @endphp
+    <th>{{$item->right_name}}</th>
+    @php
+    endforeach;
+    endif;
+    @endphp
+    <th></th>
+    <th></th>
+  </thead>
+  <tbody>
+    @php
+    if(count($roles)>0):
+    foreach($roles as $key=>$item):
+    @endphp
+    <tr>
+      <td>{{$item["role_id"]}}</td>
+      <td>{{$item['role_name']}}</td>
+      @foreach($rights as $key2=>$item2)
+      <td>
         @php
-        if(count($roles)>0):
-        foreach($roles as $key=>$item):
+        $icontoshow = '';
+
+        foreach($item['rights'] as $key3=>$item3):
+
+        if($item3['right_id']==$item2['right_id']):
+
+        if($item3['has_right']=="1"):
         @endphp
-        <tr>
-            <td>{{$item->role_name}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style="text-align:center;"><a href="/EditRole/{{$item->role_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
-            <td style="text-align:center;"><a href="/DeleteRole/{{$item->role_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
-        </tr>
+        <i class="fas fa-check text-success"></i>
         @php
-        endforeach;
+          
+        else:
+        @endphp
+
+        <i class="fas fa-times text-danger"></i>
+        @php
         endif;
+
+        endif;
+
+        endforeach
         @endphp
-    </tbody>
+
+      </td>
+      @endforeach
+      <td style="text-align:center;"><a href="/EditRole/{{$item['role_id']}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+      <td style="text-align:center;"><a href="/DeleteRole/{{$item['role_id']}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
+    </tr>
+    @php
+    endforeach;
+    endif;
+    @endphp
+  </tbody>
 </table>
 
 @endsection
