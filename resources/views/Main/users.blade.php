@@ -132,9 +132,9 @@
                                     style="margin-right: 50px;">
                                     {{$item->page_name}}</label>
                               <select id="Year" placeholder="Year" class="Maintype1" style="color: white;">
-                                    <option value="Supervisior">Supervisior</option>
-                                    <option value="Supervisior">Supervisior</option>
-                                    <option value="Supervisior">Supervisior</option>
+                                    @foreach($roles as $key=>$roleitem)
+                                    <option value="{{$roleitem->role_id}}">{{$roleitem->role_name}}</option>
+                                    @endforeach
                               </select>
                               <br>
                               @php
