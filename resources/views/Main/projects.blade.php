@@ -36,7 +36,7 @@
     </div>
 </form>
 
-<table class="table">
+<table id="RoleTable" class="table">
     <thead class="thead-dark">
         <th>Project Name</th>
         <th>Project Category</th>
@@ -60,4 +60,9 @@
         @endphp
     </tbody>
 </table>
+@endsection
+@section('IndividualScript')
+<script>
+  $('#RoleTable').DataTable();
+</script>
 @endsection

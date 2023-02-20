@@ -36,7 +36,7 @@
     </div>
 </form>
 
-<table class="table">
+<table id="RoleTable" class="table">
     <thead class="thead-dark">
         <th>Group Code</th>
         <th>Group Account</th>
@@ -62,4 +62,9 @@
         @endphp
     </tbody>
 </table>
+@endsection
+@section('IndividualScript')
+<script>
+  $('#RoleTable').DataTable();
+</script>
 @endsection

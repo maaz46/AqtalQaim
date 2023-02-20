@@ -63,7 +63,7 @@
   </div>
 </form>
 
-<table class="table">
+<table id="RoleTable" class="table">
   <thead class="thead-dark">
     <th>Category Code</th>
     <th>Category Name</th>
@@ -95,4 +95,9 @@
 </table>
 
 
+@endsection
+@section('IndividualScript')
+<script>
+  $('#RoleTable').DataTable();
+</script>
 @endsection

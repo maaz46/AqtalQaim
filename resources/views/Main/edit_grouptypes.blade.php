@@ -23,3 +23,8 @@ endif;
     </div>
 </form>
 @endsection
+@section('IndividualScript')
+<script>
+  $('#RoleTable').DataTable();
+</script>
+@endsection

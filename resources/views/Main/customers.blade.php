@@ -27,14 +27,14 @@
 
         <div class="col-md-6">
           <div class="form">
-            <label class="weight" style="margin-right:45px;">Customer Code</label>
+            <label class="weight" style="margin-right:36px;">Customer Code</label>
             <input type="text" name="customer_code" class="Maintypee">
             @error('customer_code')
             <p class="text-danger">{{$message}}</p>
             @enderror
             <br>
 
-            <label class="weight" style="margin-right:42px;">Customer Name</label>
+            <label class="weight" style="margin-right:32px;">Customer Name</label>
             <input type="text" name="customer_name" class="Maintype">
             @error('customer_name')
             <p class="text-danger">{{$message}}</p>
@@ -86,7 +86,7 @@
             <br>
 
             <div class="sel">
-              <label class="weight" style="margin-right:88px;">Chart Of Account</label>
+              <label class="weight" style="margin-right:12px;">Chart Of Account</label>
 
               <select id="Project Category" name="chart_of_account_id" class="Maintype" style="color: white;">
                 @php
@@ -122,7 +122,7 @@
   </div>
 </form>
 
-<table class="table">
+<table id="RoleTable" class="table">
   <thead class="thead-dark">
     <th>Customer Code</th>
     <th>Customer Name</th>
@@ -162,4 +162,9 @@
 </table>
 
 
+@endsection
+@section('IndividualScript')
+<script>
+  $('#RoleTable').DataTable();
+</script>
 @endsection

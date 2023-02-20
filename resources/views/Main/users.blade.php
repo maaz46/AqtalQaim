@@ -154,7 +154,7 @@
       </div>
 </div>
 
-<table class="table">
+<table id="RoleTable" class="table">
       <thead class="thead-dark">
             <th>User Name</th>
             <th>Role Name</th>
@@ -184,4 +184,9 @@
       </tbody>
 </table>
 
+@endsection
+@section('IndividualScript')
+<script>
+  $('#RoleTable').DataTable();
+</script>
 @endsection

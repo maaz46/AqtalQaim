@@ -86,7 +86,7 @@
             <br>
 
             <div class="sel">
-              <label class="weight" style="margin-right:88px;">Chart Of Account</label>
+              <label class="weight" style="margin-right:12px;">Chart Of Account</label>
 
               <select id="Project Category" name="chart_of_account_id" class="Maintype" style="color: white;">
                 @php
@@ -122,7 +122,7 @@
   </div>
 </form>
 
-<table class="table">
+<table id="RoleTable" class="table">
   <thead class="thead-dark">
     <th>Supplier Code</th>
     <th>Supplier Name</th>
@@ -162,4 +162,9 @@
 </table>
 
 
+@endsection
+@section('IndividualScript')
+<script>
+  $('#RoleTable').DataTable();
+</script>
 @endsection

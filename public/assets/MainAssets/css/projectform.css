@@ -233,7 +233,16 @@ label.weight {
     border-color: black;
     background: none;
   }
-
+  #RoleTable_length .form-select.form-select-sm {
+    background: white;
+  }
+  .txt {
+    margin-bottom: 20px;
+    margin-top: 80px;
+  }
+  .abot2 .form-check{
+    margin-bottom: 40px;
+  }
 
 
 /*mobile responsive*/

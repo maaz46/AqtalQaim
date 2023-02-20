@@ -34,7 +34,7 @@
             @enderror
             <br>
 
-            <label class="weight" style="margin-right:42px;">Customer Name</label>
+            <label class="weight" style="margin-right:32px;">Customer Name</label>
             <input type="text" name="customer_name" value="{{$result->customer_name}}" class="Maintype">
             @error('customer_name')
             <p class="text-danger">{{$message}}</p>

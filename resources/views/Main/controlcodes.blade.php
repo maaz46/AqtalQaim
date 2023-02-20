@@ -59,7 +59,7 @@
     </div>
 </form>
 
-<table class="table">
+<table id="RoleTable" class="table">
     <thead class="thead-dark">
         <th>Control Code</th>
         <th>Control Description</th>
@@ -91,4 +91,9 @@
         @endphp
     </tbody>
 </table>
+@endsection
+@section('IndividualScript')
+<script>
+  $('#RoleTable').DataTable();
+</script>
 @endsection
