@@ -187,8 +187,8 @@
 				</option>
 
 
-				</select><br><br>
-                <input type="submit" value="Enter" class="btn btn-success btn-sm" style="margin-left:50px;">
+				</select>
+                <input type="submit" value="Enter" class="btn btn-success btn-sm" style="margin-left:20px;">
 
             
             </div>
