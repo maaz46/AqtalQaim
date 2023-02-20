@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Users;
+use App\Models\UserRolePageMapping;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Illuminate\Support\Facades\Hash;
@@ -25,8 +26,11 @@ class AuthController extends Controller
         ])->first();
         if(!empty($result)):
             if (Hash::check($req->password, $result->password)) :
+                $user_role_page_mapping_data = UserRolePageMapping::where(['user_id'=>$result->user_id])->get();
                 $req->session()->put('user_id',$result->user_id);
                 $req->session()->put('user_name',$result->user_name);
+                $req->session()->put('user_role_page_mapping_data',json_encode($user_role_page_mapping_data));
+                // echo $result->user_id;
                 return redirect('/Dashboard');
             endif;
         endif;

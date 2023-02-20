@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans&display=swap" rel="stylesheet">
     <!-- https://fonts.google.com/specimen/Kumbh+Sans -->
     <link rel="stylesheet" href="{{asset('assets/MainAssets/fontawesome/css/all.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/MainAssets/css/datatable.min.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/MainAssets/css/datatable.min.css')}}" />
     <!-- https://fontawesome.com/-->
     <link rel="stylesheet" href="{{asset('assets/MainAssets/css/magnific-popup.css')}}">
     <!-- https://dimsemenov.com/plugins/magnific-popup/ -->
@@ -20,12 +20,24 @@
     <link rel="stylesheet" href="{{asset('assets/MainAssets/css/templatemo-upright.css')}}">
     <link rel="stylesheet" href="{{asset('assets/MainAssets/css/projectform.css')}}">
     @yield('IndividualStyle')
-
-
+    @php
+    $user_role_page_mapping_data = json_decode(Session::get('user_role_page_mapping_data'), true);
+    @endphp
+    <style>
+        @php
+        foreach($user_role_page_mapping_data as $key=>$item):
+        if($item['has_access']=="0"):
+            echo '.PageID_'.$item['page_id'].'{display:none !important} ';
+        endif;
+        endforeach;
+        @endphp;
+    </style>
 
 </head>
 
 <body>
+    
+
     <div class="container-fluid">
         <div class="row">
             <!-- Leftside bar -->
@@ -40,7 +52,7 @@
 
                         </div>
                         <ul id="tm-main-nav">
-                            <li class="nav-item">
+                            <li class="nav-item PageID_1">
                                 <a href="/Dashboard" class="nav-link current">
                                     <div class="triangle-right"></div>
                                     <img src="{{asset('assets/MainAssets/img/icon_7-removebg-preview.png')}}"
@@ -48,7 +60,7 @@
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">DASHBOARD</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item PageID_2">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
                                     <img src="{{asset('assets/MainAssets/img/resume.png')}}" width="30px"
@@ -57,7 +69,7 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
+                            <li class="nav-item PageID_5">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
                                     <img src="{{asset('assets/MainAssets/img/statistics.png')}}" width="30px"
@@ -67,7 +79,7 @@
                             </li>
 
 
-                            <li class="nav-item">
+                            <li class="nav-item PageID_3">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
 
@@ -94,7 +106,7 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item PageID_4">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
                                     <img src="{{asset('assets/MainAssets/img/business-and-finance.png')}}" width="30px"
@@ -118,7 +130,7 @@
                                 </div>
                             </li>
                             
-                            <li class="nav-item">
+                            <li class="nav-item PageID_6">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
 
@@ -141,7 +153,7 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item PageID_7">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
                                     <img src="{{asset('assets/MainAssets/img/exam.png')}}" width="30px"

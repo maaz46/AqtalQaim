@@ -17,6 +17,15 @@ class PagesAccess
      */
     public function handle(Request $request, Closure $next, $PageID)
     {
+        $user_role_page_mapping_data = json_decode($request->session()->get('user_role_page_mapping_data'), true);
+        foreach($user_role_page_mapping_data as $key=>$item):
+            if($item['page_id']==$PageID):
+                if($item['has_access']=="0"):
+                    echo 'Forbidden';
+                    exit;
+                endif;
+            endif;
+        endforeach;
         // if($PageID=="3"):
         //     return Redirect('/');
         // endif;

@@ -19,8 +19,8 @@ use App\Http\Middleware\CheckLoginSession;
 
 Route::middleware([CheckLoginSession::class])->group(function () {
     Route::get('/', [AuthController::class, 'Login']);
-    Route::post('/', [AuthController::class, 'LoginPost']);
 });
+Route::post('/', [AuthController::class, 'LoginPost']);
 
 
 Route::middleware([CheckSession::class])->group(function () {
