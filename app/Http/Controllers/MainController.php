@@ -18,8 +18,8 @@ use App\Models\Customers;
 use App\Models\Pages;
 use App\Models\Rights;
 use App\Models\RightsMapping;
+use App\Models\UserRolePageMapping;
 use Illuminate\Support\Facades\Hash;
-use Session;
 
 
 
@@ -575,7 +575,7 @@ class MainController extends Controller
     {
         // SELECT R.role_id, R.role_name, RI.right_id, RI.right_name FROM roles AS R LEFT JOIN rights_mapping AS RM ON R.role_id = RM.role_id LEFT JOIN rights AS RI ON RI.right_id = RM.right_id; 
 
-        $data['rightmapping'] = RightsMapping::join('rights AS RI','rights_mapping.right_id','=','RI.right_id','left')->where(['rights_mapping.role_id' => $req->RoleID])->get();
+        $data['rightmapping'] = RightsMapping::join('rights AS RI', 'rights_mapping.right_id', '=', 'RI.right_id', 'left')->where(['rights_mapping.role_id' => $req->RoleID])->get();
         $data['result'] = Roles::where(['role_id' => $req->RoleID])->first();
 
         return view('Main.edit_roles', $data);
@@ -588,21 +588,21 @@ class MainController extends Controller
         // ]);
         $role_id = $req->role_id;
         if (Roles::where(['role_id' => $role_id])->update(['role_name' => $req->role_name])) :
-            if(RightsMapping::where(['role_id'=>$role_id])->update(['has_right'=>"0"])):
+            if (RightsMapping::where(['role_id' => $role_id])->update(['has_right' => "0"])) :
 
-                if(!empty($req->right_id)):
+                if (!empty($req->right_id)) :
 
-                if(count($req->right_id)>0):
-                $datatoupdate = array();
-                foreach($req->right_id as $key=>$item):
-                    $datatoupdate[] = $item;
-                endforeach;
-                RightsMapping::whereIn("rights_mapping_id",$datatoupdate)->update(['has_right'=>"1"]);
-                endif;
+                    if (count($req->right_id) > 0) :
+                        $datatoupdate = array();
+                        foreach ($req->right_id as $key => $item) :
+                            $datatoupdate[] = $item;
+                        endforeach;
+                        RightsMapping::whereIn("rights_mapping_id", $datatoupdate)->update(['has_right' => "1"]);
+                    endif;
                 endif;
                 $req->session()->flash('status', 'Role Update Successfully');
             endif;
-            else :
+        else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 
@@ -629,28 +629,64 @@ class MainController extends Controller
         $roles = Roles::get();
         $projects = Projects::get();
         $pages = Pages::get();
+        $user_categories = UserCategories::get();
 
-        $users = Users::join('roles as R', 'users.role_id', '=', 'R.role_id', 'left')->join('projects as P', 'users.project_id', '=', 'P.project_id', 'left')->get(['users.user_id', 'users.user_name', 'users.role_id', 'users.project_id', 'R.role_name', 'P.project_name']);
-        return view('Main.users', ['roles' => $roles, 'projects' => $projects, 'users' => $users, 'pages' => $pages]);
+        $users = Users::join('projects AS P','users.project_id','=','P.project_id','left')->join('user_categories as UC','users.user_category_id','=','UC.user_category_id','left')->get(['users.user_id','users.full_name','users.user_name','users.email','users.cell','users.block_yn','users.can_change_year','P.project_name','UC.user_category_name']);
+        // var_dump($users);
+        return view('Main.users', ['users'=>$users,'roles' => $roles, 'projects' => $projects, 'pages' => $pages, 'user_categories' => $user_categories]);
     }
 
 
     public function AddUser(Request $req)
     {
+
+        // echo '<pre>';
+        // print_r($_POST);
+        // echo '</pre>';
+        // exit;
         $validatedData = $req->validate([
             'user_name' => ['required'],
             'password' => ['required'],
             'project_id' => ['required'],
-            'role_id' => ['required']
+            // 'role_id' => ['required']
         ]);
 
         $users = new Users();
+        $users->full_name = $req->full_name;
         $users->user_name = $req->user_name;
         $users->password = Hash::make($req->password);
-        $users->role_id = $req->role_id;
+        $users->email = $req->email;
+        $users->cell = $req->cell;
+        $users->block_yn = $req->block_yn;
+        $users->can_change_year = $req->can_change_year;
+
+
         $users->project_id = $req->project_id;
+        $users->user_category_id = $req->user_category_id;
 
         if ($users->save()) :
+            $user_id = $users->id;
+            $pages = Pages::get();
+
+            $datatoadd = array();
+
+            foreach ($pages as $key => $item) :
+                $datatoadd[$key]['page_id'] = $item->page_id;
+                $datatoadd[$key]['user_id'] = $user_id;
+                $datatoadd[$key]['has_access'] = "0";
+                $datatoadd[$key]['role_id'] = null;
+
+                $mykey = array_search($item->page_id, array_map(function ($v) {
+                    return $v['page_id'];
+                }, $req->user_role_page_mapping));
+                if ($mykey != "") :
+                    $selectedroleid = $req->user_role_page_mapping[$mykey]['role_id'];
+                    $datatoadd[$key]['role_id'] = $selectedroleid;
+                    $datatoadd[$key]['has_access'] = "1";
+                endif;
+            endforeach;
+            UserRolePageMapping::upsert($datatoadd, ['page_id', 'user_id','has_access','role_id']);
+
             $req->session()->flash('status', 'User Added Successfully');
 
         else :
@@ -1014,6 +1050,19 @@ class MainController extends Controller
         endif;
 
         return redirect('Customers');
+    }
+
+    function UsernameValidation(Request $req)
+    {
+        $userscount = Users::where(['user_name' => $req->UserName])->get()->count();
+        return response()->json($userscount);
+    }
+
+
+    function EmailValidation(Request $req)
+    {
+        $userscount = Users::where(['email' => $req->Email])->get()->count();
+        return response()->json($userscount);
     }
 
     // public function DeleteGroupType(Request $req){
