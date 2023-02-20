@@ -60,7 +60,7 @@
                             <li class="nav-item">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
-                                    <img src="{{asset('assets/MainAssets/img/report.png')}}" width="30px"
+                                    <img src="{{asset('assets/MainAssets/img/statistics.png')}}" width="30px"
                                         style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">REPORT</span>
                                 </a>
