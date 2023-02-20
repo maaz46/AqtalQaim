@@ -575,20 +575,34 @@ class MainController extends Controller
     {
         // SELECT R.role_id, R.role_name, RI.right_id, RI.right_name FROM roles AS R LEFT JOIN rights_mapping AS RM ON R.role_id = RM.role_id LEFT JOIN rights AS RI ON RI.right_id = RM.right_id; 
 
-        $data['rightmapping'] = RightsMapping::where(['role_id' => $req->RoleID])->get();
+        $data['rightmapping'] = RightsMapping::join('rights AS RI','rights_mapping.right_id','=','RI.right_id','left')->where(['rights_mapping.role_id' => $req->RoleID])->get();
         $data['result'] = Roles::where(['role_id' => $req->RoleID])->first();
-        $data['rights'] = Rights::get();
+
         return view('Main.edit_roles', $data);
     }
 
     public function UpdateRole(Request $req)
     {
-        $validatedData = $req->validate([
-            'role_name' => ['required'],
-        ]);
-        if (Roles::where(['role_id' => $req->role_id])->update(['role_name' => $req->role_name])) :
-            $req->session()->flash('status', 'Role Update Successfully');
-        else :
+        // $validatedData = $req->validate([
+        //     'role_name' => ['required'],
+        // ]);
+        $role_id = $req->role_id;
+        if (Roles::where(['role_id' => $role_id])->update(['role_name' => $req->role_name])) :
+            if(RightsMapping::where(['role_id'=>$role_id])->update(['has_right'=>"0"])):
+
+                if(!empty($req->right_id)):
+
+                if(count($req->right_id)>0):
+                $datatoupdate = array();
+                foreach($req->right_id as $key=>$item):
+                    $datatoupdate[] = $item;
+                endforeach;
+                RightsMapping::whereIn("rights_mapping_id",$datatoupdate)->update(['has_right'=>"1"]);
+                endif;
+                endif;
+                $req->session()->flash('status', 'Role Update Successfully');
+            endif;
+            else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
 

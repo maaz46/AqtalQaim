@@ -1,7 +1,7 @@
 @extends('Main.Layout.layout')
 
 @section('MainSection')
-<form action="/Roles" method="post">
+<form action="/UpdateRole" method="post">
     @csrf
     <div class="abot1">
         <div class="container">
@@ -29,18 +29,10 @@
                     <div class="form-check">
 
                         @php
-                        if(count($rights)>0):
-                        foreach($rights as $key=>$item):
-                        $checked = '';
-                        foreach($rightmapping as $key2=>$item2):
-                        if($item->right_id==$item2->right_id):
-                        if($item2->has_right=="1"):
-                        $checked = 'checked';
-                        endif;
-                        endif;
-                        endforeach;
+                        if(count($rightmapping)>0):
+                        foreach($rightmapping as $key=>$item):
                         @endphp
-                        <input class="form-check-input" name="right_id[]" {{$checked}} type="checkbox" value="{{$item->right_id}}" id="CBRight_{{$item->right_id}}">
+                        <input class="form-check-input" name="right_id[]" {{$item->has_right=="1" ? "checked":""}} type="checkbox" value="{{$item->rights_mapping_id}}" id="CBRight_{{$item->right_id}}">
                         <label class="form-check-label" for="CBRight_{{$item->right_id}}">
                             {{$item->right_name}}
                         </label>
