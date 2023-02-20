@@ -57,6 +57,15 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a href="#" class="nav-link current">
+                                    <div class="triangle-right"></div>
+                                    <img src="{{asset('assets/MainAssets/img/report.png')}}" width="30px"
+                                        style="margin-right: 12px;">
+                                    <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">REPORT</span>
+                                </a>
+                            </li>
+
 
                             <li class="nav-item">
                                 <a href="#" class="nav-link current">
@@ -108,6 +117,7 @@
                                     </ul>
                                 </div>
                             </li>
+                            
                             <li class="nav-item">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
@@ -131,14 +141,22 @@
                                     </ul>
                                 </div>
                             </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link current">
+                                    <div class="triangle-right"></div>
+                                    <img src="{{asset('assets/MainAssets/img/exam.png')}}" width="30px"
+                                        style="margin-right: 12px;">
+                                    <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">AUDIT LOGS</span>
+                                </a>
+                            </li>
 
 
                             <li class="nav-item">
                                 <a href="/Logout" class="nav-link current">
                                     <div class="triangle-right"></div>
-                                    <img src="{{asset('assets/MainAssets/img/resume.png')}}" width="30px"
+                                    <img src="{{asset('assets/MainAssets/img/log-out.png')}}" width="30px"
                                         style="margin-right: 12px;">
-                                    <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">Logout</span>
+                                    <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">LOGOUT</span>
                                 </a>
                             </li>
                         </ul>
