@@ -179,7 +179,7 @@
       </div>
 </form>
 
-<table id="RoleTable" class="table table-responsive">
+<table id="RoleTable" class="table table-responsive-sm">
       <thead class="thead-dark">
             <th>Name</th>
             <th>User Name</th>

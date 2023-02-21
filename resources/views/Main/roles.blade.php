@@ -55,7 +55,7 @@
 
 
 
-<table id="RoleTable" class="table table-responsive">
+<table id="RoleTable" class="table table-responsive-sm">
   <thead class="thead-dark">
     <th>User Role ID</th>
     <th>User Roles</th>

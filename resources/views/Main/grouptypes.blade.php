@@ -17,7 +17,7 @@
     </div>
 </form>
 
-<table id="RoleTable" class="table table-responsive">
+<table id="RoleTable" class="table table-responsive-sm">
     <thead class="thead-dark">
         <th>Group Types</th>
         <th class="size"></th>

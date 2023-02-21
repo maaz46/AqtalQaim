@@ -36,7 +36,7 @@
     </div>
 </form>
 
-<table id="RoleTable" class="table table-responsive">
+<table id="RoleTable" class="table table-responsive-sm">
     <thead class="thead-dark">
         <th>Group Code</th>
         <th>Group Account</th>
