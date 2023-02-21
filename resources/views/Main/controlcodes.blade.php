@@ -59,7 +59,7 @@
     </div>
 </form>
 
-<table id="RoleTable" class="table">
+<table id="RoleTable" class="table table-responsive">
     <thead class="thead-dark">
         <th>Control Code</th>
         <th>Control Description</th>

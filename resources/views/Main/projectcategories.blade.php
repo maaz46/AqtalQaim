@@ -16,7 +16,7 @@
     </div>
 </form>
 
-<table id="RoleTable" class="table">
+<table id="RoleTable" class="table table-responsive">
     <thead class="thead-dark">
         <th>Project Categories</th>
         <th class="size"></th>

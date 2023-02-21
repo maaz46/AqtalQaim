@@ -122,7 +122,7 @@
   </div>
 </form>
 
-<table id="RoleTable" class="table">
+<table id="RoleTable" class="table table-responsive">
   <thead class="thead-dark">
     <th>Customer Code</th>
     <th>Customer Name</th>
