@@ -35,9 +35,9 @@ Route::middleware([CheckSession::class])->group(function () {
         #region GROUP TYPES
         Route::get('/GroupTypes', [MainController::class, 'GroupTypes']);
         Route::post('/GroupTypes', [MainController::class, 'AddGroupType']);
-        Route::get('/EditGroupType/{GroupTypeID}', [MainController::class, 'EditGroupType'])->middleware('PageActionAccess:3:1');
-        Route::post('/UpdateGroupType', [MainController::class, 'UpdateGroupType']);
-        Route::get('/DeleteGroupType/{GroupTypeID}', [MainController::class, 'DeleteGroupType']);
+        Route::get('/EditGroupType/{GroupTypeID}', [MainController::class, 'EditGroupType'])->middleware('PageActionAccess:3,1');
+        Route::post('/UpdateGroupType', [MainController::class, 'UpdateGroupType'])->middleware('PageActionAccess:3,1');
+        Route::get('/DeleteGroupType/{GroupTypeID}', [MainController::class, 'DeleteGroupType'])->middleware('PageActionAccess:3,2');
 
         #endregion GROUP TYPES
 
@@ -68,7 +68,6 @@ Route::middleware([CheckSession::class])->group(function () {
         Route::get('/DeleteControlCode/{ControlCodeID}', [MainController::class, 'DeleteControlCode']);
         #endregion CONTROL CODES
 
-        Route::get('/GetControlCodesByGroupCodeID/{GroupCodeID}', [MainController::class, 'GetControlCodesByGroupCodeID']);
 
 
         #region CHART OF ACCOUNTS
@@ -158,6 +157,8 @@ Route::middleware([CheckSession::class])->group(function () {
 
     #region AJAX
 
+    Route::get('/GetControlCodesByGroupCodeID/{GroupCodeID}', [MainController::class, 'GetControlCodesByGroupCodeID']);
+    Route::get('/GetProjectsByProjectCategoryID/{ProjectCategoryID}', [MainController::class, 'GetProjectsByProjectCategoryID']);
     Route::post('/UsernameValidation', [MainController::class, 'UsernameValidation']);
     Route::post('/EmailValidation', [MainController::class, 'EmailValidation']);
 

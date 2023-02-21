@@ -106,15 +106,12 @@
 
 
 @endsection
+
+
 @section('IndividualScript')
 <script>
   $('#RoleTable').DataTable();
 </script>
-@endsection
-
-
-@section('IndividualScript')
-
 <script>
     $(function () {
         var OldControlCode = '<?php echo old('control_code_id'); ?>';

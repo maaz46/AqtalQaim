@@ -28,7 +28,8 @@ class MainController extends Controller
     #region DASHBOARD
     public function Dashboard()
     {
-        return view('Main.dashboard');
+        $project_categories = ProjectCategories::get();   
+        return view('Main.dashboard',['project_categories'=>$project_categories]);
     }
     #endregion
 
@@ -631,9 +632,9 @@ class MainController extends Controller
         $pages = Pages::get();
         $user_categories = UserCategories::get();
 
-        $users = Users::join('projects AS P','users.project_id','=','P.project_id','left')->join('user_categories as UC','users.user_category_id','=','UC.user_category_id','left')->get(['users.user_id','users.full_name','users.user_name','users.email','users.cell','users.block_yn','users.can_change_year','P.project_name','UC.user_category_name']);
+        $users = Users::join('projects AS P', 'users.project_id', '=', 'P.project_id', 'left')->join('user_categories as UC', 'users.user_category_id', '=', 'UC.user_category_id', 'left')->get(['users.user_id', 'users.full_name', 'users.user_name', 'users.email', 'users.cell', 'users.block_yn', 'users.can_change_year', 'P.project_name', 'UC.user_category_name']);
         // var_dump($users);
-        return view('Main.users', ['users'=>$users,'roles' => $roles, 'projects' => $projects, 'pages' => $pages, 'user_categories' => $user_categories]);
+        return view('Main.users', ['users' => $users, 'roles' => $roles, 'projects' => $projects, 'pages' => $pages, 'user_categories' => $user_categories]);
     }
 
 
@@ -685,7 +686,7 @@ class MainController extends Controller
                     $datatoadd[$key]['has_access'] = "1";
                 endif;
             endforeach;
-            UserRolePageMapping::upsert($datatoadd, ['page_id', 'user_id','has_access','role_id']);
+            UserRolePageMapping::upsert($datatoadd, ['page_id', 'user_id', 'has_access', 'role_id']);
 
             $req->session()->flash('status', 'User Added Successfully');
 
@@ -701,19 +702,49 @@ class MainController extends Controller
     {
         $roles = Roles::get();
         $projects = Projects::get();
+        $pages = Pages::get();
+        $user_categories = UserCategories::get();
+        $user_role_page_mapping = UserRolePageMapping::where(['user_id' => $req->UserID])->get();
         $result = Users::where(['user_id' => $req->UserID])->first();
-        return view('Main.edit_users', ['roles' => $roles, 'projects' => $projects, 'result' => $result]);
+        return view('Main.edit_users', ['result' => $result, 'roles' => $roles, 'projects' => $projects, 'pages' => $pages, 'user_categories' => $user_categories, 'user_role_page_mapping' => $user_role_page_mapping]);
     }
 
     public function UpdateUser(Request $req)
     {
-        $validatedData = $req->validate([
-            'user_name' => ['required'],
-            'project_id' => ['required'],
-            'role_id' => ['required']
-        ]);
+        // $validatedData = $req->validate([
+        //     'user_name' => ['required'],
+        //     'project_id' => ['required'],
+        //     'role_id' => ['required']
+        // ]);
 
-        if (Users::where(['user_id' => $req->user_id])->update(['user_name' => $req->user_name, 'role_id' => $req->role_id, 'project_id' => $req->project_id])) :
+
+        $DataToUpdate = [
+            'full_name' => $req->full_name,
+            'user_name' => $req->user_name,
+            'email' => $req->email,
+            'cell' => $req->cell,
+            'block_yn' => $req->block_yn,
+            'can_change_year' => $req->can_change_year,
+        ];
+        if (Users::where(['user_id' => $req->user_id])->update($DataToUpdate)) :
+            foreach ($req->user_role_page_mapping as $key => $item) :
+                $user_role_page_mapping_id = $item['user_role_page_mapping_id'];
+                if (array_key_exists('page_id', $item)) :
+                    $MappingDataToUpdate = [
+                        'role_id' => $item['role_id'],
+                        'page_id' => $item['page_id'],
+                        'has_access' => "1"
+                    ];
+                else :
+                    $MappingDataToUpdate = [
+                        'role_id' => null,
+                        'has_access' => "0"
+                    ];
+                endif;
+
+                UserRolePageMapping::where(['user_role_page_mapping_id' => $user_role_page_mapping_id])->update($MappingDataToUpdate);
+
+            endforeach;
             $req->session()->flash('status', 'User Update Successfully');
         else :
             $req->session()->flash('status', 'Some Error Occured');
@@ -744,6 +775,16 @@ class MainController extends Controller
     }
 
     #endregion
+
+    #region GET PROJECTS BY PROJECT CATEGORY ID
+
+    public function GetProjectsByProjectCategoryID(Request $req)
+    {
+        $result = Projects::where(['project_category_id' => $req->ProjectCategoryID])->get();
+        return response()->json($result);
+    }
+
+    #endregion GET PROJECTS BY PROJECT CATEGORY ID
 
     #region CHART OF ACCOUNTS
     public function ChartOfAccounts()
