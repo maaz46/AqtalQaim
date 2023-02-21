@@ -63,7 +63,7 @@
   </div>
 </form>
 
-<table id="RoleTable" class="table">
+<table id="RoleTable" class="table table-responsive-sm">
   <thead class="thead-dark">
     <th>Category Code</th>
     <th>Category Name</th>

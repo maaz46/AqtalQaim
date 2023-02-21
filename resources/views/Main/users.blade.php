@@ -28,7 +28,7 @@
 
                         <div class="col-md-6">
                               <div class="form">
-                                    <label class="weight" style="margin-right:118px;">Full Name</label>
+                                    <label class="weight" style="margin-right:84px;">Full Name</label>
                                     <input type="text" name="full_name" required class="Maintype"><br>
 
                                     <label class="weight" style="margin-right:82px;">Username</label>
@@ -128,7 +128,7 @@
 
 
                                     <div class="sel">
-                                          <label class="weight" style="margin-right:30px;">User Category</label>
+                                          <label class="weight" style="margin-right:54px;">User Category</label>
                                           <select id="user_category_id" class="Maintype" name="user_category_id" style="color: white;">
                                                 @if(count($user_categories)>0)
                                                 @foreach($user_categories as $key=>$item)
@@ -179,7 +179,7 @@
       </div>
 </form>
 
-<table id="RoleTable" class="table">
+<table id="RoleTable" class="table table-responsive-sm">
       <thead class="thead-dark">
             <th>Name</th>
             <th>User Name</th>

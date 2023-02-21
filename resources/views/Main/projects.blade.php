@@ -36,7 +36,7 @@
     </div>
 </form>
 
-<table id="RoleTable" class="table">
+<table id="RoleTable" class="table table-responsive-sm">
     <thead class="thead-dark">
         <th>Project Name</th>
         <th>Project Category</th>
