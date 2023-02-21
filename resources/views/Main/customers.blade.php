@@ -2,7 +2,7 @@
 
 @section('MainSection')
 
-<h2 style="color:black;">SUPPLIERS</h2>
+<h2 style="color:black;">CUSTOMER</h2>
 
 <form action="/Customers" method="post">
   @csrf
