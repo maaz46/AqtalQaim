@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'CheckSession' => \Illuminate\Auth\Middleware\CheckSession::class,
         'PagesAccess' => \App\Http\Middleware\PagesAccess::class,
+        'PageActionAccess' => \App\Http\Middleware\PageActionAccess::class,
     ];
 }

@@ -29,6 +29,10 @@
         if($item['has_access']=="0"):
             echo '.PageID_'.$item['page_id'].'{display:none !important} ';
         endif;
+
+        if($item['has_right']=="0"):
+            echo '.PageIDAction_'.$item['page_id'].'_'.$item['right_id'].'{display:none !important} ';
+        endif;
         endforeach;
         @endphp;
     </style>

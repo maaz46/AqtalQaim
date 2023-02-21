@@ -35,7 +35,7 @@ Route::middleware([CheckSession::class])->group(function () {
         #region GROUP TYPES
         Route::get('/GroupTypes', [MainController::class, 'GroupTypes']);
         Route::post('/GroupTypes', [MainController::class, 'AddGroupType']);
-        Route::get('/EditGroupType/{GroupTypeID}', [MainController::class, 'EditGroupType']);
+        Route::get('/EditGroupType/{GroupTypeID}', [MainController::class, 'EditGroupType'])->middleware('PageActionAccess:3:1');
         Route::post('/UpdateGroupType', [MainController::class, 'UpdateGroupType']);
         Route::get('/DeleteGroupType/{GroupTypeID}', [MainController::class, 'DeleteGroupType']);
 

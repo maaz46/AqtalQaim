@@ -30,9 +30,9 @@
         @endphp
         <tr>
             <td>{{$item->group_type}}</td>
-            <td style="text-align:center;"><a href="/EditGroupType/{{$item->group_type_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+            <td style="text-align:center;"><a href="/EditGroupType/{{$item->group_type_id}}" class="PageIDAction_3_1"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
             <td style="text-align:center;"><a
-                    href="/DeleteGroupType/{{$item->group_type_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
+                    href="/DeleteGroupType/{{$item->group_type_id}}" class="PageIDAction_3_2"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
         </tr>
         @php
         endforeach;
