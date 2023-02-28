@@ -149,6 +149,16 @@ Route::middleware([CheckSession::class])->group(function () {
         Route::get('/DeleteCustomer/{CustomerID}', [MainController::class, 'DeleteCustomer']);
         #endregion CUSTOMERS
 
+
+
+        #region CUSTOMERS
+        Route::get('/BankVouchers', [MainController::class, 'BankVouchers']);
+        Route::post('/BankVouchers', [MainController::class, 'AddBankVoucher']);
+        Route::get('/EditBankVoucher/{BankVoucherID}', [MainController::class, 'EditBankVoucher']);
+        Route::post('/UpdateBankVoucher', [MainController::class, 'UpdateBankVoucher']);
+        Route::get('/DeleteBankVoucher/{BankVoucherID}', [MainController::class, 'DeleteBankVoucher']);
+        #endregion CUSTOMERS
+
     });
 
 
