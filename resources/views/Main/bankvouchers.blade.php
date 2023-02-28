@@ -57,7 +57,7 @@
     </div>
   </div>
 
-  <div class="aboot2">
+  <div class="aboot3">
     <div class="container">
       <div class="row">
 
@@ -66,11 +66,17 @@
         
           
         </div>
-        <div class="col-md-6">
-        <form>
-          <label>BPV</label>
-          <
-        </form>
+        <div class="col-md-12" style="margin-top:80px;">
+        <div class="form">
+          <label class="weight" style="margin-right: 96px;">BPV</label>
+          <input type="text" name="text" class="type7" style="margin-bottom:20px;" >
+          <label class="weight" style="margin-left:100px;">Date</label>
+          <input type="date" class="type6"><br>
+          <label class="weight">Cheque Number</label>
+          <input type="text" name ="text" class="type7" >
+          <label class="weight" style="margin-left:100px ">Cheque Date</label>
+          <input type="date" class="type6"><br>
+</div>
         </div>
       </div>
     </div>
