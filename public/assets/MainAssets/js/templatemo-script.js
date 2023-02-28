@@ -7,9 +7,9 @@ $(document).ready(function () {
 
     /*************** Navigation *****************/
 
-    $("#tm-main-nav").singlePageNav({
+    /*$("#tm-main-nav").singlePageNav({
         filter: ':not(.external)'
-    });
+    });*/
 
     $(".navbar-toggler").on("click", function(e) {
         $(".tm-sidebar").toggleClass("show");
