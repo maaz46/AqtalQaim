@@ -81,6 +81,7 @@ display: block;
 .message {
    
     margin-right: 10px;
+	z-index: 99;
 }
 .dropdown {
     position: absolute;
@@ -426,6 +427,9 @@ a.tm-paging-link:hover {
 	.tm-paging {
 		max-width: 290px;
 		flex-wrap: wrap;
+	}
+	.header2{
+		margin-bottom: 80px;
 	}
 span#tet {
     display: none;

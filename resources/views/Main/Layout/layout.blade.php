@@ -73,14 +73,7 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item PageID_5">
-                                <a href="#" class="nav-link current">
-                                    <div class="triangle-right"></div>
-                                    <img src="{{asset('assets/MainAssets/img/statistics.png')}}" width="30px"
-                                        style="margin-right: 12px;">
-                                    <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">REPORT</span>
-                                </a>
-                            </li>
+                           
 
 
                             <li class="nav-item PageID_3">
@@ -94,6 +87,10 @@
                                 </a>
                                 <div class="item">
                                     <ul>
+                                    <li><a href="/ProjectCategories">Project Categories</a></li>
+                                        <hr class="dropdown-divider">
+                                        <li><a href="/Projects">Projects</a></li>
+                                        <hr class="dropdown-divider">
                                         <li><a href="/GroupTypes">Group Types</a></li>
                                         <hr class="dropdown-divider">
                                         <li><a href="/GroupCodes">Group Codes</a></li>
@@ -103,13 +100,12 @@
                                         <li><a href="/ControlCodes">Control Codes</a></li>
                                         <hr class="dropdown-divider">
                                         <li><a href="/ChartOfAccounts">Chart Of Accounts</a></li>
-                                        <hr class="dropdown-divider">
-                                        <li><a href="/ProjectCategories">Project Categories</a></li>
-                                        <hr class="dropdown-divider">
-                                        <li><a href="/Projects">Projects</a></li>
+                                        
+                                        
                                     </ul>
                                 </div>
                             </li>
+                            
                             <li class="nav-item PageID_4">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
@@ -118,6 +114,27 @@
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">FINANCE<i class="fas fa-angle-right icon"></i></span>
 
 
+                                </a>
+                                <div class="item">
+                                    <ul>
+                                        <li>Bank Payment Voucher</li>
+                                        <hr class="dropdown-divider">
+                                        <li>Bank Receipt Voucher</li>
+                                        <hr class="dropdown-divider">
+                                        <li>Cash Payment Voucher</li>
+                                        <hr class="dropdown-divider">
+                                        <li>Cash Receipt Voucher</li>
+                                        <hr class="dropdown-divider">
+                                        <li>Journal Voucher</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item PageID_5">
+                                <a href="#" class="nav-link current">
+                                    <div class="triangle-right"></div>
+                                    <img src="{{asset('assets/MainAssets/img/statistics.png')}}" width="30px"
+                                        style="margin-right: 12px;">
+                                    <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">REPORT<i class="fas fa-angle-right icon"></i></span>
                                 </a>
                                 <div class="item">
                                     <ul>
@@ -304,7 +321,7 @@
     <!-- https://dimsemenov.com/plugins/magnific-popup/ -->
     <script src="{{asset('assets/MainAssets/slick/slick.min.js')}}"></script>
     <!-- https://kenwheeler.github.io/slick/ -->
-    <!-- <script src="{{asset('assets/MainAssets/js/templatemo-script.js')}}"></script> -->
+    <script src="{{asset('assets/MainAssets/js/templatemo-script.js')}}"></script> -->
     @yield('IndividualScript')
     <script type="text/javascript">
         $(document).ready(function(){
