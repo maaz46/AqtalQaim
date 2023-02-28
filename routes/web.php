@@ -45,27 +45,27 @@ Route::middleware([CheckSession::class])->group(function () {
         #region GROUP CODES
         Route::get('/GroupCodes', [MainController::class, 'GroupCodes']);
         Route::post('/GroupCodes', [MainController::class, 'AddGroupCode']);
-        Route::get('/EditGroupCode/{GroupCodeID}', [MainController::class, 'EditGroupCode']);
-        Route::post('/UpdateGroupCode', [MainController::class, 'UpdateGroupCode']);
-        Route::get('/DeleteGroupCode/{GroupCodeID}', [MainController::class, 'DeleteGroupCode']);
+        Route::get('/EditGroupCode/{GroupCodeID}', [MainController::class, 'EditGroupCode'])->middleware('PageActionAccess:3,1');
+        Route::post('/UpdateGroupCode', [MainController::class, 'UpdateGroupCode'])->middleware('PageActionAccess:3,1');
+        Route::get('/DeleteGroupCode/{GroupCodeID}', [MainController::class, 'DeleteGroupCode'])->middleware('PageActionAccess:3,2');
         #endregion GROUP CODES
 
 
         #region CONTROL TYPES
         Route::get('/ControlTypes', [MainController::class, 'ControlTypes']);
         Route::post('/ControlTypes', [MainController::class, 'AddControlType']);
-        Route::get('/EditControlType/{ControlTypeID}', [MainController::class, 'EditControlType']);
-        Route::post('/UpdateControlType', [MainController::class, 'UpdateControlType']);
-        Route::get('/DeleteControlType/{ControlTypeID}', [MainController::class, 'DeleteControlType']);
+        Route::get('/EditControlType/{ControlTypeID}', [MainController::class, 'EditControlType'])->middleware('PageActionAccess:3,1');
+        Route::post('/UpdateControlType', [MainController::class, 'UpdateControlType'])->middleware('PageActionAccess:3,1');
+        Route::get('/DeleteControlType/{ControlTypeID}', [MainController::class, 'DeleteControlType'])->middleware('PageActionAccess:3,2');
         #endregion CONTROL TYPES
 
 
         #region CONTROL CODES
         Route::get('/ControlCodes', [MainController::class, 'ControlCodes']);
         Route::post('/ControlCodes', [MainController::class, 'AddControlCode']);
-        Route::get('/EditControlCode/{ControlCodeID}', [MainController::class, 'EditControlCode']);
-        Route::post('/UpdateControlCode', [MainController::class, 'UpdateControlCode']);
-        Route::get('/DeleteControlCode/{ControlCodeID}', [MainController::class, 'DeleteControlCode']);
+        Route::get('/EditControlCode/{ControlCodeID}', [MainController::class, 'EditControlCode'])->middleware('PageActionAccess:3,1');
+        Route::post('/UpdateControlCode', [MainController::class, 'UpdateControlCode'])->middleware('PageActionAccess:3,1');
+        Route::get('/DeleteControlCode/{ControlCodeID}', [MainController::class, 'DeleteControlCode'])->middleware('PageActionAccess:3,2');
         #endregion CONTROL CODES
 
 
@@ -73,18 +73,18 @@ Route::middleware([CheckSession::class])->group(function () {
         #region CHART OF ACCOUNTS
         Route::get('/ChartOfAccounts', [MainController::class, 'ChartOfAccounts']);
         Route::post('/ChartOfAccounts', [MainController::class, 'AddChartOfAccount']);
-        Route::get('/EditChartOfAccount/{ChartOfAccountID}', [MainController::class, 'EditChartOfAccount']);
-        Route::post('/UpdateChartOfAccount', [MainController::class, 'UpdateChartOfAccount']);
-        Route::get('/DeleteChartOfAccount/{ChartOfAccountID}', [MainController::class, 'DeleteChartOfAccount']);
+        Route::get('/EditChartOfAccount/{ChartOfAccountID}', [MainController::class, 'EditChartOfAccount'])->middleware('PageActionAccess:3,1');
+        Route::post('/UpdateChartOfAccount', [MainController::class, 'UpdateChartOfAccount'])->middleware('PageActionAccess:3,1');
+        Route::get('/DeleteChartOfAccount/{ChartOfAccountID}', [MainController::class, 'DeleteChartOfAccount'])->middleware('PageActionAccess:3,2');
         #endregion CONTROL CODES
 
 
         #region PROJECT CATEGORIES
         Route::get('/ProjectCategories', [MainController::class, 'ProjectCategories']);
         Route::post('/ProjectCategories', [MainController::class, 'AddProjectCategory']);
-        Route::get('/EditProjectCategory/{ProjectCategoryID}', [MainController::class, 'EditProjectCategory']);
-        Route::post('/UpdateProjectCategory', [MainController::class, 'UpdateProjectCategory']);
-        Route::get('/DeleteProjectCategory/{ProjectCategoryID}', [MainController::class, 'DeleteProjectCategory']);
+        Route::get('/EditProjectCategory/{ProjectCategoryID}', [MainController::class, 'EditProjectCategory'])->middleware('PageActionAccess:3,1');
+        Route::post('/UpdateProjectCategory', [MainController::class, 'UpdateProjectCategory'])->middleware('PageActionAccess:3,1');
+        Route::get('/DeleteProjectCategory/{ProjectCategoryID}', [MainController::class, 'DeleteProjectCategory'])->middleware('PageActionAccess:3,2');
         #endregion PROJECT TYPES
 
 
@@ -92,9 +92,9 @@ Route::middleware([CheckSession::class])->group(function () {
         #region PROJECTS
         Route::get('/Projects', [MainController::class, 'Projects']);
         Route::post('/Projects', [MainController::class, 'AddProject']);
-        Route::get('/EditProject/{ProjectID}', [MainController::class, 'EditProject']);
-        Route::post('/UpdateProject', [MainController::class, 'UpdateProject']);
-        Route::get('/DeleteProject/{ProjectID}', [MainController::class, 'DeleteProject']);
+        Route::get('/EditProject/{ProjectID}', [MainController::class, 'EditProject'])->middleware('PageActionAccess:3,1');
+        Route::post('/UpdateProject', [MainController::class, 'UpdateProject'])->middleware('PageActionAccess:3,1');
+        Route::get('/DeleteProject/{ProjectID}', [MainController::class, 'DeleteProject'])->middleware('PageActionAccess:3,2');
         #endregion PROJECTS
 
     });
@@ -110,60 +110,71 @@ Route::middleware([CheckSession::class])->group(function () {
         #region ROLES
         Route::get('/Roles', [MainController::class, 'Roles']);
         Route::post('/Roles', [MainController::class, 'AddRole']);
-        Route::get('/EditRole/{RoleID}', [MainController::class, 'EditRole']);
-        Route::post('/UpdateRole', [MainController::class, 'UpdateRole']);
-        Route::get('/DeleteRole/{RoleID}', [MainController::class, 'DeleteRole']);
+        Route::get('/EditRole/{RoleID}', [MainController::class, 'EditRole'])->middleware('PageActionAccess:6,1');
+        Route::post('/UpdateRole', [MainController::class, 'UpdateRole'])->middleware('PageActionAccess:6,1');
+        Route::get('/DeleteRole/{RoleID}', [MainController::class, 'DeleteRole'])->middleware('PageActionAccess:6,2');
         #endregion ROLES
 
 
         #region USERS
         Route::get('/Users', [MainController::class, 'Users']);
         Route::post('/Users', [MainController::class, 'AddUser']);
-        Route::get('/EditUser/{UserID}', [MainController::class, 'EditUser']);
-        Route::post('/UpdateUser', [MainController::class, 'UpdateUser']);
-        Route::get('/DeleteUser/{UserID}', [MainController::class, 'DeleteUser']);
+        Route::get('/EditUser/{UserID}', [MainController::class, 'EditUser'])->middleware('PageActionAccess:6,1');
+        Route::post('/UpdateUser', [MainController::class, 'UpdateUser'])->middleware('PageActionAccess:6,1');
+        Route::get('/DeleteUser/{UserID}', [MainController::class, 'DeleteUser'])->middleware('PageActionAccess:6,2');
         #endregion USERS
 
         #region USERS CATEGORIES
         Route::get('/UserCategories', [MainController::class, 'UserCategories']);
         Route::post('/UserCategories', [MainController::class, 'AddUserCategory']);
-        Route::get('/EditUserCategory/{UserCategoryID}', [MainController::class, 'EditUserCategory']);
-        Route::post('/UpdateUserCategory', [MainController::class, 'UpdateUserCategory']);
-        Route::get('/DeleteUserCategory/{UserCategoryID}', [MainController::class, 'DeleteUserCategory']);
+        Route::get('/EditUserCategory/{UserCategoryID}', [MainController::class, 'EditUserCategory'])->middleware('PageActionAccess:6,1');
+        Route::post('/UpdateUserCategory', [MainController::class, 'UpdateUserCategory'])->middleware('PageActionAccess:6,1');
+        Route::get('/DeleteUserCategory/{UserCategoryID}', [MainController::class, 'DeleteUserCategory'])->middleware('PageActionAccess:6,2');
         #endregion USERS CATEGORIES
 
         #region SUPPLIERS
         Route::get('/Suppliers', [MainController::class, 'Suppliers']);
         Route::post('/Suppliers', [MainController::class, 'AddSupplier']);
-        Route::get('/EditSupplier/{SupplierID}', [MainController::class, 'EditSupplier']);
-        Route::post('/UpdateSupplier', [MainController::class, 'UpdateSupplier']);
-        Route::get('/DeleteSupplier/{SupplierID}', [MainController::class, 'DeleteSupplier']);
+        Route::get('/EditSupplier/{SupplierID}', [MainController::class, 'EditSupplier'])->middleware('PageActionAccess:6,1');
+        Route::post('/UpdateSupplier', [MainController::class, 'UpdateSupplier'])->middleware('PageActionAccess:6,1');
+        Route::get('/DeleteSupplier/{SupplierID}', [MainController::class, 'DeleteSupplier'])->middleware('PageActionAccess:6,2');
         #endregion SUPPLIERS
 
 
         #region CUSTOMERS
         Route::get('/Customers', [MainController::class, 'Customers']);
         Route::post('/Customers', [MainController::class, 'AddCustomer']);
-        Route::get('/EditCustomer/{CustomerID}', [MainController::class, 'EditCustomer']);
-        Route::post('/UpdateCustomer', [MainController::class, 'UpdateCustomer']);
-        Route::get('/DeleteCustomer/{CustomerID}', [MainController::class, 'DeleteCustomer']);
+        Route::get('/EditCustomer/{CustomerID}', [MainController::class, 'EditCustomer'])->middleware('PageActionAccess:6,1');
+        Route::post('/UpdateCustomer', [MainController::class, 'UpdateCustomer'])->middleware('PageActionAccess:6,1');
+        Route::get('/DeleteCustomer/{CustomerID}', [MainController::class, 'DeleteCustomer'])->middleware('PageActionAccess:6,2');
         #endregion CUSTOMERS
 
 
 
-        #region CUSTOMERS
-        Route::get('/BankVouchers', [MainController::class, 'BankVouchers']);
-        Route::post('/BankVouchers', [MainController::class, 'AddBankVoucher']);
-        Route::get('/EditBankVoucher/{BankVoucherID}', [MainController::class, 'EditBankVoucher']);
-        Route::post('/UpdateBankVoucher', [MainController::class, 'UpdateBankVoucher']);
-        Route::get('/DeleteBankVoucher/{BankVoucherID}', [MainController::class, 'DeleteBankVoucher']);
-        #endregion CUSTOMERS
+       
 
     });
 
 
+
+
     #endregion MANAGEMENT
 
+
+    #region FINANCE
+    
+    Route::middleware('PagesAccess:4')->group(function () {
+
+        #region BANKVOUCHERS
+        Route::get('/BankVouchers', [MainController::class, 'BankVouchers']);
+        Route::post('/BankVouchers', [MainController::class, 'AddBankVoucher']);
+        Route::get('/EditBankVoucher/{BankVoucherID}', [MainController::class, 'EditBankVoucher'])->middleware('PageActionAccess:4,1');
+        Route::post('/UpdateBankVoucher', [MainController::class, 'UpdateBankVoucher'])->middleware('PageActionAccess:4,1');
+        Route::get('/DeleteBankVoucher/{BankVoucherID}', [MainController::class, 'DeleteBankVoucher'])->middleware('PageActionAccess:4,2');
+        #endregion BANKVOUCHERS
+           });
+       
+    #endregion FINANCE
 
     #region AJAX
 
