@@ -290,9 +290,26 @@ label.weight {
   padding: 20px 0px 10px 0px;
 }
 .aboot3{
+   
+    margin-bottom: 80px;
     margin-top: 20px;
 }
-
+.aboot4{
+    margin-top: 80px;
+}
+.arrange{
+    margin-left: 550px;
+        margin-top: -116px;
+}
+.sel {
+    background: none;
+    width: 100%;
+  }
+  .bot {
+    border: antiquewhite;
+    border-bottom: 2px solid;
+    width: 70%;
+  }
 
 /*mobile responsive*/
 @media screen and (max-width: 600px) {
@@ -312,6 +329,14 @@ label.weight {
     margin-right: 15px;
     border-radius: 4px;
 }
+.bet1 {
+    background: #0ff;
+    border: #0ff solid;
+    padding: 4px 18px;
+    margin-right: 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
 .div1{
     width: auto;
     padding-bottom: 20px;
@@ -404,6 +429,16 @@ padding: 0px;
     color: white;
     margin-top: 0px;
 }
+.type7 {
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 80%;
+    margin-left: 50px;
+    color: white;
+  }
 .type8 #group_code_id {
     padding: 12px 10px;
     background: black;
@@ -440,7 +475,10 @@ padding-left: 0px;
   .form-check-label {
     margin-right: 280px;
   }
-
+  .arrange {
+    margin-left: 0px;
+    margin-top: 0px;
+  }
 
 
 }

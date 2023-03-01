@@ -116,6 +116,13 @@ width: 120px;
 margin-top: -120px;
 
 }
+.pikss{
+
+	float: right; 
+	width: 120px; 
+	margin-top: -120px;
+	
+	}
 .piks2{
 
 width:850px;
@@ -431,6 +438,12 @@ a.tm-paging-link:hover {
 	.header2{
 		margin-bottom: 80px;
 	}
+	.pikss {
+		float: none;
+		width: 100px;
+		margin-top: 0px;
+		margin-left: 35%;
+	  }
 span#tet {
     display: none;
 }
@@ -454,6 +467,18 @@ padding: 0px;
 
 h2{
 	font-size: 20px;
+}
+h3{
+	font-size: 18px;
+}
+h4{
+	font-size: 16px;
+}
+h5{
+	font-size: 14px;
+}
+h6{
+	font-size: 12px;
 }
 
 .ser{

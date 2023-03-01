@@ -7,7 +7,7 @@
      
 		<div class="first" style="text-decoration: 2px underline #006699;"><h2 class="tm-text-primary">AQT - Al Qaim Trust Pakistan</h2></div>
     <div class="second"><h3 class="tm-text-primary" style="color:black; font">Al Qaim Model School Khairpur</h3></div>
-		<img src="http://127.0.0.1:8000/assets/MainAssets/img/AQT Logo.PNG" class="piks">
+		<img src="http://127.0.0.1:8000/assets/MainAssets/img/AQT Logo.PNG" class="pikss">
 
 
     <div class="cont">
@@ -66,21 +66,79 @@
         
           
         </div>
-        <div class="col-md-12" style="margin-top:80px;">
+        <div class="aboot4">
+        <div class="col-md-12" >
         <div class="form">
           <label class="weight" style="margin-right: 96px;">BPV</label>
           <input type="text" name="text" class="type7" style="margin-bottom:20px;" >
-          <label class="weight" style="margin-left:100px;">Date</label>
-          <input type="date" class="type6"><br>
+          <br>
           <label class="weight">Cheque Number</label>
-          <input type="text" name ="text" class="type7" >
-          <label class="weight" style="margin-left:100px ">Cheque Date</label>
-          <input type="date" class="type6"><br>
-</div>
+          <input type="text" name ="text" class="type7" ><br>
+          <div class="arrange">
+          <label class="weight" style="margin-right:64px;">Date</label>
+          <input type="date" class="type5" style="margin-bottom:20px;"><br>
+          <label class="weight" style="">Cheque Date</label>
+          <input type="date" class="type5"><br></div>
+          </div>
         </div>
       </div>
     </div>
+    </div>
   </div>
+
+
+  <table id="RoleTable" class="table table-responsive-sm">
+  <thead class="thead-dark">
+    <th>A/C Code</th>
+    <th>A/C Descripton</th>
+    <th>Narration</th>
+    <th>Ref No.</th>
+    <th>Ref Date</th>
+    <th>Debit</th>
+    <th>Credit</th>
+    
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td>
+        <select name="A/c Description" class="sel">
+          <option value="A/c Description">
+          <option value="A/c Description">
+        </select>
+      </td>
+      <td>
+        <textarea id="message"></textarea>
+      </td>
+      <td>
+      <select name="Ref No." class="sel">
+          <option value="A/c Description">
+          <option value="A/c Description">
+        </select>
+      </td>
+      <td>
+        <input type="date">
+      </td>
+      <td></td>
+      <td></td>
+      
+    </tr>
+  </tbody>
+
+</table>
+
+
+<form style="margin-top:20px;">
+  <div class="col-8">
+  <label class="weight">Amount in Words:</label>
+  
+  <input type="text"  class="bot">
+  
+</div>
+
+</form>
+
+
 
 
 		</div>
