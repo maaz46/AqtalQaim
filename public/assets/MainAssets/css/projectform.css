@@ -301,6 +301,10 @@ label.weight {
     margin-left: 550px;
         margin-top: -116px;
 }
+.arrange1{
+    margin-left: 550px;
+        margin-top: -68px;
+}
 .sel {
     background: none;
     width: 100%;
@@ -476,6 +480,10 @@ padding-left: 0px;
     margin-right: 280px;
   }
   .arrange {
+    margin-left: 0px;
+    margin-top: 0px;
+  }
+  .arrange1 {
     margin-left: 0px;
     margin-top: 0px;
   }
