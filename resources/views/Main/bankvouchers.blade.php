@@ -72,7 +72,7 @@
           <label class="weight" style="margin-right: 96px;">BPV</label>
           <input type="text" name="text" class="type7" style="margin-bottom:20px;" >
           <br>
-          <label class="weight">Cheque Number</label>
+          <label class="weight" style="margin-right: 38px;" >Cheque No.</label>
           <input type="text" name ="text" class="type7" ><br>
           <div class="arrange">
           <label class="weight" style="margin-right:64px;">Date</label>
