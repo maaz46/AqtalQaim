@@ -189,7 +189,7 @@ Route::middleware([CheckSession::class])->group(function () {
         Route::get('/BankReceiptVouchers', [MainController::class, 'BankReceiptVouchers']);
         Route::post('/BankReceiptVouchers', [MainController::class, 'AddBankReceiptVoucher']);
         Route::get('/EditBankReceiptVoucher/{BankReceiptVoucherID}', [MainController::class, 'EditBankReceiptVoucher'])->middleware('PageActionAccess:4,1');
-        Route::post('/UpdateBankReceiptVoucher', [MainController::class, 'UpdateEditBankReceiptVoucher'])->middleware('PageActionAccess:4,1');
+        Route::post('/UpdateBankReceiptVoucher', [MainController::class, 'UpdateBankReceiptVoucher'])->middleware('PageActionAccess:4,1');
         Route::get('/DeleteBankReceiptVoucher/{BankReceiptVoucherID}', [MainController::class, 'DeleteBankReceiptVoucher'])->middleware('PageActionAccess:4,2');
         #endregion BANKRECEIPTVOUCHERS
 
@@ -198,11 +198,41 @@ Route::middleware([CheckSession::class])->group(function () {
          Route::get('/CashReceiptVouchers', [MainController::class, 'CashReceiptVouchers']);
          Route::post('/CashReceiptVouchers', [MainController::class, 'AddCashReceiptVoucher']);
          Route::get('/EditCashReceiptVoucher/{CashReceiptVoucherID}', [MainController::class, 'EditCashReceiptVoucher'])->middleware('PageActionAccess:4,1');
-         Route::post('/UpdateCashReceiptVoucher', [MainController::class, 'UpdateEditCashReceiptVoucher'])->middleware('PageActionAccess:4,1');
+         Route::post('/UpdateCashReceiptVoucher', [MainController::class, 'UpdateCashReceiptVoucher'])->middleware('PageActionAccess:4,1');
          Route::get('/DeleteCashReceiptVoucher/{CashReceiptVoucherID}', [MainController::class, 'DeleteCashReceiptVoucher'])->middleware('PageActionAccess:4,2');
          #endregion CASHRECEIPTVOUCHERS
 
+
+         #region JOURNALVOUCHERS
+         Route::get('/JournalVouchers', [MainController::class, 'JournalVouchers']);
+         Route::post('/JournalVouchers', [MainController::class, 'AddJournalVoucher']);
+         Route::get('/EditJournalVoucher/{JournalVoucherID}', [MainController::class, 'EditJournalVoucher'])->middleware('PageActionAccess:4,1');
+         Route::post('/UpdateJournalVoucher', [MainController::class, 'UpdateJournalVoucher'])->middleware('PageActionAccess:4,1');
+         Route::get('/DeleteJournalVoucher/{JournalVoucherID}', [MainController::class, 'DeleteJournalVoucher'])->middleware('PageActionAccess:4,2');
+         #endregion JOURNALVOUCHERS
+
+
+         #region BILLS
+         Route::get('/Bills', [MainController::class, 'Bills']);
+         Route::post('/Bills', [MainController::class, 'AddBill']);
+         Route::get('/EditBill/{BillID}', [MainController::class, 'EditBill'])->middleware('PageActionAccess:4,1');
+         Route::post('/UpdateBill', [MainController::class, 'UpdateBill'])->middleware('PageActionAccess:4,1');
+         Route::get('/DeleteBill/{BillID}', [MainController::class, 'DeleteBill'])->middleware('PageActionAccess:4,2');
+         #endregion BILLS
+
+
+         #region INVOICES
+         Route::get('/Invoices', [MainController::class, 'Invoices']);
+         Route::post('/Invoices', [MainController::class, 'AddInvoice']);
+         Route::get('/EditInvoice/{InvoiceID}', [MainController::class, 'EditInvoice'])->middleware('PageActionAccess:4,1');
+         Route::post('/UpdateInvoice', [MainController::class, 'UpdateInvoice'])->middleware('PageActionAccess:4,1');
+         Route::get('/DeleteInvoice/{InvoiceID}', [MainController::class, 'DeleteInvoice'])->middleware('PageActionAccess:4,2');
+         #endregion INVOICES
+
+
+
            });
+           
        
     #endregion FINANCE
 

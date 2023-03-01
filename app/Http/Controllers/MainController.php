@@ -1164,4 +1164,34 @@ class MainController extends Controller
     #endregion CASHRECEIPTVOUCHER
 
 
+    #region JOURNALVOUCHERS
+
+    function JournalVouchers()
+    {
+        return view('Main.journalvouchers');
+    }
+
+    #endregion JOURNALVOUCHERS
+
+
+    #region BILLS
+
+    function Bills()
+    {
+        return view('Main.bills');
+    }
+
+    #endregion BILLS
+
+
+    #region INVOICES
+
+    function Invoices()
+    {
+        return view('Main.invoices');
+    }
+
+    #endregion INVOICES
+
+
 }
