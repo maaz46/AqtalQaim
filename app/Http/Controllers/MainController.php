@@ -1133,7 +1133,25 @@ class MainController extends Controller
         return view('Main.cashpaymentvouchers');
     }
 
-    #endregion BANKVOUCHER
+    #endregion CASHPAYMENTVOUCHER
+
+
+        #region BANKRECEIPTVOUCHER
+
+        function BankReceiptVouchers(){
+            return view('Main.bankreceiptvouchers');
+        }
+    
+        #endregion BANKRECEIPTVOUCHER
+
+
+        #region CASHRECEIPTVOUCHER
+
+        function CashReceiptVouchers(){
+            return view('Main.cashreceiptvouchers');
+        }
+    
+        #endregion CASHRECEIPTVOUCHER
 
 
 }

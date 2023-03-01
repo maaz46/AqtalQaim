@@ -182,6 +182,25 @@ Route::middleware([CheckSession::class])->group(function () {
         Route::get('/DeleteCashPaymentVoucher/{CashPaymentVoucherID}', [MainController::class, 'DeleteBankVoucher'])->middleware('PageActionAccess:4,2');
         #endregion CASHPAYMENTVOUCHERS
 
+
+
+        #region BANKRECEIPTVOUCHERS
+        Route::get('/BankReceiptVouchers', [MainController::class, 'BankReceiptVouchers']);
+        Route::post('/BankReceiptVouchers', [MainController::class, 'AddBankReceiptVoucher']);
+        Route::get('/EditBankReceiptVoucher/{BankReceiptVoucherID}', [MainController::class, 'EditBankReceiptVoucher'])->middleware('PageActionAccess:4,1');
+        Route::post('/UpdateBankReceiptVoucher', [MainController::class, 'UpdateEditBankReceiptVoucher'])->middleware('PageActionAccess:4,1');
+        Route::get('/DeleteBankReceiptVoucher/{BankReceiptVoucherID}', [MainController::class, 'DeleteBankReceiptVoucher'])->middleware('PageActionAccess:4,2');
+        #endregion BANKRECEIPTVOUCHERS
+
+
+         #region CASHRECEIPTVOUCHERS
+         Route::get('/CashReceiptVouchers', [MainController::class, 'CashReceiptVouchers']);
+         Route::post('/CashReceiptVouchers', [MainController::class, 'AddCashReceiptVoucher']);
+         Route::get('/EditCashReceiptVoucher/{CashReceiptVoucherID}', [MainController::class, 'EditCashReceiptVoucher'])->middleware('PageActionAccess:4,1');
+         Route::post('/UpdateCashReceiptVoucher', [MainController::class, 'UpdateEditCashReceiptVoucher'])->middleware('PageActionAccess:4,1');
+         Route::get('/DeleteCashReceiptVoucher/{CashReceiptVoucherID}', [MainController::class, 'DeleteCashReceiptVoucher'])->middleware('PageActionAccess:4,2');
+         #endregion CASHRECEIPTVOUCHERS
+
            });
        
     #endregion FINANCE
