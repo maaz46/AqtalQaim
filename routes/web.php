@@ -172,6 +172,16 @@ Route::middleware([CheckSession::class])->group(function () {
         Route::post('/UpdateBankVoucher', [MainController::class, 'UpdateBankVoucher'])->middleware('PageActionAccess:4,1');
         Route::get('/DeleteBankVoucher/{BankVoucherID}', [MainController::class, 'DeleteBankVoucher'])->middleware('PageActionAccess:4,2');
         #endregion BANKVOUCHERS
+
+
+        #region CASHPAYMENTVOUCHERS
+        Route::get('/CashPaymentVouchers', [MainController::class, 'CashPaymentVouchers']);
+        Route::post('/CashPaymentVouchers', [MainController::class, 'AddCashPaymentVoucher']);
+        Route::get('/EditCashPaymentVoucher/{CashPaymentVoucherID}', [MainController::class, 'EditCashPaymentVoucher'])->middleware('PageActionAccess:4,1');
+        Route::post('/UpdateCashPaymentVoucher', [MainController::class, 'UpdateCashPaymentVoucher'])->middleware('PageActionAccess:4,1');
+        Route::get('/DeleteCashPaymentVoucher/{CashPaymentVoucherID}', [MainController::class, 'DeleteBankVoucher'])->middleware('PageActionAccess:4,2');
+        #endregion CASHPAYMENTVOUCHERS
+
            });
        
     #endregion FINANCE
