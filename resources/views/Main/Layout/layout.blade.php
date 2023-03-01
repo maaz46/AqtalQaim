@@ -21,26 +21,29 @@
     <link rel="stylesheet" href="{{asset('assets/MainAssets/css/projectform.css')}}">
     @yield('IndividualStyle')
     @php
+    if(Session::get('is_admin')=="0"):
     $user_role_page_mapping_data = json_decode(Session::get('user_role_page_mapping_data'), true);
     @endphp
     <style>
-        @php
-        foreach($user_role_page_mapping_data as $key=>$item):
-        if($item['has_access']=="0"):
-            echo '.PageID_'.$item['page_id'].'{display:none !important} ';
-        endif;
+        @php 
+        foreach($user_role_page_mapping_data as $key=>$item): 
+            if($item['has_access']=="0"): 
+                echo '.PageID_' .$item['page_id'].'{display:none !important} ';
+            endif;
 
-        if($item['has_right']=="0"):
-            echo '.PageIDAction_'.$item['page_id'].'_'.$item['right_id'].'{display:none !important} ';
+        if($item['has_right']=="0"): 
+            echo '.PageIDAction_' .$item['page_id'].'_' .$item['right_id'].'{display:none !important} ';
         endif;
         endforeach;
         @endphp;
     </style>
-
+    @php
+    endif;
+    @endphp
 </head>
 
 <body>
-    
+
 
     <div class="container-fluid">
         <div class="row">
@@ -59,35 +62,32 @@
                             <li class="nav-item PageID_1">
                                 <a href="/Dashboard" class="nav-link current">
                                     <div class="triangle-right"></div>
-                                    <img src="{{asset('assets/MainAssets/img/icon_7-removebg-preview.png')}}"
-                                        width="35px" style="margin-right: 12px;">
+                                    <img src="{{asset('assets/MainAssets/img/icon_7-removebg-preview.png')}}" width="35px" style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">DASHBOARD</span>
                                 </a>
                             </li>
                             <li class="nav-item PageID_2">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
-                                    <img src="{{asset('assets/MainAssets/img/resume.png')}}" width="30px"
-                                        style="margin-right: 12px;">
+                                    <img src="{{asset('assets/MainAssets/img/resume.png')}}" width="30px" style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">MY PROFILE</span>
                                 </a>
                             </li>
 
-                           
+
 
 
                             <li class="nav-item PageID_3">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
 
-                                    <img src="{{asset('assets/MainAssets/img/browser.png')}}" width="30px"
-                                        style="margin-right: 12px;">
+                                    <img src="{{asset('assets/MainAssets/img/browser.png')}}" width="30px" style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">INITIAL SETUP<i class="fas fa-angle-right icon"></i></span>
 
                                 </a>
                                 <div class="item">
                                     <ul>
-                                    <li><a href="/ProjectCategories">Project Categories</a></li>
+                                        <li><a href="/ProjectCategories">Project Categories</a></li>
                                         <hr class="dropdown-divider">
                                         <li><a href="/Projects">Projects</a></li>
                                         <hr class="dropdown-divider">
@@ -104,17 +104,16 @@
                                         <li><a href="/Suppliers">Suppliers</a></li>
                                         <hr class="dropdown-divider">
                                         <li><a href="/Customers">Customers</a></li>
-                                        
-                                        
+
+
                                     </ul>
                                 </div>
                             </li>
-                            
+
                             <li class="nav-item PageID_4">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
-                                    <img src="{{asset('assets/MainAssets/img/business-and-finance.png')}}" width="30px"
-                                        style="margin-right: 12px;">
+                                    <img src="{{asset('assets/MainAssets/img/business-and-finance.png')}}" width="30px" style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">FINANCE<i class="fas fa-angle-right icon"></i></span>
 
 
@@ -136,8 +135,7 @@
                             <li class="nav-item PageID_5">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
-                                    <img src="{{asset('assets/MainAssets/img/statistics.png')}}" width="30px"
-                                        style="margin-right: 12px;">
+                                    <img src="{{asset('assets/MainAssets/img/statistics.png')}}" width="30px" style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">REPORT<i class="fas fa-angle-right icon"></i></span>
                                 </a>
                                 <div class="item">
@@ -154,13 +152,12 @@
                                     </ul>
                                 </div>
                             </li>
-                            
+
                             <li class="nav-item PageID_6">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
 
-                                    <img src="{{asset('assets/MainAssets/img/management.png')}}" width="30px"
-                                        style="margin-right: 12px;">
+                                    <img src="{{asset('assets/MainAssets/img/management.png')}}" width="30px" style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">MANAGEMENT<i class="fas fa-angle-right icon"></i></span>
 
                                 </a>
@@ -171,15 +168,14 @@
                                         <li><a href="/UserCategories">User Categories</a></li>
                                         <hr class="dropdown-divider">
                                         <li><a href="/Users">Users</a></li>
-                                       
+
                                     </ul>
                                 </div>
                             </li>
                             <li class="nav-item PageID_7">
                                 <a href="#" class="nav-link current">
                                     <div class="triangle-right"></div>
-                                    <img src="{{asset('assets/MainAssets/img/exam.png')}}" width="30px"
-                                        style="margin-right: 12px;">
+                                    <img src="{{asset('assets/MainAssets/img/exam.png')}}" width="30px" style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">AUDIT LOGS</span>
                                 </a>
                             </li>
@@ -188,8 +184,7 @@
                             <li class="nav-item">
                                 <a href="/Logout" class="nav-link current">
                                     <div class="triangle-right"></div>
-                                    <img src="{{asset('assets/MainAssets/img/log-out.png')}}" width="30px"
-                                        style="margin-right: 12px;">
+                                    <img src="{{asset('assets/MainAssets/img/log-out.png')}}" width="30px" style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">LOGOUT</span>
                                 </a>
                             </li>
@@ -325,14 +320,14 @@
     <script src="{{asset('assets/MainAssets/js/templatemo-script.js')}}"></script> -->
     @yield('IndividualScript')
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function() {
 
-            $('.nav-link').click(function(){
-              $(this).next('.item').slideToggle();
-              $(this).find('.icon').toggleClass('rotate');
+            $('.nav-link').click(function() {
+                $(this).next('.item').slideToggle();
+                $(this).find('.icon').toggleClass('rotate');
 
-                });
-        
+            });
+
         });
     </script>
 </body>

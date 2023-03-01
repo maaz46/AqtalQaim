@@ -17,14 +17,16 @@ class PageActionAccess
     public function handle(Request $request, Closure $next, $PageID, $ActionID)
     {
         $user_role_page_mapping_data = json_decode($request->session()->get('user_role_page_mapping_data'), true);
-        foreach($user_role_page_mapping_data as $key=>$item):
-            if($item['page_id']==$PageID && $item['right_id']==$ActionID):
-                if($item['has_right']=="0"):
-                    echo 'Forbidden';
-                    exit;
+        if ($request->session()->get('is_admin') == "0") :
+            foreach ($user_role_page_mapping_data as $key => $item) :
+                if ($item['page_id'] == $PageID && $item['right_id'] == $ActionID) :
+                    if ($item['has_right'] == "0") :
+                        echo 'Forbidden';
+                        exit;
+                    endif;
                 endif;
-            endif;
-        endforeach;
+            endforeach;
+        endif;
         return $next($request);
     }
 }

@@ -26,11 +26,17 @@ use Illuminate\Support\Facades\Hash;
 class MainController extends Controller
 {
     #region DASHBOARD
-    public function Dashboard()
+    public function Dashboard($project_id = null)
     {
-        $project_categories = ProjectCategories::get();   
-        return view('Main.dashboard',['project_categories'=>$project_categories]);
+        if ($project_id == null) {
+            $project_categories = ProjectCategories::get();
+            return view('Main.admindashboard', ['project_categories' => $project_categories]);
+        }else{
+            $result = Projects::where(['project_id'=>$project_id])->first();
+            return view('Main.projectdashboard',['result'=>$result]);
+        }
     }
+
     #endregion
 
 
@@ -1120,7 +1126,8 @@ class MainController extends Controller
 
     #region BANKVOUCHER
 
-    function BankVouchers(){
+    function BankVouchers()
+    {
         return view('Main.bankvouchers');
     }
 
@@ -1129,29 +1136,32 @@ class MainController extends Controller
 
     #region CASHPAYMENTVOUCHER
 
-    function CashPaymentVouchers(){
+    function CashPaymentVouchers()
+    {
         return view('Main.cashpaymentvouchers');
     }
 
     #endregion CASHPAYMENTVOUCHER
 
 
-        #region BANKRECEIPTVOUCHER
+    #region BANKRECEIPTVOUCHER
 
-        function BankReceiptVouchers(){
-            return view('Main.bankreceiptvouchers');
-        }
-    
-        #endregion BANKRECEIPTVOUCHER
+    function BankReceiptVouchers()
+    {
+        return view('Main.bankreceiptvouchers');
+    }
+
+    #endregion BANKRECEIPTVOUCHER
 
 
-        #region CASHRECEIPTVOUCHER
+    #region CASHRECEIPTVOUCHER
 
-        function CashReceiptVouchers(){
-            return view('Main.cashreceiptvouchers');
-        }
-    
-        #endregion CASHRECEIPTVOUCHER
+    function CashReceiptVouchers()
+    {
+        return view('Main.cashreceiptvouchers');
+    }
+
+    #endregion CASHRECEIPTVOUCHER
 
 
 }

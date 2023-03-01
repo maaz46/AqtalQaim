@@ -27,6 +27,7 @@ Route::middleware([CheckSession::class])->group(function () {
 
 
     Route::get('/Dashboard', [MainController::class, 'Dashboard'])->middleware('PagesAccess:1');
+    Route::get('/Dashboard/{ProjectID}', [MainController::class, 'Dashboard'])->middleware('PagesAccess:1');
 
     Route::get('/SelectProject', [AuthController::class, 'SelectProject']);
 
