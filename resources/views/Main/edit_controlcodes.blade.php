@@ -2,6 +2,7 @@
 
 @section('MainSection')
 
+
 <form action="/UpdateControlCode" method="POST">
     @csrf
 

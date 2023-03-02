@@ -1,8 +1,26 @@
 @extends('Main.Layout.layout')
 
 @section('MainSection')
+
+<h2 style="color:black; text-transform:uppercase;">Chart Of Accounts</h2>
+
 <form action="/ChartOfAccounts" method="POST">
     @csrf
+    <div class="about1">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="buttton">
+            <button class=bet>New</button>
+            <button class=bet type="submit">Save</button>
+            <button class=bet>Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <div class="form-group">
         <label for="" style="margin-right:38px">Chart Of Account*</label>
         <input type="text" class="type5" value="{{old('chart_of_account')}}" name="chart_of_account">

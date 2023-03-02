@@ -2,10 +2,28 @@
 
 @section('MainSection')
 
+<h2 style="color:black; text-transform:uppercase;">Control Types</h2>
+
 <form action="/ControlTypes" method="POST">
     @csrf
+
+    <div class="about1">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="buttton">
+            <button class=bet>New</button>
+            <button class=bet type="submit">Save</button>
+            <button class=bet>Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <div class="form-group">
-        <h2>Control Types</h2>
+        
         <label for="">Control Type</label>
     <input type="text" class="type5" placeholder="Enter Control Type" name="control_type">
     @error('control_type')
