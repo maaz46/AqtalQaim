@@ -70,7 +70,7 @@
         <div class="col-md-12" >
         <div class="form">
           <label class="weight" style="margin-right: 96px;">INV</label>
-          <input type="text" name="text" class="type7" style="margin-bottom:20px;" >
+          <input type="text" name="text" class="type7" style="margin-bottom:20px;">
           <br>
          
           <div class="arrange1">
