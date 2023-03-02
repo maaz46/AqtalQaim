@@ -66,13 +66,8 @@
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">DASHBOARD</span>
                                 </a>
                             </li>
-                            <li class="nav-item PageID_2">
-                                <a href="#" class="nav-link current">
-                                    <div class="triangle-right"></div>
-                                    <img src="{{asset('assets/MainAssets/img/resume.png')}}" width="30px" style="margin-right: 12px;">
-                                    <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">MY PROFILE</span>
-                                </a>
-                            </li>
+                            
+                            
 
 
 
@@ -129,6 +124,10 @@
                                         <li><a href="/CashReceiptVouchers">Cash Receipt Voucher</a></li>
                                         <hr class="dropdown-divider">
                                         <li><a href="/JournalVouchers">Journal Vouchers</a></li>
+                                        <hr class="dropdown-divider">
+                                        <li><a href="/Bills">Bills</a></li>
+                                        <hr class="dropdown-divider">
+                                        <li><a href="/Invoices">Invoices</a></li>
                                     </ul>
                                 </div>
                             </li>
