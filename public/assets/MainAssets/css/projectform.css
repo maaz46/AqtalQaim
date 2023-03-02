@@ -314,6 +314,9 @@ label.weight {
     border-bottom: 2px solid;
     width: 70%;
   }
+  .bot:focus-visible {
+    outline: none;
+  }
 
 /*mobile responsive*/
 @media screen and (max-width: 600px) {
@@ -336,7 +339,7 @@ label.weight {
 .bet1 {
     background: #0ff;
     border: #0ff solid;
-    padding: 4px 18px;
+    padding: 2px 4px;
     margin-right: 8px;
     border-radius: 4px;
     margin-bottom: 8px;
