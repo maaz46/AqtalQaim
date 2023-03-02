@@ -78,7 +78,7 @@
 
 
                             <li class="nav-item PageID_3">
-                                <a href="#" class="nav-link current">
+                                <a href="javascript:void(0)" class="nav-link current">
                                     <div class="triangle-right"></div>
 
                                     <img src="{{asset('assets/MainAssets/img/browser.png')}}" width="30px" style="margin-right: 12px;">
@@ -111,7 +111,7 @@
                             </li>
 
                             <li class="nav-item PageID_4">
-                                <a href="#" class="nav-link current">
+                                <a href="javascript:void(0)" class="nav-link current">
                                     <div class="triangle-right"></div>
                                     <img src="{{asset('assets/MainAssets/img/business-and-finance.png')}}" width="30px" style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">FINANCE<i class="fas fa-angle-right icon"></i></span>
@@ -120,20 +120,20 @@
                                 </a>
                                 <div class="item">
                                     <ul>
-                                        <li>Bank Payment Voucher</li>
+                                        <li><a href="/BankPaymentVouchers">Bank Payment Vouchers</a></li>
                                         <hr class="dropdown-divider">
-                                        <li>Bank Receipt Voucher</li>
+                                        <li><a href="/BankReceiptVouchers">Bank Receipt Vouchers</a></li>
                                         <hr class="dropdown-divider">
-                                        <li>Cash Payment Voucher</li>
+                                        <li><a href="/CashPaymentVouchers">Cash Payment Voucher</a></li>
                                         <hr class="dropdown-divider">
-                                        <li>Cash Receipt Voucher</li>
+                                        <li><a href="/CashReceiptVouchers">Cash Receipt Voucher</a></li>
                                         <hr class="dropdown-divider">
-                                        <li>Journal Voucher</li>
+                                        <li><a href="/JournalVouchers">Journal Vouchers</a></li>
                                     </ul>
                                 </div>
                             </li>
                             <li class="nav-item PageID_5">
-                                <a href="#" class="nav-link current">
+                                <a href="javascript:void(0)" class="nav-link current">
                                     <div class="triangle-right"></div>
                                     <img src="{{asset('assets/MainAssets/img/statistics.png')}}" width="30px" style="margin-right: 12px;">
                                     <span style="font-size: 20px;font-family: monospace; font-weight: bolder;">REPORT<i class="fas fa-angle-right icon"></i></span>
@@ -154,7 +154,7 @@
                             </li>
 
                             <li class="nav-item PageID_6">
-                                <a href="#" class="nav-link current">
+                                <a href="javascript:void(0)" class="nav-link current">
                                     <div class="triangle-right"></div>
 
                                     <img src="{{asset('assets/MainAssets/img/management.png')}}" width="30px" style="margin-right: 12px;">

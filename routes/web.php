@@ -166,13 +166,13 @@ Route::middleware([CheckSession::class])->group(function () {
     
     Route::middleware('PagesAccess:4')->group(function () {
 
-        #region BANKVOUCHERS
-        Route::get('/BankVouchers', [MainController::class, 'BankVouchers']);
-        Route::post('/BankVouchers', [MainController::class, 'AddBankVoucher']);
-        Route::get('/EditBankVoucher/{BankVoucherID}', [MainController::class, 'EditBankVoucher'])->middleware('PageActionAccess:4,1');
-        Route::post('/UpdateBankVoucher', [MainController::class, 'UpdateBankVoucher'])->middleware('PageActionAccess:4,1');
-        Route::get('/DeleteBankVoucher/{BankVoucherID}', [MainController::class, 'DeleteBankVoucher'])->middleware('PageActionAccess:4,2');
-        #endregion BANKVOUCHERS
+        #region BANKPAYMENTVOUCHERS
+        Route::get('/BankPaymentVouchers', [MainController::class, 'BankPaymentVouchers']);
+        Route::post('/BankPaymentVouchers', [MainController::class, 'AddBankPaymentVoucher']);
+        Route::get('/EditBankPaymentVoucher/{BankPaymentVoucherID}', [MainController::class, 'EditBankPaymentVoucher'])->middleware('PageActionAccess:4,1');
+        Route::post('/UpdateBankPaymentVoucher', [MainController::class, 'UpdateBankPaymentVoucher'])->middleware('PageActionAccess:4,1');
+        Route::get('/DeleteBankPaymentVoucher/{BankPaymentVoucherID}', [MainController::class, 'DeleteBankPaymentVoucher'])->middleware('PageActionAccess:4,2');
+        #endregion BANKPAYMENTVOUCHERS
 
 
         #region CASHPAYMENTVOUCHERS
