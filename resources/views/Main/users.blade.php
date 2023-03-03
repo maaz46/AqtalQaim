@@ -153,8 +153,8 @@
                                     foreach($pages as $key=>$item):
                                     @endphp
                                     <input class="form-check-input CBPage" PageID="{{$item->page_id}}" type="checkbox" id="CBPage_{{$item->page_id}}" name="user_role_page_mapping[{{$key}}][page_id]" style="margin-top: 1.0rem;" value="{{$item->page_id}}">
-                                    <label class="form-check-label" for="CBPage_{{$item->page_id}}" style="margin-right: 50px;">
-                                          {{$item->page_name}}</label>
+                                    <label class="form-check-label" for="CBPage_{{$item->page_id}}" style="margin-right: 0px;">
+                                          {{$item->page_name}}</label><br>
                                     <select id="SelectRole_{{$item->page_id}}" disabled placeholder="Year" name="user_role_page_mapping[{{$key}}][role_id]" class="Maintype1" style="color: white;">
                                           @foreach($roles as $key=>$roleitem)
                                           <option value="{{$roleitem->role_id}}">{{$roleitem->role_name}}</option>

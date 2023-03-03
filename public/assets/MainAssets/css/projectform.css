@@ -317,6 +317,9 @@ label.weight {
   .bot:focus-visible {
     outline: none;
   }
+  .form-check-input{
+    margin-top: 0.4rem!important;
+  }
 
 /*mobile responsive*/
 @media screen and (max-width: 600px) {
@@ -371,6 +374,16 @@ padding: 0px;
 .work2 {
     margin-left: unset!important;
     margin-top: unset!important;
+}
+.Maintype{
+    padding: 12px 10px;
+    background: black;
+    opacity: 0.6;
+    border: black;
+    border-radius: 4px;
+    width: 80%;
+    margin-bottom: 20px;
+    color: white;
 }
 .type1 {
     padding: 12px 10px;
