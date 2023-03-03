@@ -190,7 +190,7 @@
                         </ul>
                     </div>
                     <footer class="mb-3 tm-mt-100" style="color: black;">
-                        Design: Qaabil Software Company
+                       
                     </footer>
                 </nav>
             </div>
@@ -296,7 +296,7 @@
                 <div class="tm-section-wrap tm-copyright row">
                     <div class="col-12">
                         <div class="text-right">
-                            Copyright 2023 © Qaabil Software Company
+                        Copyright 2023 © Qaabil Solutions
                         </div>
                     </div>
                 </div>

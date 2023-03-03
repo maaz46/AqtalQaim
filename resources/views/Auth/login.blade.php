@@ -30,6 +30,6 @@ endif;
                     @php
                     endif;
                     @endphp
-  <p class="text1">Copyright 2023 © Qaabil Software Company</p>
+  <p class="text1">Copyright 2023 © Qaabil Solutions</p>
 </form>
 @endsection

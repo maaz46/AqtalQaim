@@ -4,7 +4,7 @@
 <form action="/UpdateChartOfAccount" method="POST">
     @csrf
     <div class="form-group">
-        <label for="">Chart Of Account*</label>
+        <label for="" style="margin-right:62px">Chart Of Account*</label>
         <input type="text" class="type5" value="{{$result->chart_of_account}}" name="chart_of_account">
         @error('chart_of_account')
         <p class="text-danger">{{$message}}</p>
@@ -14,8 +14,8 @@
 
 
     <div class="form-group">
-        <label for="">Group Code*</label>
-        <select name="group_code_id" id="group_code_id" required class="type">
+        <label for="" style="margin-right:76px">Group Code*</label>
+        <select name="group_code_id" id="group_code_id" required class="type2">
             <option disabled value="">Select A Group Code</option>
             @php
             if(count($group_codes)>0):
@@ -34,8 +34,8 @@
 
 
     <div class="form-group ControlCodeFormGroup">
-        <label for="">Control Code*</label>
-        <select name="control_code_id" id="control_code_id" required class="type">
+        <label for="" style="margin-right:70px">Control Code*</label>
+        <select name="control_code_id" id="control_code_id" required class="type2">
             <option disabled selected value="">Select A Group Code First</option>
         </select>
         @error('control_code_id')
@@ -45,8 +45,8 @@
 
 
     <div class="form-group">
-        <label for="">Opening Balance Debit</label>
-        <input type="number" class="type5" name="opening_balance_debit" value="{{$result->opening_balance_debit}}">
+        <label for="" style="margin-right:6px">Opening Balance Debit</label>
+        <input type="number" class="type2" name="opening_balance_debit" value="{{$result->opening_balance_debit}}">
         @error('opening_balance_debit')
         <p class="text-danger">{{$message}}</p>
         @enderror
@@ -54,7 +54,7 @@
 
     <div class="form-group">
         <label for="" style="">Opening Balance Credit</label>
-        <input type="number" class="type5" name="opening_balance_credit" value="{{$result->opening_balance_credit}}">
+        <input type="number" class="type2" name="opening_balance_credit" value="{{$result->opening_balance_credit}}">
         @error('opening_balance_credit')
         <p class="text-danger">{{$message}}</p>
         @enderror
