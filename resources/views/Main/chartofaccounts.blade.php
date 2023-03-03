@@ -7,19 +7,27 @@
 <form action="/ChartOfAccounts" method="POST">
     @csrf
     <div class="about1">
-    <div class="container">
-      <div class="row">
+        <div class="container">
+            <div class="row">
 
-        <div class="col-md-12">
-          <div class="buttton">
-            <button class=bet>New</button>
-            <button class=bet type="submit">Save</button>
-            <button class=bet>Cancel</button>
-          </div>
+                <div class="col-md-12">
+                    <div class="buttton">
+                        <button class=bet>New</button>
+                        <button class=bet type="submit">Save</button>
+                        <button class=bet>Cancel</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+
+    <div class="form-group">
+        <label for="" style="margin-right:62px">Chart Of Account Code*</label>
+        <input type="text" class="type5" value="{{old('chart_of_account_code')}}" name="chart_of_account_code">
+        @error('chart_of_account_code')
+        <p class="text-danger">{{$message}}</p>
+        @enderror
+    </div>
 
     <div class="form-group">
         <label for="" style="margin-right:62px">Chart Of Account*</label>
@@ -61,6 +69,25 @@
         @enderror
     </div>
 
+    <div class="form-group">
+        <label for="" style="margin-right:76px">Group Code*</label>
+        <select name="group_code_id" id="group_code_id" required class="type2">
+            <option disabled value="">Select A Group Code</option>
+            @php
+            if(count($group_codes)>0):
+            foreach($group_codes as $key=>$item):
+            @endphp
+            <option value="{{$item->group_code_id}}" {{ old('group_code_id')==$item->group_code_id ? 'selected' : ''; }}>{{$item->group_account}}</option>
+            @php
+            endforeach;
+            endif;
+            @endphp
+        </select>
+        @error('group_code_id')
+        <p class="text-danger">{{$message}}</p>
+        @enderror
+    </div>
+
 
     <div class="form-group">
         <label for="" style="margin-right:6px">Opening Balance Debit</label>
@@ -77,15 +104,10 @@
         <p class="text-danger">{{$message}}</p>
         @enderror
     </div>
-
-
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-success btn-sm">
-    </div>
 </form>
 
 
-<table  id="RoleTable" class="table table-responsive-sm">
+<table id="RoleTable" class="table table-responsive-sm">
     <thead class="thead-dark">
         <th>Group Code</th>
         <th>Group Accounts</th>
@@ -128,34 +150,40 @@
 
 @section('IndividualScript')
 <script>
-  $('#RoleTable').DataTable();
+    $('#RoleTable').DataTable();
 </script>
 <script>
-    $(function () {
+    $(function() {
         var OldControlCode = '<?php echo old('control_code_id'); ?>';
-        $('#group_code_id').on('change', function () {
-            $('.ControlCodeFormGroup').css({ 'opacity': '0.5', 'pointer-events': 'none' });
+        $('#group_code_id').on('change', function() {
+            $('.ControlCodeFormGroup').css({
+                'opacity': '0.5',
+                'pointer-events': 'none'
+            });
             var GroupCodeID = $(this).val();
             $.ajax({
                 url: '/GetControlCodesByGroupCodeID/' + GroupCodeID,
                 type: 'GET',
-                async:false,
-                success: function (e) {
+                async: false,
+                success: function(e) {
                     $('#control_code_id').empty();
                     if (e.length > 0) {
                         $('#control_code_id').append('<option disabled selected>Select A Control Code</option>')
-                        $.each(e, function (i, option) {
+                        $.each(e, function(i, option) {
                             var selected = '';
-                            if(OldControlCode==option.control_code_id){
+                            if (OldControlCode == option.control_code_id) {
                                 selected = 'selected';
                             }
 
-                            $('#control_code_id').append('<option value="' + option.control_code_id + '" '+selected+'>' + option.control_description + '</option>')
+                            $('#control_code_id').append('<option value="' + option.control_code_id + '" ' + selected + '>' + option.control_description + '</option>')
                         });
                     } else {
                         $('#control_code_id').append('<option disabled selected>No Control Codes For This Group Code</option>')
                     }
-                    $('.ControlCodeFormGroup').css({ 'opacity': '1', 'pointer-events': 'all' });
+                    $('.ControlCodeFormGroup').css({
+                        'opacity': '1',
+                        'pointer-events': 'all'
+                    });
                 }
 
             })

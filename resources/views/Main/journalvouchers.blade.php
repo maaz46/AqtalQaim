@@ -3,10 +3,9 @@
 @section('MainSection')
 <div class="tm-main">
 	<!-- Home section -->
-
      
 		<div class="first" style="text-decoration: 2px underline #006699;"><h2 class="tm-text-primary">AQT - Al Qaim Trust Pakistan</h2></div>
-    <div class="second"><h3 class="tm-text-primary" style="color:black; font">Al Qaim Model School Khairpur</h3></div>
+    <div class="second"><h3 class="tm-text-primary" style="color:black;">Al Qaim Model School Khairpur</h3></div>
 		<img src="http://127.0.0.1:8000/assets/MainAssets/img/AQT Logo.PNG" class="pikss">
 
 

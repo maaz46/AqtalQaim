@@ -2,7 +2,7 @@
 
 @section('MainSection')
 
-<h2 style="color:black;">USER RIGHTS</h2>
+<h2 style="color:black;">USERS</h2>
 
 
 <form action="/Users" id="userform" method="post">
@@ -50,93 +50,31 @@
                                     <input type="tel" name="cell" class="Maintype">
                                     <br>
                                     <div class="sel">
-                                          <label class="weight" style="margin-right:88px;">Block Y/N</label>
-                                          <select id="Project Category" placeholder="Project Category" name="block_yn" class="Maintype" style="color: white;">
-                                                <option value="">Year</option>
-                                                <option value="2000">2000</option>
-                                                <option value="2000">2001</option>
-                                                <option value="2000">2002</option>
-                                                <option value="2000">2003</option>
-                                                <option value="2000">2004</option>
-                                                <option value="2000">2005</option>
-                                                <option value="2000">2006</option>
-                                                <option value="2000">2007</option>
-                                                <option value="2000">2008</option>
-                                                <option value="2000">2009</option>
-                                                <option value="2000">2010</option>
-                                                <option value="2000">2011</option>
-                                                <option value="2000">2012</option>
-                                                <option value="2000">2013</option>
-                                                <option value="2000">2014</option>
-                                                <option value="2000">2015</option>
-                                                <option value="2000">2016</option>
-                                                <option value="2000">2017</option>
-                                                <option value="2000">2018</option>
-                                                <option value="2000">2019</option>
-                                                <option value="2000">2020</option>
-                                                <option value="2000">2021</option>
-                                                <option value="2000">2022</option>
-                                                <option value="2000">2023</option>
+                                          <label class="weight" for="is_block" style="margin-right:88px;">Block Y/N</label>
+                                          <input type="checkbox" id="is_block" name="is_block">
+                                    </div>
 
+                                    <div class="sel">
+                                          <label class="weight" for="can_change_year" style="margin-right:30px;">Can Change Year</label>
+                                          <input type="checkbox" id="can_change_year" name="can_change_year">
+                                    </div>
 
+                                    <div class="sel">
+                                          <label class="weight" for="project_category_id" style="margin-right:30px;">Project Category</label>
+                                          <select id="project_category_id" name="project_category_id" class="Maintype" style="color: white;">
+                                                <option value="" disabled selected>Select A Project Category</option>
+                                                @if(count($project_categories)>0)
+                                                @foreach($project_categories as $key=>$item)
+                                                <option value="{{$item->project_category_id}}">{{$item->project_category}}</option>
+                                                @endforeach
+                                                @endif
                                           </select>
                                     </div>
 
                                     <div class="sel">
-                                          <label class="weight" style="margin-right:30px;">Can Change Year</label>
-                                          <select id="Year" placeholder="Year" class="Maintype" name="can_change_year" style="color: white;">
-                                                <option value="">Year</option>
-                                                <option value="2000">2000</option>
-                                                <option value="2000">2001</option>
-                                                <option value="2000">2002</option>
-                                                <option value="2000">2003</option>
-                                                <option value="2000">2004</option>
-                                                <option value="2000">2005</option>
-                                                <option value="2000">2006</option>
-                                                <option value="2000">2007</option>
-                                                <option value="2000">2008</option>
-                                                <option value="2000">2009</option>
-                                                <option value="2000">2010</option>
-                                                <option value="2000">2011</option>
-                                                <option value="2000">2012</option>
-                                                <option value="2000">2013</option>
-                                                <option value="2000">2014</option>
-                                                <option value="2000">2015</option>
-                                                <option value="2000">2016</option>
-                                                <option value="2000">2017</option>
-                                                <option value="2000">2018</option>
-                                                <option value="2000">2019</option>
-                                                <option value="2000">2020</option>
-                                                <option value="2000">2021</option>
-                                                <option value="2000">2022</option>
-                                                <option value="2023">2023</option>
-
-
-                                          </select>
-                                    </div>
-
-                                    <div class="sel">
-                                          <label class="weight" style="margin-right:30px;">Assign To Project</label>
+                                          <label class="weight" for="project_category_id" style="margin-right:30px;">Assign A Project</label>
                                           <select id="project_id" name="project_id" class="Maintype" style="color: white;">
-                                                @if(count($projects)>0)
-                                                @foreach($projects as $key=>$item)
-                                                <option value="{{$item->project_id}}">{{$item->project_name}}</option>
-                                                @endforeach
-                                                @endif
-                                          </select>
-                                    </div>
-
-
-                                    <div class="sel">
-                                          <label class="weight" style="margin-right:54px;">User Category</label>
-                                          <select id="user_category_id" class="Maintype" name="user_category_id" style="color: white;">
-                                                @if(count($user_categories)>0)
-                                                @foreach($user_categories as $key=>$item)
-                                                <option value="{{$item->user_category_id}}">
-                                                      {{$item->user_category_name}}
-                                                </option>
-                                                @endforeach
-                                                @endif
+                                                <option disabled selected value="">Select A Project Category First</option>
                                           </select>
                                     </div>
 
@@ -146,7 +84,15 @@
                         </div>
 
                         <div class="col-md-6" style="padding-left: 65px; border-left:2px solid;" id="col1">
-                              <div class="form-check">
+                              <div class="sel">
+                                    <label class="weight" for="user_type" style="margin-right:30px;">Select User Type</label>
+                                    <select id="user_type" name="user_type" required class="Maintype" style="color: white;">
+                                          <option value="" disabled selected>Select A User Type</option>
+                                          <option value="Administrator">Administrator</option>
+                                          <option value="User">User</option>
+                                    </select>
+                              </div>
+                              <div class="form-check d-none" id="pages_section">
 
                                     @php
                                     if(count($pages)>0):
@@ -187,8 +133,6 @@
             <th>Cell</th>
             <th>Block Y/N</th>
             <th>Can Change Year</th>
-            <th>Project</th>
-            <th>User Category</th>
             <th class="size"></th>
             <th class="size"></th>
       </thead>
@@ -202,10 +146,8 @@
                   <td>{{$item->user_name}}</td>
                   <td>{{$item->email}}</td>
                   <td>{{$item->cell}}</td>
-                  <td>{{$item->block_yn}}</td>
+                  <td>{{$item->is_block == "1" ? "Yes" : "No"}}</td>
                   <td>{{$item->can_change_year}}</td>
-                  <td>{{$item->project_name}}</td>
-                  <td>{{$item->user_category_name}}</td>
                   <td style="text-align:center;"><a href="/EditUser/{{$item['user_id']}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
                   <td style="text-align:center;"><a href="/DeleteUser/{{$item['user_id']}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
             </tr>
@@ -219,7 +161,51 @@
 @endsection
 @section('IndividualScript')
 <script>
-      $('#RoleTable').DataTable();
+      $(function() {
+            $('#RoleTable').DataTable();
+            $('#user_type').on('change', function() {
+                  if ($(this).val() == "Administrator") {
+                        $('#pages_section').addClass('d-none');
+                  }
+                  if ($(this).val() == "User") {
+                        $('#pages_section').removeClass('d-none');
+                  }
+            });
+
+            $('#user_type').trigger('change');
+      })
+
+      $('#project_category_id, #project_id').val('').prop('selected', true);
+      $('#project_category_id').on('change', function() {
+            var ProjectCategoryID = $(this).val();
+            $('#project_id').css({
+                  'opacity': '0.2',
+                  'pointer-events': 'none'
+            });
+            $.ajax({
+                  url: '/GetProjectsByProjectCategoryID/' + ProjectCategoryID,
+                  type: 'GET',
+                  async: false,
+                  success: function(e) {
+                        $('#project_id').empty();
+                        if (e.length > 0) {
+                              $('#project_id').append('<option disabled selected>Select A Project</option>')
+                              $.each(e, function(i, option) {
+
+                                    $('#project_id').append('<option value="' + option.project_id + '"">' +
+                                          option.project_name + '</option>')
+                              });
+                        } else {
+                              $('#project_id').append('<option disabled selected>No Projects Were Found</option >');
+                        }
+                        $('#project_id').css({
+                              'opacity': '1',
+                              'pointer-events': 'all'
+                        });
+                  }
+
+            })
+      });
 
       $('#userform').on('submit', function(e) {
             var GoodToGo = true;
@@ -244,35 +230,5 @@
                   $('#SelectRole_' + PageID).prop('disabled', true);
             }
       });
-
-      // $('input[name="user_name"]').on('keyup', function(){
-      //       var UserName = $(this).val();
-      //       var obj = new Object();
-      //       obj.UserName = UserName;
-      //       obj._token = "{{csrf_token()}}";
-      //       $.ajax({
-      //             url:'/UsernameValidation',
-      //             method:'POST',
-      //             data:obj,
-      //             success:function(e){
-      //                   console.log(e);
-      //             }
-      //       });
-      // });
-
-      // $('input[name="email"]').on('keyup', function(){
-      //       var Email = $(this).val();
-      //       var obj = new Object();
-      //       obj.Email = Email;
-      //       obj._token = "{{csrf_token()}}";
-      //       $.ajax({
-      //             url:'/EmailValidation',
-      //             method:'POST',
-      //             data:obj,
-      //             success:function(e){
-      //                   console.log(e);
-      //             }
-      //       });
-      // });
 </script>
 @endsection

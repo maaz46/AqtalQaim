@@ -1,8 +1,34 @@
 @extends('Main.Layout.layout')
 
 @section('MainSection')
-<form action="/UpdateChartOfAccount" method="POST">
+
+<h2 style="color:black; text-transform:uppercase;">Chart Of Accounts</h2>
+
+<form action="/ChartOfAccounts" method="POST">
     @csrf
+    <div class="about1">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="buttton">
+                        <button class=bet>New</button>
+                        <button class=bet type="submit">Save</button>
+                        <button class=bet>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="" style="margin-right:62px">Chart Of Account Code*</label>
+        <input type="text" class="type5" value="{{ $result->chart_of_account_code }}" name="chart_of_account_code">
+        @error('chart_of_account_code')
+        <p class="text-danger">{{$message}}</p>
+        @enderror
+    </div>
+
     <div class="form-group">
         <label for="" style="margin-right:62px">Chart Of Account*</label>
         <input type="text" class="type5" value="{{$result->chart_of_account}}" name="chart_of_account">
@@ -53,47 +79,53 @@
     </div>
 
     <div class="form-group">
-        <label for="" style="">Opening Balance Credit</label>
+        <label for="">Opening Balance Credit</label>
         <input type="number" class="type2" name="opening_balance_credit" value="{{$result->opening_balance_credit}}">
         @error('opening_balance_credit')
         <p class="text-danger">{{$message}}</p>
         @enderror
     </div>
+
     <input type="hidden" value="{{$result->chart_of_account_id}}" name="chart_of_account_id">
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-success btn-sm">
-    </div>
 </form>
+
+
 @endsection
 
-@section('IndividualScript')
 
+@section('IndividualScript')
 <script>
-    $(function () {
+    $(function() {
         var OldControlCode = '<?php echo $result->control_code_id; ?>';
-        $('#group_code_id').on('change', function () {
-            $('.ControlCodeFormGroup').css({ 'opacity': '0.5', 'pointer-events': 'none' });
+        $('#group_code_id').on('change', function() {
+            $('.ControlCodeFormGroup').css({
+                'opacity': '0.5',
+                'pointer-events': 'none'
+            });
             var GroupCodeID = $(this).val();
             $.ajax({
                 url: '/GetControlCodesByGroupCodeID/' + GroupCodeID,
                 type: 'GET',
-                async:false,
-                success: function (e) {
+                async: false,
+                success: function(e) {
                     $('#control_code_id').empty();
                     if (e.length > 0) {
                         $('#control_code_id').append('<option disabled selected>Select A Control Code</option>')
-                        $.each(e, function (i, option) {
+                        $.each(e, function(i, option) {
                             var selected = '';
-                            if(OldControlCode==option.control_code_id){
+                            if (OldControlCode == option.control_code_id) {
                                 selected = 'selected';
                             }
 
-                            $('#control_code_id').append('<option value="' + option.control_code_id + '" '+selected+'>' + option.control_description + '</option>')
+                            $('#control_code_id').append('<option value="' + option.control_code_id + '" ' + selected + '>' + option.control_description + '</option>')
                         });
                     } else {
                         $('#control_code_id').append('<option disabled selected>No Control Codes For This Group Code</option>')
                     }
-                    $('.ControlCodeFormGroup').css({ 'opacity': '1', 'pointer-events': 'all' });
+                    $('.ControlCodeFormGroup').css({
+                        'opacity': '1',
+                        'pointer-events': 'all'
+                    });
                 }
 
             })
@@ -103,5 +135,4 @@
 
     });
 </script>
-
 @endsection

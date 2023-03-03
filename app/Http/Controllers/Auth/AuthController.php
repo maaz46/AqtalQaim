@@ -21,7 +21,7 @@ class AuthController extends Controller
     }
 
     public function LoginPost(Request $req){
-        $result = Users::join('projects AS P','P.project_id','=','users.project_id')->where([
+        $result = Users::where([
             'users.user_name'=>$req->user_name,
         ])->first();
 
@@ -39,8 +39,8 @@ class AuthController extends Controller
                 $sessiondata = array(
                     'user_id'=>$result->user_id,
                     'user_name'=>$result->user_name,
-                    'assigned_project_name'=>$result->project_name,
-                    'assigned_project_id'=>$result->project_id,
+                    'assigned_project_name'=>'AqtalQaim',
+                    'assigned_project_id'=>1,
                     'is_admin'=>$result->is_admin,
                     'user_role_page_mapping_data'=>json_encode($user_role_page_mapping_data)
                 );

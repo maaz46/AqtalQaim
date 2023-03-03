@@ -19,6 +19,7 @@ use App\Models\Pages;
 use App\Models\Rights;
 use App\Models\RightsMapping;
 use App\Models\UserRolePageMapping;
+use App\Models\UserProjectMapping;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -31,9 +32,9 @@ class MainController extends Controller
         if ($project_id == null) {
             $project_categories = ProjectCategories::get();
             return view('Main.admindashboard', ['project_categories' => $project_categories]);
-        }else{
-            $result = Projects::where(['project_id'=>$project_id])->first();
-            return view('Main.projectdashboard',['result'=>$result]);
+        } else {
+            $result = Projects::where(['project_id' => $project_id])->first();
+            return view('Main.projectdashboard', ['result' => $result]);
         }
     }
 
@@ -114,17 +115,18 @@ class MainController extends Controller
     public function AddGroupCode(Request $req)
     {
         $validatedData = $req->validate([
+            'group_code' => ['required'],
             'group_account' => ['required'],
             'group_type_id' => ['required'],
         ], [
+            'group_code.required' => 'Group Code Field Is Required',
             'group_account.required' => 'Group Account Field Is Required',
             'group_type_id.required' => 'Select A Group Type'
         ]);
 
 
-        $group_code_type_id_count = GroupCodes::where(['group_type_id' => $req->group_type_id])->get()->count();
         $group_codes = new GroupCodes();
-        $group_codes->group_code = $req->group_type_id . '-' . sprintf('%02d', $group_code_type_id_count);
+        $group_codes->group_code = $req->group_code;
         $group_codes->group_account = $req->group_account;
         $group_codes->group_type_id = $req->group_type_id;
         if ($group_codes->save()) :
@@ -148,14 +150,16 @@ class MainController extends Controller
     public function UpdateGroupCode(Request $req)
     {
         $validatedData = $req->validate([
+            'group_code' => ['required'],
             'group_account' => ['required'],
             'group_type_id' => ['required'],
         ], [
+            'group_code.required' => 'Group Code Field Is Required',
             'group_account.required' => 'Group Account Field Is Required',
             'group_type_id.required' => 'Select A Group Type'
         ]);
 
-        if (GroupCodes::where(['group_code_id' => $req->group_code_id])->update(['group_account' => $req->group_account, 'group_type_id' => $req->group_type_id])) :
+        if (GroupCodes::where(['group_code_id' => $req->group_code_id])->update(['group_code' => $req->group_code, 'group_account' => $req->group_account, 'group_type_id' => $req->group_type_id])) :
             $req->session()->flash('status', 'Group Code Update Successfully');
         else :
             $req->session()->flash('status', 'Some Error Occured');
@@ -269,18 +273,17 @@ class MainController extends Controller
         // echo $req->isPnL=="on"?'1':'0';
 
         $validatedData = $req->validate([
+            'control_code' => ['required'],
             'control_description' => ['required'],
             'group_code_id' => ['required'],
         ], [
+            'control_code.required' => 'Control Code Field Is Required',
             'control_description.required' => 'Control Description Field Is Required',
             'group_code_id.required' => 'Select A Group Code'
         ]);
 
-        $group_code = GroupCodes::where(['group_code_id' => $req->group_code_id])->first();
-        $control_code_control_code_count = ControlCodes::where(['group_code_id' => $req->group_code_id])->get()->count();
-        $finalControlCode = $group_code->group_code . '-' . sprintf('%02d', ($control_code_control_code_count + 1));
         $control_codes = new ControlCodes();
-        $control_codes->control_code = $finalControlCode;
+        $control_codes->control_code = $req->control_code;
         $control_codes->control_description = $req->control_description;
         $control_codes->control_type_id = $req->control_type_id;
         $control_codes->group_code_id = $req->group_code_id;
@@ -307,14 +310,16 @@ class MainController extends Controller
     public function UpdateControlCode(Request $req)
     {
         $validatedData = $req->validate([
+            'control_code' => ['required'],
             'control_description' => ['required'],
             'group_code_id' => ['required'],
         ], [
+            'control_code.required' => 'Control Code Field Is Required',
             'control_description.required' => 'Control Description Field Is Required',
             'group_code_id.required' => 'Select A Group Code'
         ]);
 
-        if (ControlCodes::where(['control_code_id' => $req->control_code_id])->update(['control_description' => $req->control_description, 'control_type_id' => $req->control_type_id, 'group_code_id' => $req->group_code_id, 'isPnL' => $req->isPnL == "on" ? "1" : "0"])) :
+        if (ControlCodes::where(['control_code_id' => $req->control_code_id])->update(['control_code' => $req->control_code, 'control_description' => $req->control_description, 'control_type_id' => $req->control_type_id, 'group_code_id' => $req->group_code_id, 'isPnL' => $req->isPnL == "on" ? "1" : "0"])) :
             $req->session()->flash('status', 'Control Code Update Successfully');
         else :
             $req->session()->flash('status', 'Some Error Occured');
@@ -634,13 +639,13 @@ class MainController extends Controller
     public function Users()
     {
         $roles = Roles::get();
+        $project_categories = ProjectCategories::get();
         $projects = Projects::get();
         $pages = Pages::get();
-        $user_categories = UserCategories::get();
 
-        $users = Users::join('projects AS P', 'users.project_id', '=', 'P.project_id', 'left')->join('user_categories as UC', 'users.user_category_id', '=', 'UC.user_category_id', 'left')->get(['users.user_id', 'users.full_name', 'users.user_name', 'users.email', 'users.cell', 'users.block_yn', 'users.can_change_year', 'P.project_name', 'UC.user_category_name']);
+        $users = Users::get(['users.user_id', 'users.full_name', 'users.user_name', 'users.email', 'users.cell', 'users.is_block', 'users.can_change_year']);
         // var_dump($users);
-        return view('Main.users', ['users' => $users, 'roles' => $roles, 'projects' => $projects, 'pages' => $pages, 'user_categories' => $user_categories]);
+        return view('Main.users', ['users' => $users, 'roles' => $roles, 'pages' => $pages, 'project_categories' => $project_categories]);
     }
 
 
@@ -653,47 +658,51 @@ class MainController extends Controller
         // exit;
         $validatedData = $req->validate([
             'user_name' => ['required'],
+            'user_type' => ['required'],
             'password' => ['required'],
             'project_id' => ['required'],
             // 'role_id' => ['required']
         ]);
-
         $users = new Users();
         $users->full_name = $req->full_name;
         $users->user_name = $req->user_name;
         $users->password = Hash::make($req->password);
         $users->email = $req->email;
         $users->cell = $req->cell;
-        $users->block_yn = $req->block_yn;
-        $users->can_change_year = $req->can_change_year;
+        $users->is_block = $req->is_block == "on" ? 1 : 0;
+        $users->can_change_year = $req->can_change_year == "on" ? 1 : 0;
+        $users->is_admin = $req->user_type == "Administrator" ? 1 : 0;
 
-
-        $users->project_id = $req->project_id;
-        $users->user_category_id = $req->user_category_id;
 
         if ($users->save()) :
             $user_id = $users->id;
-            $pages = Pages::get();
+            $user_project_mapping = new UserProjectMapping();
+            $user_project_mapping->user_id = $user_id;
+            $user_project_mapping->project_id = $req->project_id;
+            $user_project_mapping->save();
 
-            $datatoadd = array();
+            if ($req->user_type == "User") :
+                $pages = Pages::get();
 
-            foreach ($pages as $key => $item) :
-                $datatoadd[$key]['page_id'] = $item->page_id;
-                $datatoadd[$key]['user_id'] = $user_id;
-                $datatoadd[$key]['has_access'] = "0";
-                $datatoadd[$key]['role_id'] = null;
+                $datatoadd = array();
 
-                $mykey = array_search($item->page_id, array_map(function ($v) {
-                    return $v['page_id'];
-                }, $req->user_role_page_mapping));
-                if ($mykey != "") :
-                    $selectedroleid = $req->user_role_page_mapping[$mykey]['role_id'];
-                    $datatoadd[$key]['role_id'] = $selectedroleid;
-                    $datatoadd[$key]['has_access'] = "1";
-                endif;
-            endforeach;
-            UserRolePageMapping::upsert($datatoadd, ['page_id', 'user_id', 'has_access', 'role_id']);
+                foreach ($pages as $key => $item) :
+                    $datatoadd[$key]['page_id'] = $item->page_id;
+                    $datatoadd[$key]['user_id'] = $user_id;
+                    $datatoadd[$key]['has_access'] = "0";
+                    $datatoadd[$key]['role_id'] = null;
 
+                    $mykey = array_search($item->page_id, array_map(function ($v) {
+                        return $v['page_id'];
+                    }, $req->user_role_page_mapping));
+                    if ($mykey != "") :
+                        $selectedroleid = $req->user_role_page_mapping[$mykey]['role_id'];
+                        $datatoadd[$key]['role_id'] = $selectedroleid;
+                        $datatoadd[$key]['has_access'] = "1";
+                    endif;
+                endforeach;
+                UserRolePageMapping::upsert($datatoadd, ['page_id', 'user_id', 'has_access', 'role_id']);
+            endif;
             $req->session()->flash('status', 'User Added Successfully');
 
         else :
@@ -796,15 +805,17 @@ class MainController extends Controller
     public function ChartOfAccounts()
     {
         $group_codes = GroupCodes::get();
+        $projects = Projects::get();
         $chart_of_accounts = ChartOfAccounts::join('control_codes AS CC', 'CC.control_code_id', 'chart_of_accounts.control_code_id', 'left')->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')->get(['chart_of_accounts.chart_of_account_id', 'GC.group_code', 'GC.group_account', 'CC.control_code', 'CC.control_description', 'chart_of_accounts.chart_of_account_code', 'chart_of_accounts.chart_of_account', 'chart_of_accounts.opening_balance_debit', 'chart_of_accounts.opening_balance_credit']);
 
-        return view('Main.chartofaccounts', ['group_codes' => $group_codes, 'chart_of_accounts' => $chart_of_accounts]);
+        return view('Main.chartofaccounts', ['group_codes' => $group_codes, 'chart_of_accounts' => $chart_of_accounts, 'projects' => $projects]);
     }
 
 
     public function AddChartOfAccount(Request $req)
     {
         $validatedData = $req->validate([
+            'chart_of_account_code' => ['required'],
             'chart_of_account' => ['required'],
             'group_code_id' => ['required'],
             'control_code_id' => ['required'],
@@ -814,11 +825,7 @@ class MainController extends Controller
 
         $control_code = ControlCodes::where(['control_code_id' => $req->control_code_id])->first(['control_code']);
 
-
-        $control_code_group_code_count = ChartOfAccounts::join('control_codes AS CC', 'CC.control_code_id', '=', 'chart_of_accounts.control_code_id', 'left')->where(['CC.control_code' => $control_code->control_code])->get()->count();
-
-
-        $chart_of_accounts->chart_of_account_code = $control_code->control_code . '-' . sprintf('%04d', $control_code_group_code_count);
+        $chart_of_accounts->chart_of_account_code = $req->chart_of_account_code;
         $chart_of_accounts->chart_of_account = $req->chart_of_account;
         $chart_of_accounts->control_code_id = $req->control_code_id;
         $chart_of_accounts->opening_balance_debit = $req->opening_balance_debit;
@@ -839,7 +846,7 @@ class MainController extends Controller
     {
 
         $group_codes = GroupCodes::get();
-        $result = ChartOfAccounts::where(['chart_of_account_id' => $req->ChartOfAccountID])->join('control_codes AS CC', 'CC.control_code_id', 'chart_of_accounts.control_code_id', 'left')->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')->first(['chart_of_accounts.chart_of_account_id', 'GC.group_code_id', 'CC.control_code_id', 'chart_of_accounts.chart_of_account', 'chart_of_accounts.opening_balance_debit', 'chart_of_accounts.opening_balance_credit']);
+        $result = ChartOfAccounts::where(['chart_of_account_id' => $req->ChartOfAccountID])->join('control_codes AS CC', 'CC.control_code_id', 'chart_of_accounts.control_code_id', 'left')->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')->first(['chart_of_accounts.chart_of_account_id', 'GC.group_code_id', 'CC.control_code_id', 'chart_of_accounts.chart_of_account_code', 'chart_of_accounts.chart_of_account', 'chart_of_accounts.opening_balance_debit', 'chart_of_accounts.opening_balance_credit']);
         return view('Main.edit_chartofaccounts', ['group_codes' => $group_codes, 'result' => $result]);
     }
 
@@ -847,11 +854,12 @@ class MainController extends Controller
     public function UpdateChartOfAccount(Request $req)
     {
         $validatedData = $req->validate([
+            'chart_of_account_code' => ['required'],
             'chart_of_account' => ['required'],
             'group_code_id' => ['required'],
             'control_code_id' => ['required'],
         ]);
-        if (ChartOfAccounts::where(['chart_of_account_id' => $req->chart_of_account_id])->update(['chart_of_account' => $req->chart_of_account, 'control_code_id' => $req->control_code_id, 'opening_balance_debit' => $req->opening_balance_debit, 'opening_balance_credit' => $req->opening_balance_credit])) :
+        if (ChartOfAccounts::where(['chart_of_account_id' => $req->chart_of_account_id])->update(['chart_of_account_code' => $req->chart_of_account_code, 'chart_of_account' => $req->chart_of_account, 'control_code_id' => $req->control_code_id, 'opening_balance_debit' => $req->opening_balance_debit, 'opening_balance_credit' => $req->opening_balance_credit])) :
             $req->session()->flash('status', 'Chart Of Account Update Successfully');
         else :
             $req->session()->flash('status', 'Some Error Occured');

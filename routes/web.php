@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\MainController;
 use App\Http\Middleware\CheckSession;
 use App\Http\Middleware\CheckLoginSession;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
