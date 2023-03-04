@@ -22,7 +22,7 @@
   </div>
 
   <div class="form-group">
-    <label>Group Code</label>
+    <label style="margin-right:20px;">Group Code</label>
     <input type="text" placeholder="Enter Group Code" class="type5" required value="{{ old('group_code') }}" name="group_code">
     @error('group_code')
     <p class="text-danger">{{$message}}</p>
