@@ -22,7 +22,7 @@
     </div>
 
     <div class="form-group">
-        <label for="" style="margin-right:62px">Chart Of Account Code*</label>
+        <label for="" style="margin-right:20px">Chart Of Account Code*</label>
         <input type="text" class="type5" value="{{old('chart_of_account_code')}}" name="chart_of_account_code">
         @error('chart_of_account_code')
         <p class="text-danger">{{$message}}</p>
