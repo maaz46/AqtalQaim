@@ -5,6 +5,10 @@
       .page_section:not(:first-child){
             margin-top:20px;
       }
+      .page_section{
+            display:flex;
+            align-items:center;
+      }
 </style>
 @endsection
 @section('MainSection')
@@ -234,7 +238,7 @@
       });
 
       function AssignProjects(){
-            $('.AssignMoreProjectsDiv').append('<div class="ProjectSection page_section"><div class="sel">'
+            $('.AssignMoreProjectsDiv').append('<div class="ProjectSection page_section"><div><div class="sel">'
             +'<label class="weight" for="project_category_id" style="margin-right:30px;">Project Category</label>'
             +'<select id="" name="project_category_id[]" class="Maintype project_category_id" style="color: white;">'
             +'<option value="" disabled selected>Select A Project Category</option>'
@@ -250,7 +254,7 @@
             +'<select name="project_id[]" class="Maintype project_id" style="color: white;">'
             +'<option disabled selected value="">Select A Project Category First</option>'
             +'</select>'
-            +'</div></div>');
+            +'</div></div><button class="btn btn-danger btn-sm">D</button></div>');
       }
 
       $(document.body).on('change','.project_category_id',function(){
