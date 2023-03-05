@@ -11,7 +11,6 @@ use App\Models\ProjectCategories;
 use App\Models\Projects;
 use App\Models\Roles;
 use App\Models\Users;
-use App\Models\UserCategories;
 use App\Models\ChartOfAccounts;
 use App\Models\Suppliers;
 use App\Models\Customers;
@@ -20,24 +19,52 @@ use App\Models\Rights;
 use App\Models\RightsMapping;
 use App\Models\UserRolePageMapping;
 use App\Models\UserProjectMapping;
+use App\Models\ChartOfAccountsProjectMapping;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Session;
 
 
 class MainController extends Controller
 {
     #region DASHBOARD
-    public function Dashboard($project_id = null)
+    public function Dashboard(Request $req, $project_id = null)
     {
-        if ($project_id == null) {
-            $project_categories = ProjectCategories::get();
-            return view('Main.admindashboard', ['project_categories' => $project_categories]);
-        } else {
-            $result = Projects::where(['project_id' => $project_id])->first();
-            return view('Main.projectdashboard', ['result' => $result]);
-        }
+        if ($req->session()->get('is_admin') == "1") :
+            if ($project_id == null) {
+                $project_categories = ProjectCategories::get();
+                return view('Main.admindashboard', ['project_categories' => $project_categories]);
+            } else {
+                $result = Projects::where(['project_id' => $project_id])->first();
+                return view('Main.projectdashboard', ['result' => $result]);
+            }
+
+        elseif ($req->session()->get('is_admin') == "0") :
+            if ($req->session()->get('selected_project_id') == "" && $req->session()->get('selected_project_name') == "") :
+                return view('Main.userselectdefaultproject');
+            else :
+                return view('Main.userdefaultdashboard');
+            endif;
+        endif;
     }
 
+    public function SetDefaultProject()
+    {
+        return view('Main.userselectdefaultproject');
+    }
+
+    public function UpdateDefaultProject(Request $req)
+    {
+        foreach ($req->session()->get('assigned_projects') as $key => $item) :
+            if ($item['project_id'] == $req->project_id) :
+                $req->session()->put([
+                    'selected_project_id' => $req->project_id,
+                    'selected_project_name' => $item['project_name']
+                ]);
+
+            endif;
+        endforeach;
+        return redirect('Dashboard');
+    }
     #endregion
 
 
@@ -124,15 +151,21 @@ class MainController extends Controller
             'group_type_id.required' => 'Select A Group Type'
         ]);
 
+        $set_count = GroupCodes::where(['group_code' => $req->group_code, 'group_account' => $req->group_account, 'group_type_id' => $req->group_type_id])->get()->count();
 
-        $group_codes = new GroupCodes();
-        $group_codes->group_code = $req->group_code;
-        $group_codes->group_account = $req->group_account;
-        $group_codes->group_type_id = $req->group_type_id;
-        if ($group_codes->save()) :
-            $req->session()->flash('status', 'Group Code Added Successfully');
+        if ($set_count == "0") :
+            $group_codes = new GroupCodes();
+            $group_codes->group_code = $req->group_code;
+            $group_codes->group_account = $req->group_account;
+            $group_codes->group_type_id = $req->group_type_id;
+            if ($group_codes->save()) :
+                $req->session()->flash('status', 'Group Code Added Successfully');
+            else :
+                $req->session()->flash('status', 'Some Error Occured');
+            endif;
+
         else :
-            $req->session()->flash('status', 'Some Error Occured');
+            $req->session()->flash('status', 'Group Code Not Added | Same Set Already Exists');
         endif;
 
         return redirect('GroupCodes');
@@ -282,17 +315,24 @@ class MainController extends Controller
             'group_code_id.required' => 'Select A Group Code'
         ]);
 
-        $control_codes = new ControlCodes();
-        $control_codes->control_code = $req->control_code;
-        $control_codes->control_description = $req->control_description;
-        $control_codes->control_type_id = $req->control_type_id;
-        $control_codes->group_code_id = $req->group_code_id;
-        $control_codes->isPnL = $req->isPnL == "on" ? '1' : '0';
+        $set_count = ControlCodes::where(['control_code' => $req->control_code, 'control_type_id' => $req->control_type_id, 'group_code_id' => $req->group_code_id])->get()->count();
+        if ($set_count == "0") :
 
-        if ($control_codes->save()) :
-            $req->session()->flash('status', 'Control Code Added Successfully');
+            $control_codes = new ControlCodes();
+            $control_codes->control_code = $req->control_code;
+            $control_codes->control_description = $req->control_description;
+            $control_codes->control_type_id = $req->control_type_id;
+            $control_codes->group_code_id = $req->group_code_id;
+            $control_codes->isPnL = $req->isPnL == "on" ? '1' : '0';
+
+            if ($control_codes->save()) :
+                $req->session()->flash('status', 'Control Code Added Successfully');
+            else :
+                $req->session()->flash('status', 'Some Error Occured');
+            endif;
+
         else :
-            $req->session()->flash('status', 'Some Error Occured');
+            $req->session()->flash('status', 'Control Code Not Added | Same Set Already Exists');
         endif;
 
         return redirect('ControlCodes');
@@ -640,73 +680,99 @@ class MainController extends Controller
     {
         $roles = Roles::get();
         $project_categories = ProjectCategories::get();
-        $projects = Projects::get();
         $pages = Pages::get();
 
-        $users = Users::get(['users.user_id', 'users.full_name', 'users.user_name', 'users.email', 'users.cell', 'users.is_block', 'users.can_change_year']);
-        // var_dump($users);
+        $users = Users::selectRaw('users.user_id, users.full_name, users.user_name, users.email, users.cell, users.is_block, users.can_change_year, GROUP_CONCAT(P.project_name SEPARATOR \' | \') AS projects')
+            ->join('user_project_mapping AS UPM', 'UPM.user_id', '=', 'users.user_id', 'left')
+            ->join('projects AS P', 'P.project_id', '=', 'UPM.project_id', 'left')
+            ->groupBy('users.user_id')
+            ->get();
+
+
         return view('Main.users', ['users' => $users, 'roles' => $roles, 'pages' => $pages, 'project_categories' => $project_categories]);
     }
 
 
     public function AddUser(Request $req)
     {
-
-        // echo '<pre>';
-        // print_r($_POST);
-        // echo '</pre>';
-        // exit;
-        $validatedData = $req->validate([
+        $DataToValidate = [
             'user_name' => ['required'],
             'user_type' => ['required'],
             'password' => ['required'],
-            'project_id' => ['required'],
-            // 'role_id' => ['required']
-        ]);
-        $users = new Users();
-        $users->full_name = $req->full_name;
-        $users->user_name = $req->user_name;
-        $users->password = Hash::make($req->password);
-        $users->email = $req->email;
-        $users->cell = $req->cell;
-        $users->is_block = $req->is_block == "on" ? 1 : 0;
-        $users->can_change_year = $req->can_change_year == "on" ? 1 : 0;
-        $users->is_admin = $req->user_type == "Administrator" ? 1 : 0;
+            'email' => ['required'],
+        ];
+        $validatedData = $req->validate($DataToValidate);
 
+        if ($req->user_type == "User") :
+            if (array_key_exists('project_id', $_POST)) :
+                if (count($req->project_id) == "0") :
+                    $req->session()->flash('status', 'Project is required in order to create a User');
+                    return redirect('Users');
+                endif;
 
-        if ($users->save()) :
-            $user_id = $users->id;
-            $user_project_mapping = new UserProjectMapping();
-            $user_project_mapping->user_id = $user_id;
-            $user_project_mapping->project_id = $req->project_id;
-            $user_project_mapping->save();
-
-            if ($req->user_type == "User") :
-                $pages = Pages::get();
-
-                $datatoadd = array();
-
-                foreach ($pages as $key => $item) :
-                    $datatoadd[$key]['page_id'] = $item->page_id;
-                    $datatoadd[$key]['user_id'] = $user_id;
-                    $datatoadd[$key]['has_access'] = "0";
-                    $datatoadd[$key]['role_id'] = null;
-
-                    $mykey = array_search($item->page_id, array_map(function ($v) {
-                        return $v['page_id'];
-                    }, $req->user_role_page_mapping));
-                    if ($mykey != "") :
-                        $selectedroleid = $req->user_role_page_mapping[$mykey]['role_id'];
-                        $datatoadd[$key]['role_id'] = $selectedroleid;
-                        $datatoadd[$key]['has_access'] = "1";
-                    endif;
-                endforeach;
-                UserRolePageMapping::upsert($datatoadd, ['page_id', 'user_id', 'has_access', 'role_id']);
+            else :
+                $req->session()->flash('status', 'Project is required in order to create a User');
+                return redirect('Users');
             endif;
-            $req->session()->flash('status', 'User Added Successfully');
+        endif;
+
+        $validatingUserCount = Users::where(['user_name' => $req->user_name, 'email' => $req->email])->get()->count();
+        if ($validatingUserCount == "0") :
+
+            $users = new Users();
+            $users->full_name = $req->full_name;
+            $users->user_name = $req->user_name;
+            $users->password = Hash::make($req->password);
+            $users->email = $req->email;
+            $users->cell = $req->cell;
+            $users->is_block = $req->is_block == "on" ? 1 : 0;
+            $users->can_change_year = $req->can_change_year == "on" ? 1 : 0;
+            $users->is_admin = $req->user_type == "Administrator" ? 1 : 0;
+
+
+            if ($users->save()) :
+                $user_id = $users->id;
+                if ($req->user_type == "User") :
+                    $pages = Pages::get();
+
+                    $datatoadd = array();
+
+                    foreach ($pages as $key => $item) :
+                        $datatoadd[$key]['page_id'] = $item->page_id;
+                        $datatoadd[$key]['user_id'] = $user_id;
+                        $datatoadd[$key]['has_access'] = "0";
+                        $datatoadd[$key]['role_id'] = null;
+
+                        $mykey = array_search($item->page_id, array_map(function ($v) {
+                            return $v['page_id'];
+                        }, $req->user_role_page_mapping));
+                        if ($mykey != "") :
+                            $selectedroleid = $req->user_role_page_mapping[$mykey]['role_id'];
+                            $datatoadd[$key]['role_id'] = $selectedroleid;
+                            $datatoadd[$key]['has_access'] = "1";
+                        endif;
+                    endforeach;
+                    UserRolePageMapping::upsert($datatoadd, ['page_id', 'user_id', 'has_access', 'role_id']);
+
+
+                    if (count($req->project_id) > 0) :
+
+                        $projectstoadd = array();
+                        foreach ($req->project_id as $key => $item) :
+                            $projectstoadd[$key]['user_id'] = $user_id;
+                            $projectstoadd[$key]['project_id'] = $item;
+                        endforeach;
+                        UserProjectMapping::upsert($projectstoadd, ['user_id', 'project_id']);
+                    endif;
+                endif;
+                $req->session()->flash('status', 'User Added Successfully');
+
+            else :
+                $req->session()->flash('status', 'Some Error Occured');
+            endif;
 
         else :
-            $req->session()->flash('status', 'Some Error Occured');
+            $req->session()->flash('status', 'Username Or Email already exists');
         endif;
 
         return redirect('Users');
@@ -716,62 +782,128 @@ class MainController extends Controller
     public function EditUser(Request $req)
     {
         $roles = Roles::get();
-        $projects = Projects::get();
+        $project_categories = ProjectCategories::get();
         $pages = Pages::get();
-        $user_categories = UserCategories::get();
         $user_role_page_mapping = UserRolePageMapping::where(['user_id' => $req->UserID])->get();
+
         $result = Users::where(['user_id' => $req->UserID])->first();
-        return view('Main.edit_users', ['result' => $result, 'roles' => $roles, 'projects' => $projects, 'pages' => $pages, 'user_categories' => $user_categories, 'user_role_page_mapping' => $user_role_page_mapping]);
+        $user_project_mapping = array();
+
+        if ($result->is_admin == "0") :
+            $user_project_mapping = UserProjectMapping::join('projects AS P', 'P.project_id', '=', 'user_project_mapping.project_id', 'left')
+                ->join('project_categories AS PC', 'PC.project_category_id', '=', 'P.project_category_id')
+                ->where(['user_project_mapping.user_id' => $req->UserID])->get();
+        endif;
+        return view('Main.edit_users', ['result' => $result, 'roles' => $roles, 'pages' => $pages, 'project_categories' => $project_categories, 'user_role_page_mapping' => $user_role_page_mapping, 'user_project_mapping' => $user_project_mapping]);
     }
+
+
 
     public function UpdateUser(Request $req)
     {
-        // $validatedData = $req->validate([
-        //     'user_name' => ['required'],
-        //     'project_id' => ['required'],
-        //     'role_id' => ['required']
-        // ]);
 
-
-        $DataToUpdate = [
-            'full_name' => $req->full_name,
-            'user_name' => $req->user_name,
-            'email' => $req->email,
-            'cell' => $req->cell,
-            'block_yn' => $req->block_yn,
-            'can_change_year' => $req->can_change_year,
+        $DataToValidate = [
+            'user_name' => ['required'],
+            'user_type' => ['required'],
+            'email' => ['required'],
         ];
-        if (Users::where(['user_id' => $req->user_id])->update($DataToUpdate)) :
-            foreach ($req->user_role_page_mapping as $key => $item) :
-                $user_role_page_mapping_id = $item['user_role_page_mapping_id'];
-                if (array_key_exists('page_id', $item)) :
-                    $MappingDataToUpdate = [
-                        'role_id' => $item['role_id'],
-                        'page_id' => $item['page_id'],
-                        'has_access' => "1"
-                    ];
-                else :
-                    $MappingDataToUpdate = [
-                        'role_id' => null,
-                        'has_access' => "0"
-                    ];
+        $validatedData = $req->validate($DataToValidate);
+
+        if ($req->user_type == "User") :
+            if (array_key_exists('project_id', $_POST)) :
+                if (count($req->project_id) == "0") :
+                    $req->session()->flash('status', 'Project is required in order to update a User');
+                    return redirect('EditUser/' . $req->user_id);
                 endif;
 
-                UserRolePageMapping::where(['user_role_page_mapping_id' => $user_role_page_mapping_id])->update($MappingDataToUpdate);
-
-            endforeach;
-            $req->session()->flash('status', 'User Update Successfully');
-        else :
-            $req->session()->flash('status', 'Some Error Occured');
+            else :
+                $req->session()->flash('status', 'Project is required in order to update a User');
+                return redirect('EditUser/' . $req->user_id);
+            endif;
         endif;
 
+        $validatingUserCount = Users::where(['user_name' => $req->user_name, 'email' => $req->email])->whereNotIn('user_id', [$req->user_id])->get()->count();
+
+        if ($validatingUserCount == "0") :
+
+            $DataToUpdate = [
+                'full_name' => $req->full_name,
+                'user_name' => $req->user_name,
+                'email' => $req->email,
+                'cell' => $req->cell,
+                'is_block' => $req->is_block == "on" ? 1 : 0,
+                'can_change_year' => $req->can_change_year == "on" ? 1 : 0,
+                'is_admin' => $req->user_type == "Administrator" ? 1 : 0
+            ];
+
+            if (Users::where(['user_id' => $req->user_id])->update($DataToUpdate)) :
+                foreach ($req->user_role_page_mapping as $key => $item) :
+                    $user_role_page_mapping_id = $item['user_role_page_mapping_id'];
+                    if (array_key_exists('page_id', $item)) :
+                        $MappingDataToUpdate = [
+                            'role_id' => $item['role_id'],
+                            'page_id' => $item['page_id'],
+                            'has_access' => "1"
+                        ];
+                    else :
+                        $MappingDataToUpdate = [
+                            'role_id' => null,
+                            'has_access' => "0"
+                        ];
+                    endif;
+
+                    UserRolePageMapping::where(['user_role_page_mapping_id' => $user_role_page_mapping_id])->update($MappingDataToUpdate);
+                endforeach;
+
+                if ($req->user_type == "Administrator") :
+                    UserProjectMapping::where(['user_id' => $req->user_id])->delete();
+
+                elseif ($req->user_type == "User") :
+                    UserProjectMapping::where(['user_id' => $req->user_id])->whereNotIn('project_id', $req->project_id)->delete();
+
+                    if (count($req->project_id) > 0) :
+                        $projectstoadd = array();
+                        foreach ($req->project_id as $key => $item) :
+                            $projectstoadd[$key]['user_id'] = $req->user_id;
+                            $projectstoadd[$key]['project_id'] = $item;
+                            $user_project_count = UserProjectMapping::where(['user_id' => $req->user_id, 'project_id' => $item])->get()->count();
+                            if ($user_project_count == "0") :
+                                $user_project_mapping = new UserProjectMapping();
+                                $user_project_mapping->user_id = $req->user_id;
+                                $user_project_mapping->project_id = $item;
+                                $user_project_mapping->save();
+                            endif;
+                        endforeach;
+                    endif;
+                endif;
+                $req->session()->flash('status', 'User Update Successfully');
+            else :
+                $req->session()->flash('status', 'Some Error Occured');
+            endif;
+        else :
+            $req->session()->flash('status', 'Username Or Email already exists');
+            return redirect('EditUser/' . $req->user_id);
+        endif;
+
+
         return redirect('Users');
+    }
+
+    public function UpdatePassword(Request $req){
+        echo Hash::make($req->password);
+        $DataToUpdate = ['password'=>Hash::make($req->password)];
+        if(Users::where(['user_id' => $req->user_id])->update($DataToUpdate)):
+            $req->session()->flash('status', 'Password Changed Successfully');
+        else:
+            $req->session()->flash('status', 'Some Error Occured');
+        endif;
+        return redirect('EditUser/'.$req->user_id);
     }
 
     public function DeleteUser(Request $req)
     {
         if (Users::where(['user_id' => $req->UserID])->delete()) :
-            $req->session()->flash('status', 'Role Deleted Successfully');
+            $req->session()->flash('status', 'User Deleted Successfully');
         else :
             $req->session()->flash('status', 'Some Error Occured');
         endif;
@@ -805,21 +937,33 @@ class MainController extends Controller
     public function ChartOfAccounts()
     {
         $group_codes = GroupCodes::get();
-        $projects = Projects::get();
-        $chart_of_accounts = ChartOfAccounts::join('control_codes AS CC', 'CC.control_code_id', 'chart_of_accounts.control_code_id', 'left')->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')->get(['chart_of_accounts.chart_of_account_id', 'GC.group_code', 'GC.group_account', 'CC.control_code', 'CC.control_description', 'chart_of_accounts.chart_of_account_code', 'chart_of_accounts.chart_of_account', 'chart_of_accounts.opening_balance_debit', 'chart_of_accounts.opening_balance_credit']);
+        $project_categories = ProjectCategories::get();
+        $chart_of_accounts = ChartOfAccounts::join('control_codes AS CC', 'CC.control_code_id', 'chart_of_accounts.control_code_id', 'left')->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')->get(['chart_of_accounts.chart_of_account_id', 'GC.group_code', 'GC.group_account', 'CC.control_code', 'CC.control_description', 'chart_of_accounts.chart_of_account_code', 'chart_of_accounts.chart_of_account']);
 
-        return view('Main.chartofaccounts', ['group_codes' => $group_codes, 'chart_of_accounts' => $chart_of_accounts, 'projects' => $projects]);
+        return view('Main.chartofaccounts', ['group_codes' => $group_codes, 'chart_of_accounts' => $chart_of_accounts, 'project_categories' => $project_categories]);
     }
 
 
     public function AddChartOfAccount(Request $req)
     {
+        $this->PrintR($_POST);
         $validatedData = $req->validate([
             'chart_of_account_code' => ['required'],
             'chart_of_account' => ['required'],
             'group_code_id' => ['required'],
             'control_code_id' => ['required'],
         ]);
+
+        if (array_key_exists('project_id', $_POST)) :
+            if (count($req->project_id) == "0") :
+                $req->session()->flash('status', 'Project is required');
+                return redirect('ChartOfAccounts');
+            endif;
+
+        else :
+            $req->session()->flash('status', 'Project is required');
+            return redirect('ChartOfAccounts');
+        endif;
 
         $chart_of_accounts = new ChartOfAccounts();
 
@@ -828,10 +972,21 @@ class MainController extends Controller
         $chart_of_accounts->chart_of_account_code = $req->chart_of_account_code;
         $chart_of_accounts->chart_of_account = $req->chart_of_account;
         $chart_of_accounts->control_code_id = $req->control_code_id;
-        $chart_of_accounts->opening_balance_debit = $req->opening_balance_debit;
-        $chart_of_accounts->opening_balance_credit = $req->opening_balance_credit;
+        // $chart_of_accounts->opening_balance_debit = $req->opening_balance_debit;
+        // $chart_of_accounts->opening_balance_credit = $req->opening_balance_credit;
 
         if ($chart_of_accounts->save()) :
+            if (count($req->project_id) > 0) :
+                $chart_of_account_id = $chart_of_accounts->id;
+                $projectstoadd = array();
+                foreach ($req->project_id as $key => $item) :
+                    $projectstoadd[$key]['chart_of_account_id'] = $chart_of_account_id;
+                    $projectstoadd[$key]['project_id'] = $item;
+                    $projectstoadd[$key]['opening_balance_debit'] = $req->opening_balance_debit[$key];
+                    $projectstoadd[$key]['opening_balance_credit'] = $req->opening_balance_credit[$key];
+                endforeach;
+                ChartOfAccountsProjectMapping::upsert($projectstoadd, ['chart_of_account_id', 'project_id', 'opening_balance_debit', 'opening_balance_credit']);
+            endif;
             $req->session()->flash('status', 'Chart Of Account Added Successfully');
 
         else :
@@ -868,80 +1023,6 @@ class MainController extends Controller
     }
 
     #endregion
-
-
-
-
-    #region  USERS CATEGORIES
-    public function UserCategories()
-    {
-        $user_categories = UserCategories::get();
-        return view('Main.usercategories', ['user_categories' => $user_categories]);
-    }
-
-
-    public function AddUserCategory(Request $req)
-    {
-        $validatedData = $req->validate([
-            'user_category_code' => ['required'],
-            'user_category_name' => ['required'],
-        ]);
-
-        $user_categories = new UserCategories();
-        $user_categories->user_category_code = $req->user_category_code;
-        $user_categories->user_category_name = $req->user_category_name;
-        $user_categories->login_date_from = $req->login_date_from;
-        $user_categories->login_date_to = $req->login_date_to;
-        if ($user_categories->save()) :
-            $req->session()->flash('status', 'User Category Added Successfully');
-
-        else :
-            $req->session()->flash('status', 'Some Error Occured');
-        endif;
-
-        return redirect('UserCategories');
-    }
-
-
-    public function EditUserCategory(Request $req)
-    {
-        $result = UserCategories::where(['user_category_id' => $req->UserCategoryID])->first();
-        return view('Main.edit_usercategories', compact('result'));
-    }
-
-    public function UpdateUserCategory(Request $req)
-    {
-        $validatedData = $req->validate([
-            'user_category_code' => ['required'],
-            'user_category_name' => ['required'],
-        ]);
-
-        $DataToUpdate = [
-            'user_category_code' => $req->user_category_code,
-            'user_category_name' => $req->user_category_name,
-            'login_date_from' => $req->login_date_from,
-            'login_date_to' => $req->login_date_to,
-        ];
-        if (UserCategories::where(['user_category_id' => $req->user_category_id])->update($DataToUpdate)) :
-            $req->session()->flash('status', 'User Category Update Successfully');
-        else :
-            $req->session()->flash('status', 'Some Error Occured');
-        endif;
-
-        return redirect('UserCategories');
-    }
-
-    // public function DeleteGroupType(Request $req){
-    //    if(GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->delete()):
-    //         $req->session()->flash('status', 'Group Type Deleted Successfully');
-    //    else:
-    //         $req->session()->flash('status', 'Some Error Occured');
-    //    endif;
-
-    //    return redirect('GroupTypes');
-    // }
-    #endregion USERS CATEGORIES
-
 
     #region  SUPPLIERS
     public function Suppliers()
@@ -1202,4 +1283,11 @@ class MainController extends Controller
     #endregion INVOICES
 
 
+    function PrintR($data)
+    {
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+        exit;
+    }
 }

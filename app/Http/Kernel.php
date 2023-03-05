@@ -66,5 +66,7 @@ class Kernel extends HttpKernel
         'CheckSession' => \Illuminate\Auth\Middleware\CheckSession::class,
         'PagesAccess' => \App\Http\Middleware\PagesAccess::class,
         'PageActionAccess' => \App\Http\Middleware\PageActionAccess::class,
+
+        
     ];
 }

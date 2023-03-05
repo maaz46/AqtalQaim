@@ -164,8 +164,6 @@
                                     <ul>
                                         <li><a href="/Roles">Roles</a></li>
                                         <hr class="dropdown-divider">
-                                        <li><a href="/UserCategories">User Categories</a></li>
-                                        <hr class="dropdown-divider">
                                         <li><a href="/Users">Users</a></li>
 
                                     </ul>
@@ -304,6 +302,7 @@
         </div> <!-- .row -->
     </div> <!-- .container-fluid -->
     <script src="{{asset('assets/MainAssets/js/jquery-3.4.1.min.js')}}"></script> <!-- https://jquery.com/ -->
+    <script src="{{asset('assets/MainAssets/js/bootstrap.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('assets/MainAssets/js/datatable.min.js')}}"></script>
     <script src="{{asset('assets/MainAssets/js/jquery.singlePageNav.min.js')}}"></script>
     <!-- https://github.com/ChrisWojcik/single-page-nav -->

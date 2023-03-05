@@ -2,12 +2,21 @@
 
 @section('IndividualStyle')
 <style>
-      .page_section:not(:first-child){
-            margin-top:20px;
+      .page_section:not(:first-child) {
+            margin-top: 20px;
       }
-      .page_section{
-            display:flex;
-            align-items:center;
+
+      .btn_project_remove {
+            cursor: pointer;
+      }
+
+      .page_section:first-child .btn_project_remove {
+            display: none;
+      }
+
+      .page_section {
+            display: flex;
+            align-items: center;
       }
 </style>
 @endsection
@@ -37,9 +46,11 @@
                   <div class="row">
 
                         <div class="col-md-6">
-                        <div class="sel">
-                                    <label class="weight" for="user_type" style="margin-right:30px;">Select User Type</label>
-                                    <select id="user_type" name="user_type" required class="Maintype" style="color: white;">
+                              <div class="sel">
+                                    <label class="weight" for="user_type" style="margin-right:30px;">Select User
+                                          Type</label>
+                                    <select id="user_type" name="user_type" required class="Maintype"
+                                          style="color: white;">
                                           <option value="" disabled selected>Select A User Type</option>
                                           <option value="Administrator">Administrator</option>
                                           <option value="User">User</option>
@@ -68,22 +79,20 @@
                                     <input type="tel" name="cell" class="Maintype">
                                     <br>
                                     <div class="sel">
-                                          <label class="weight" for="is_block" style="margin-right:88px;">Block Y/N</label>
+                                          <label class="weight" for="is_block" style="margin-right:88px;">Block
+                                                Y/N</label>
                                           <input type="checkbox" id="is_block" name="is_block">
                                     </div>
 
                                     <div class="sel">
-                                          <label class="weight" for="can_change_year" style="margin-right:30px;">Can Change Year</label>
+                                          <label class="weight" for="can_change_year" style="margin-right:30px;">Can
+                                                Change Year</label>
                                           <input type="checkbox" id="can_change_year" name="can_change_year">
                                     </div>
 
-                                    
-                                    
-                                    <div class="AssignMoreProjectsDiv">
-                                          
-                                    </div>
-                                    <div class="text-right">
-                                          <button class="btn btn-info btn-sm" type="button" id="BtnAssignMoreProjects">Assign More Projects</button>
+
+                                    <div id="ProjectsDiv" class="projects_div">
+
                                     </div>
                               </div>
 
@@ -96,10 +105,16 @@
                                     if(count($pages)>0):
                                     foreach($pages as $key=>$item):
                                     @endphp
-                                    <input class="form-check-input CBPage" PageID="{{$item->page_id}}" type="checkbox" id="CBPage_{{$item->page_id}}" name="user_role_page_mapping[{{$key}}][page_id]" style="margin-top: 1.0rem;" value="{{$item->page_id}}">
-                                    <label class="form-check-label" for="CBPage_{{$item->page_id}}" style="margin-right: 0px;">
+                                    <input class="form-check-input CBPage" PageID="{{$item->page_id}}" type="checkbox"
+                                          id="CBPage_{{$item->page_id}}"
+                                          name="user_role_page_mapping[{{$key}}][page_id]" style="margin-top: 1.0rem;"
+                                          value="{{$item->page_id}}">
+                                    <label class="form-check-label" for="CBPage_{{$item->page_id}}"
+                                          style="margin-right: 0px;">
                                           {{$item->page_name}}</label><br>
-                                    <select id="SelectRole_{{$item->page_id}}" disabled placeholder="Year" name="user_role_page_mapping[{{$key}}][role_id]" class="Maintype1" style="color: white;">
+                                    <select id="SelectRole_{{$item->page_id}}" disabled placeholder="Year"
+                                          name="user_role_page_mapping[{{$key}}][role_id]" class="Maintype1"
+                                          style="color: white;">
                                           @foreach($roles as $key=>$roleitem)
                                           <option value="{{$roleitem->role_id}}">{{$roleitem->role_name}}</option>
                                           @endforeach
@@ -124,61 +139,71 @@
 </form>
 
 <div class="table-responsive mt-3">
-<table id="RoleTable" class="table">
-      <thead class="thead-dark">
-            <th>Name</th>
-            <th>User Name</th>
-            <th>Email</th>
-            <th>Cell</th>
-            <th>Block Y/N</th>
-            <th>Can Change Year</th>
-            <th class="size"></th>
-            <th class="size"></th>
-      </thead>
-      <tbody>
-            @if(!empty($users))
+      <table id="RoleTable" class="table">
+            <thead class="thead-dark">
+                  <th>Name</th>
+                  <th>User Name</th>
+                  <th>Email</th>
+                  <th>Cell</th>
+                  <th>Projects</th>
+                  <th>Block Y/N</th>
+                  <th>Can Change Year</th>
+                  <th class="size"></th>
+                  <th class="size"></th>
+            </thead>
+            <tbody>
+                  @if(!empty($users))
 
-            @if(count($users)>0)
-            @foreach($users as $key=>$item)
-            <tr>
-                  <td>{{$item->full_name}}</td>
-                  <td>{{$item->user_name}}</td>
-                  <td>{{$item->email}}</td>
-                  <td>{{$item->cell}}</td>
-                  <td>{{$item->is_block == "1" ? "Yes" : "No"}}</td>
-                  <td>{{$item->can_change_year}}</td>
-                  <td style="text-align:center;"><a href="/EditUser/{{$item['user_id']}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
-                  <td style="text-align:center;"><a href="/DeleteUser/{{$item['user_id']}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
-            </tr>
-            @endforeach
-            @endif
+                  @if(count($users)>0)
+                  @foreach($users as $key=>$item)
+                  <tr>
+                        <td>{{$item->full_name}}</td>
+                        <td>{{$item->user_name}}</td>
+                        <td>{{$item->email}}</td>
+                        <td>{{$item->cell}}</td>
+                        <td>{{$item->projects}}</td>
+                        <td>{{$item->is_block == "1" ? "Yes" : "No"}}</td>
+                        <td>{{$item->can_change_year == "1" ? "Yes" : "No"}}</td>
+                        <td style="text-align:center;"><a href="/EditUser/{{$item['user_id']}}"><i class="far fa-edit"
+                                          style="font-size:24px;"></i></a></td>
+                        <td style="text-align:center;"><a href="/DeleteUser/{{$item['user_id']}}"><i
+                                          class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
+                  </tr>
+                  @endforeach
+                  @endif
 
-            @endif
-      </tbody>
-</table>
+                  @endif
+            </tbody>
+      </table>
 </div>
 
 @endsection
 @section('IndividualScript')
 <script>
-      $(function() {
-            AssignProjects();
+      $(function () {
             $('#RoleTable').DataTable();
 
-            $('#BtnAssignMoreProjects').on('click', function(){
+            $(document.body).on('click','#BtnAssignMoreProjects', function () {
                   AssignProjects();
-            });;
+            });
 
-            $('#user_type').on('change', function() {
+            $('#user_type').on('change', function () {
                   if ($(this).val() == "Administrator") {
                         $('#pages_section').addClass('d-none');
+                        $('#ProjectsDiv').empty();
                   }
                   if ($(this).val() == "User") {
                         $('#pages_section').removeClass('d-none');
+                        $('#ProjectsDiv').html('<div class="AssignMoreProjectsDiv"> </div><div class="text-right"> <button class="btn btn-info btn-sm" type="button" id="BtnAssignMoreProjects">Assign More Projects</button> </div>');
+                        AssignProjects();
                   }
             });
 
             $('#user_type').val('').trigger('change');
+
+            $(document.body).on('click', '.BtnProjectRemove', function () {
+                  $(this).closest('.ProjectSection').remove();
+            })
       })
 
       // $('#project_category_id, #project_id').val('').prop('selected', true);
@@ -213,7 +238,7 @@
       //       })
       // });
 
-      $('#userform').on('submit', function(e) {
+      $('#userform').on('submit', function (e) {
             var GoodToGo = true;
             var password = $('input[name="password"]').val();
             var confirmpassword = $('input[name="confirm_password"]').val();
@@ -227,7 +252,7 @@
             }
       });
 
-      $('.CBPage').on('change', function() {
+      $('.CBPage').on('change', function () {
             var PageID = $(this).attr('PageID');
 
             if ($(this).is(':checked')) {
@@ -237,31 +262,31 @@
             }
       });
 
-      function AssignProjects(){
+      function AssignProjects() {
             $('.AssignMoreProjectsDiv').append('<div class="ProjectSection page_section"><div><div class="sel">'
-            +'<label class="weight" for="project_category_id" style="margin-right:30px;">Project Category</label>'
-            +'<select id="" name="project_category_id[]" class="Maintype project_category_id" style="color: white;">'
-            +'<option value="" disabled selected>Select A Project Category</option>'
-            +'@if(count($project_categories)>0)'
-            +'@foreach($project_categories as $key=>$item)'
-            +'<option value="{{$item->project_category_id}}">{{$item->project_category}}</option>'
-            +'@endforeach @endif '
-            +'</select>'
-            +'</div>'
-            
-            +'<div class="sel">'
-            +'<label class="weight" for="project_category_id" style="margin-right:30px;">Assign A Project</label>'
-            +'<select name="project_id[]" class="Maintype project_id" style="color: white;">'
-            +'<option disabled selected value="">Select A Project Category First</option>'
-            +'</select>'
-            +'</div></div><button class="btn btn-danger btn-sm">D</button></div>');
+                  + '<label class="weight" for="project_category_id" style="margin-right:30px;">Project Category</label>'
+                  + '<select id="" name="project_category_id[]" class="Maintype project_category_id" style="color: white;">'
+                  + '<option value="" disabled selected>Select A Project Category</option>'
+                  + '@if(count($project_categories)>0)'
+                  + '@foreach($project_categories as $key=>$item)'
+                  + '<option value="{{$item->project_category_id}}">{{$item->project_category}}</option>'
+                  + '@endforeach @endif '
+                  + '</select>'
+                  + '</div>'
+
+                  + '<div class="sel">'
+                  + '<label class="weight" for="project_category_id" style="margin-right:30px;">Assign A Project</label>'
+                  + '<select name="project_id[]" required class="Maintype project_id" style="color: white;">'
+                  + '<option disabled selected value="">Select A Project Category First</option>'
+                  + '</select>'
+                  + '</div></div><i class="fas fa-trash bg-danger text-white p-2 rounded BtnProjectRemove btn_project_remove"></i></div>');
       }
 
-      $(document.body).on('change','.project_category_id',function(){
+      $(document.body).on('change', '.project_category_id', function () {
             var ProjectSection = $(this).attr('ProjectSection');
             var ProjectIDSelect = $(this).closest('.ProjectSection').find('.project_id');
 
-                  var ProjectCategoryID = $(this).val();
+            var ProjectCategoryID = $(this).val();
             $(ProjectIDSelect).css({
                   'opacity': '0.2',
                   'pointer-events': 'none'
@@ -270,17 +295,16 @@
                   url: '/GetProjectsByProjectCategoryID/' + ProjectCategoryID,
                   type: 'GET',
                   async: false,
-                  success: function(e) {
+                  success: function (e) {
                         $(ProjectIDSelect).empty();
                         if (e.length > 0) {
-                              $(ProjectIDSelect).append('<option disabled selected>Select A Project</option>')
-                              $.each(e, function(i, option) {
+                              $(ProjectIDSelect).append('<option value="" disabled selected>Select A Project</option>')
+                              $.each(e, function (i, option) {
 
-                                    $(ProjectIDSelect).append('<option value="' + option.project_id + '"">' +
-                                          option.project_name + '</option>')
+                                    $(ProjectIDSelect).append('<option value="' + option.project_id + '">' + option.project_name + '</option>')
                               });
                         } else {
-                              $(ProjectIDSelect).append('<option disabled selected>No Projects Were Found</option >');
+                              $(ProjectIDSelect).append('<option value="" disabled selected>No Projects Were Found</option >');
                         }
                         $(ProjectIDSelect).css({
                               'opacity': '1',
@@ -288,7 +312,7 @@
                         });
                   }
 
-            })
+            });
       });
 </script>
 @endsection
