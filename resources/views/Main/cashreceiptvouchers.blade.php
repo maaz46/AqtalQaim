@@ -48,7 +48,7 @@
       <div class="row">
 
         <div class="col-md-12">
-        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline;">Party Information</h4></div> 
+        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline">Party Information</h4></div> 
         <div>
           <p style="color: black; font-size: 20px;">Name:X-Mart Technology</p>
         </div>
