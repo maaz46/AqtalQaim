@@ -1,7 +1,6 @@
-@extends('Main.Layout.layout')
+@extends('User.Layout.layout')
 
 @section('MainSection')
-
 <div class="tm-main">
 	<!-- Home section -->
 
@@ -15,7 +14,7 @@
     <div class="container">
         <div class="row">
           <div class="col-md-12">
-          <div class="first"><h2 class="tm-text-primary">Cash Receipt Voucher</h2></div> 
+          <div class="first"><h2 class="tm-text-primary">Bill</h2></div> 
    </div>
     </div>
     </div>
@@ -48,7 +47,7 @@
       <div class="row">
 
         <div class="col-md-12">
-        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline">Party Information</h4></div> 
+        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline;">Party Information</h4></div> 
         <div>
           <p style="color: black; font-size: 20px;">Name:X-Mart Technology</p>
         </div>
@@ -63,14 +62,14 @@
       <div class="row">
 
         <div class="col-md-12">
-        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline;">Receipt Details</h4></div> 
+        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline;">Bill Details</h4></div> 
         
           
         </div>
         <div class="aboot4">
         <div class="col-md-12" >
         <div class="form">
-          <label class="weight" style="margin-right: 96px;">CRV</label>
+          <label class="weight" style="margin-right: 96px;">BLL</label>
           <input type="text" name="text" class="type7" style="margin-bottom:20px;" >
           <br>
          

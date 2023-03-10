@@ -16,8 +16,12 @@ class CheckLoginSession
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->session()->exists('user_id')):
-            return redirect('/Dashboard');
+        if ($request->session()->exists('user_id')) :
+            if ($request->session()->get('is_admin') == "1") :
+                return redirect('/Admin/Dashboard');
+            elseif ($request->session()->get('is_admin') == "0") :
+                return redirect('/Dashboard');
+            endif;
         endif;
         return $next($request);
     }

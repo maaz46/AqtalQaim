@@ -1,11 +1,11 @@
-@extends('Main.Layout.layout')
+@extends('Admin.Layout.layout')
 
 @section('MainSection')
 
 <h2 style="color:black;">USER CATEGORY</h2>
 
 
-<form action="/UserCategories" method="post">
+<form action="/Admin/UserCategories" method="post">
   @csrf
   <div class="about1">
     <div class="container">

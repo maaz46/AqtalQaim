@@ -1,7 +1,7 @@
-@extends('Main.Layout.layout')
+@extends('Admin.Layout.layout')
 
 @section('MainSection')
-<form action="/UpdateRole" method="post">
+<form action="/Admin/UpdateRole" method="post">
     @csrf
     <div class="abot1">
         <div class="container">

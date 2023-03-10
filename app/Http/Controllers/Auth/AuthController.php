@@ -39,8 +39,8 @@ class AuthController extends Controller
                 $selected_project_id = "";
                 $selected_project_name = "";
                 if ($result->is_admin == "0") :
-                    $user_project_mapping = UserProjectMapping::where(['user_project_mapping.user_id' => $result->user_id])->join('projects AS P', 'P.project_id', '=', 'user_project_mapping.project_id', 'left')->get(['P.project_id','P.project_name']);
-                    if($user_project_mapping->count()=="1"):
+                    $user_project_mapping = UserProjectMapping::where(['user_project_mapping.user_id' => $result->user_id])->join('projects AS P', 'P.project_id', '=', 'user_project_mapping.project_id', 'left')->get(['P.project_id', 'P.project_name']);
+                    if ($user_project_mapping->count() == "1") :
                         $selected_project_id = $user_project_mapping[0]["project_id"];
                         $selected_project_name = $user_project_mapping[0]["project_name"];
                     endif;
@@ -55,14 +55,19 @@ class AuthController extends Controller
                     'user_id' => $result->user_id,
                     'user_name' => $result->user_name,
                     'is_admin' => $result->is_admin,
-                    'selected_project_id'=>$selected_project_id,
-                    "selected_project_name"=>$selected_project_name,
-                    'assigned_projects'=>json_decode(json_encode($user_project_mapping),true),
+                    'selected_project_id' => $selected_project_id,
+                    "selected_project_name" => $selected_project_name,
+                    'assigned_projects' => json_decode(json_encode($user_project_mapping), true),
                     'user_role_page_mapping_data' => json_encode($user_role_page_mapping_data)
                 );
 
                 $req->session()->put($sessiondata);
-                return redirect('/Dashboard');
+                if ($result->is_admin == "1") :
+                    return redirect('/Admin/Dashboard');
+
+                elseif ($result->is_admin == "0") :
+                    return redirect('/Dashboard');
+                endif;
             endif;
         endif;
         $req->session()->flash('incorrectlogin', 'Incorrect Username Or Password');

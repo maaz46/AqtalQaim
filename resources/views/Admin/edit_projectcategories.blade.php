@@ -1,8 +1,8 @@
-@extends('Main.Layout.layout')
+@extends('Admin.Layout.layout')
 
 @section('MainSection')
 
-<form action="/UpdateProjectCategory" method="POST">
+<form action="/Admin/UpdateProjectCategory" method="POST">
     @csrf
     <div class="form-group">
         <label for="">Project Category Name*</label>

@@ -1,4 +1,4 @@
-@extends('Main.Layout.layout')
+@extends('Admin.Layout.layout')
 
 @section('IndividualStyle')
 <style>
@@ -24,7 +24,7 @@
 <h2 style="color:black;">USERS</h2>
 
 
-<form action="/Users" id="userform" method="post">
+<form action="/Admin/Users" id="userform" method="post">
       @csrf
       <div class="about1">
             <div class="container">
@@ -164,9 +164,9 @@
                         <td>{{$item->projects}}</td>
                         <td>{{$item->is_block == "1" ? "Yes" : "No"}}</td>
                         <td>{{$item->can_change_year == "1" ? "Yes" : "No"}}</td>
-                        <td style="text-align:center;"><a href="/EditUser/{{$item['user_id']}}"><i class="far fa-edit"
+                        <td style="text-align:center;"><a href="/Admin/EditUser/{{$item['user_id']}}"><i class="far fa-edit"
                                           style="font-size:24px;"></i></a></td>
-                        <td style="text-align:center;"><a href="/DeleteUser/{{$item['user_id']}}"><i
+                        <td style="text-align:center;"><a href="/Admin/DeleteUser/{{$item['user_id']}}"><i
                                           class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
                   </tr>
                   @endforeach

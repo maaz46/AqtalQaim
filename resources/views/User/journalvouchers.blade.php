@@ -1,10 +1,8 @@
-@extends('Main.Layout.layout')
+@extends('User.Layout.layout')
 
 @section('MainSection')
-
 <div class="tm-main">
 	<!-- Home section -->
-
      
 		<div class="first" style="text-decoration: 2px underline #006699;"><h2 class="tm-text-primary">AQT - Al Qaim Trust Pakistan</h2></div>
     <div class="second"><h3 class="tm-text-primary" style="color:black;">Al Qaim Model School Khairpur</h3></div>
@@ -15,7 +13,8 @@
     <div class="container">
         <div class="row">
           <div class="col-md-12">
-          <div class="first"><h2 class="tm-text-primary">Cash Receipt Voucher</h2></div> 
+          <div class="first"><h2 class="tm-text-primary">Journal Voucher</h2></div> 
+
    </div>
     </div>
     </div>
@@ -48,7 +47,7 @@
       <div class="row">
 
         <div class="col-md-12">
-        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline">Party Information</h4></div> 
+        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline;">Party Information</h4></div> 
         <div>
           <p style="color: black; font-size: 20px;">Name:X-Mart Technology</p>
         </div>
@@ -63,14 +62,14 @@
       <div class="row">
 
         <div class="col-md-12">
-        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline;">Receipt Details</h4></div> 
+        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline;">Adjustment Details</h4></div> 
         
           
         </div>
         <div class="aboot4">
         <div class="col-md-12" >
         <div class="form">
-          <label class="weight" style="margin-right: 96px;">CRV</label>
+          <label class="weight" style="margin-right: 96px;">JV</label>
           <input type="text" name="text" class="type7" style="margin-bottom:20px;" >
           <br>
          

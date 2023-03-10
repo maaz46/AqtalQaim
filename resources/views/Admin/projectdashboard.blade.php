@@ -1,4 +1,4 @@
-@extends('Main.Layout.layout')
+@extends('Admin.Layout.layout')
 
 @section('MainSection')
 

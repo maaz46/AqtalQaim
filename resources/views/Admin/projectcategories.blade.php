@@ -1,10 +1,10 @@
-@extends('Main.Layout.layout')
+@extends('Admin.Layout.layout')
 
 @section('MainSection')
 
 <h2 style="color:black; text-transform:uppercase;">Project Categories</h2>
 
-<form action="/ProjectCategories" method="POST">
+<form action="/Admin/ProjectCategories" method="POST">
     @csrf
     <div class="about1">
     <div class="container">

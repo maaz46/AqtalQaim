@@ -1,4 +1,4 @@
-@extends('Main.Layout.layout')
+@extends('Admin.Layout.layout')
 
 @section('MainSection')
 @php
@@ -6,7 +6,7 @@ if(Session::exists('status')):
 echo Session::get('status');
 endif;
 @endphp
-<form action="/UpdateProject" method="POST">
+<form action="/Admin/UpdateProject" method="POST">
     @csrf
     <div class="form-group">
         <label for="">Project Name*</label>

@@ -1,11 +1,11 @@
-@extends('Main.Layout.layout')
+@extends('Admin.Layout.layout')
 
 @section('MainSection')
 
 
 <h2 style="color:black;">USER RIGHTS ROLES</h2>
 
-<form action="/Roles" method="post">
+<form action="/Admin/Roles" method="post">
   @csrf
   <div class="abot1">
     <div class="container">
@@ -107,8 +107,8 @@
 
       </td>
       @endforeach
-      <td style="text-align:center;"><a href="/EditRole/{{$item['role_id']}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
-      <td style="text-align:center;"><a href="/DeleteRole/{{$item['role_id']}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
+      <td style="text-align:center;"><a href="/Admin/EditRole/{{$item['role_id']}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+      <td style="text-align:center;"><a href="/Admin/DeleteRole/{{$item['role_id']}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
     </tr>
     @php
     endforeach;

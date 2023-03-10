@@ -1,7 +1,7 @@
-@extends('Main.Layout.layout')
+@extends('Admin.Layout.layout')
 
 @section('MainSection')
-<form action="/UpdateUserCategory" method="post">
+<form action="/Admin/UpdateUserCategory" method="post">
     @csrf
     <div class="about1">
         <div class="container">

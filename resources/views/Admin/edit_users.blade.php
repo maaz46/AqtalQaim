@@ -1,4 +1,4 @@
-@extends('Main.Layout.layout')
+@extends('Admin.Layout.layout')
 
 @section('IndividualStyle')
 <style>
@@ -25,7 +25,7 @@
 <h2 style="color:black;">Edit User</h2>
 
 
-<form action="/UpdateUser" id="userform" method="post">
+<form action="/Admin/UpdateUser" id="userform" method="post">
     @csrf
     <div class="about1">
         <div class="container">
@@ -193,7 +193,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="ChangePasswordForm" action="/UpdatePassword" method="POST">
+            <form id="ChangePasswordForm" action="/Admin/UpdatePassword" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">

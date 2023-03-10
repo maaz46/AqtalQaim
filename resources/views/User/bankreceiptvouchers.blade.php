@@ -1,4 +1,4 @@
-@extends('Main.Layout.layout')
+@extends('User.Layout.layout')
 
 @section('MainSection')
 
@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row">
           <div class="col-md-12">
-          <div class="first"><h2 class="tm-text-primary">Cash Receipt Voucher</h2></div> 
+          <div class="first"><h2 class="tm-text-primary">Bank Receipt Voucher</h2></div> 
    </div>
     </div>
     </div>
@@ -48,7 +48,7 @@
       <div class="row">
 
         <div class="col-md-12">
-        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline">Party Information</h4></div> 
+        <div class="first"><h4 class="tm-text-primary" style="text-decoration: underline;">Party Information</h4></div> 
         <div>
           <p style="color: black; font-size: 20px;">Name:X-Mart Technology</p>
         </div>
@@ -70,14 +70,16 @@
         <div class="aboot4">
         <div class="col-md-12" >
         <div class="form">
-          <label class="weight" style="margin-right: 96px;">CRV</label>
+          <label class="weight" style="margin-right: 96px;">BRV</label>
           <input type="text" name="text" class="type7" style="margin-bottom:20px;" >
           <br>
-         
-          <div class="arrange1">
+          <label class="weight" style="margin-right: 38px;" >Cheque No.</label>
+          <input type="text" name ="text" class="type7" ><br>
+          <div class="arrange">
           <label class="weight" style="margin-right:64px;">Date</label>
           <input type="date" class="type5" style="margin-bottom:20px;"><br>
-          
+          <label class="weight">Cheque Date</label>
+          <input type="date" class="type5"><br></div>
           </div>
         </div>
       </div>
