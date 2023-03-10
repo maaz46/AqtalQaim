@@ -160,7 +160,7 @@
 				$('.BtnEnterDashboard').on('click', function() {
 					var ProjectID = $('#project_id').val();
 					if (ProjectID > "0") {
-						location.href = "/Dashboard/" + ProjectID;
+						location.href = "/Admin/Dashboard/" + ProjectID;
 					} else {
 						alert('Select A Project First');
 					}

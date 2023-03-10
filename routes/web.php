@@ -32,7 +32,10 @@ Route::middleware([CheckSession::class])->group(function () {
 
     //region For Admin Only
     Route::middleware(['CheckIfAdmin:1'])->group(function () {
+        #region DASHBOARD
         Route::get('/Admin/Dashboard', [AdminController::class, 'Dashboard']);
+        Route::get('/Admin/Dashboard/{ProjectID}', [AdminController::class, 'Dashboard']);
+        #endregion DASHBOARD
 
         #region GROUP TYPES
         Route::get('/Admin/GroupTypes', [AdminController::class, 'GroupTypes']);
@@ -101,7 +104,6 @@ Route::middleware([CheckSession::class])->group(function () {
         Route::middleware([DefaultProject::class])->group(function () {
             Route::get('/Dashboard', [UserController::class, 'Dashboard']);
 
-            // Route::get('/Dashboard/{ProjectID}', [UserController::class, 'Dashboard'])->middleware('PagesAccess:1');
 
 
             #region INITIAL SETUP
@@ -137,7 +139,22 @@ Route::middleware([CheckSession::class])->group(function () {
                 Route::get('/DeleteChartOfAccount/{ChartOfAccountID}', [UserController::class, 'DeleteChartOfAccount'])->middleware('PageActionAccess:3,2');
                 #endregion CONTROL CODES
 
+                #region SUPPLIERS
+                Route::get('/Suppliers', [UserController::class, 'Suppliers']);
+                Route::post('/Suppliers', [UserController::class, 'AddSupplier']);
+                Route::get('/EditSupplier/{SupplierID}', [UserController::class, 'EditSupplier'])->middleware('PageActionAccess:3,1');
+                Route::post('/UpdateSupplier', [UserController::class, 'UpdateSupplier'])->middleware('PageActionAccess:3,1');
+                Route::get('/DeleteSupplier/{SupplierID}', [UserController::class, 'DeleteSupplier'])->middleware('PageActionAccess:3,2');
+                #endregion SUPPLIERS
 
+
+                #region CUSTOMERS
+                Route::get('/Customers', [UserController::class, 'Customers']);
+                Route::post('/Customers', [UserController::class, 'AddCustomer']);
+                Route::get('/EditCustomer/{CustomerID}', [UserController::class, 'EditCustomer'])->middleware('PageActionAccess:3,1');
+                Route::post('/UpdateCustomer', [UserController::class, 'UpdateCustomer'])->middleware('PageActionAccess:3,1');
+                Route::get('/DeleteCustomer/{CustomerID}', [UserController::class, 'DeleteCustomer'])->middleware('PageActionAccess:3,2');
+                #endregion CUSTOMERS
 
             });
 
@@ -147,30 +164,6 @@ Route::middleware([CheckSession::class])->group(function () {
             #region MANAGEMENT
 
             Route::middleware('PagesAccess:6')->group(function () {
-
-
-
-                #region SUPPLIERS
-                Route::get('/Suppliers', [UserController::class, 'Suppliers']);
-                Route::post('/Suppliers', [UserController::class, 'AddSupplier']);
-                Route::get('/EditSupplier/{SupplierID}', [UserController::class, 'EditSupplier'])->middleware('PageActionAccess:6,1');
-                Route::post('/UpdateSupplier', [UserController::class, 'UpdateSupplier'])->middleware('PageActionAccess:6,1');
-                Route::get('/DeleteSupplier/{SupplierID}', [UserController::class, 'DeleteSupplier'])->middleware('PageActionAccess:6,2');
-                #endregion SUPPLIERS
-
-
-                #region CUSTOMERS
-                Route::get('/Customers', [UserController::class, 'Customers']);
-                Route::post('/Customers', [UserController::class, 'AddCustomer']);
-                Route::get('/EditCustomer/{CustomerID}', [UserController::class, 'EditCustomer'])->middleware('PageActionAccess:6,1');
-                Route::post('/UpdateCustomer', [UserController::class, 'UpdateCustomer'])->middleware('PageActionAccess:6,1');
-                Route::get('/DeleteCustomer/{CustomerID}', [UserController::class, 'DeleteCustomer'])->middleware('PageActionAccess:6,2');
-                #endregion CUSTOMERS
-
-
-
-
-
             });
 
 

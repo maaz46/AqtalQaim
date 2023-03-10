@@ -36,13 +36,6 @@ class AdminController extends Controller
                 $result = Projects::where(['project_id' => $project_id])->first();
                 return view('Admin.projectdashboard', ['result' => $result]);
             }
-
-        elseif ($req->session()->get('is_admin') == "0") :
-            if ($req->session()->get('selected_project_id') == "" && $req->session()->get('selected_project_name') == "") :
-                return view('Admin.userselectdefaultproject');
-            else :
-                return view('Admin.userdefaultdashboard');
-            endif;
         endif;
     }
 

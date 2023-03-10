@@ -46,9 +46,9 @@
         @endphp
         <tr>
             <td>{{$item->project_category}}</td>
-            <td style="text-align:center;"><a href="/EditProjectCategory/{{$item->project_category_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
+            <td style="text-align:center;"><a href="/Admin/EditProjectCategory/{{$item->project_category_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
             <td style="text-align:center;"><a
-                    href="/DeleteProjectCategory/{{$item->project_category_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
+                    href="/Admin/DeleteProjectCategory/{{$item->project_category_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
         </tr>
         @php
         endforeach;

@@ -27,7 +27,7 @@
             <select id="" name="project_id" class="Maintype" required style="color: white;">
                 <option value="" disabled selected>Select A Default Project</option>
                 @foreach(Session::get('assigned_projects') as $key=>$item)
-                <option value="{{$item['project_id']}}">{{$item['project_name']}}</option>
+                <option value="{{$item['project_id']}}" {{ Session::get('selected_project_id')!=""&&Session::get('selected_project_id')==$item['project_id'] ? 'selected' : '' }}>{{$item['project_name']}}</option>
                 @endforeach
             </select>
         </div>

@@ -21,6 +21,7 @@ use App\Models\UserRolePageMapping;
 use App\Models\UserProjectMapping;
 use App\Models\ChartOfAccountsProjectMapping;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -42,8 +43,10 @@ class UserController extends Controller
 
     public function UpdateDefaultProject(Request $req)
     {
+        $isGoodToGo = false;
         foreach ($req->session()->get('assigned_projects') as $key => $item) :
             if ($item['project_id'] == $req->project_id) :
+                $isGoodToGo = true;
                 $req->session()->put([
                     'selected_project_id' => $req->project_id,
                     'selected_project_name' => $item['project_name']
@@ -51,7 +54,12 @@ class UserController extends Controller
 
             endif;
         endforeach;
-        return redirect('Dashboard');
+        if($isGoodToGo):
+            return redirect('Dashboard');
+        else:
+            $req->session()->flash('status', 'Invalid Request');
+            return redirect('SetDefaultProject');
+        endif;
     }
     #endregion
 
@@ -268,7 +276,7 @@ class UserController extends Controller
         $chart_of_accounts = ChartOfAccounts::join('control_codes AS CC', 'CC.control_code_id', 'chart_of_accounts.control_code_id', 'left')
             ->join('chart_of_accounts_project_mapping AS COAPM', 'COAPM.chart_of_account_id', '=', 'chart_of_accounts.chart_of_account_id', 'left')
             ->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')
-            ->where(['GC.project_id' => $SelectedProjectID])->get(['chart_of_accounts.chart_of_account_id', 'GC.group_code', 'GC.group_account', 'CC.control_code', 'CC.control_description', 'chart_of_accounts.chart_of_account_code', 'chart_of_accounts.chart_of_account', 'COAPM.opening_balance_debit', 'COAPM.opening_balance_credit']);
+            ->where(['COAPM.project_id' => $SelectedProjectID])->get(['chart_of_accounts.chart_of_account_id', 'GC.group_code', 'GC.group_account', 'CC.control_code', 'CC.control_description', 'chart_of_accounts.chart_of_account_code', 'chart_of_accounts.chart_of_account', 'COAPM.opening_balance_debit', 'COAPM.opening_balance_credit']);
 
         return view('User.chartofaccounts', ['group_codes' => $group_codes, 'chart_of_accounts' => $chart_of_accounts, 'project_categories' => $project_categories]);
     }
@@ -348,7 +356,9 @@ class UserController extends Controller
     #region  SUPPLIERS
     public function Suppliers()
     {
-        $chart_of_accounts = ChartOfAccounts::get();
+        $SelectedProjectID = Session::get('selected_project_id');
+        $chart_of_accounts = ChartOfAccounts::join('chart_of_accounts_project_mapping AS COAPM','chart_of_accounts.chart_of_account_id','=','COAPM.chart_of_account_id')->where(['COAPM.project_id'=>$SelectedProjectID])->get();
+        // $this->PrintR(json_decode(json_encode($chart_of_accounts),true));
         $suppliers = Suppliers::join('chart_of_accounts AS COA', 'COA.chart_of_account_id', '=', 'suppliers.chart_of_account_id', 'left')->get();
         return view('User.suppliers', ['chart_of_accounts' => $chart_of_accounts, 'suppliers' => $suppliers]);
     }
@@ -436,7 +446,8 @@ class UserController extends Controller
     #region  CUSTOMERS
     public function Customers()
     {
-        $chart_of_accounts = ChartOfAccounts::get();
+        $SelectedProjectID = Session::get('selected_project_id');
+        $chart_of_accounts = ChartOfAccounts::join('chart_of_accounts_project_mapping AS COAPM','chart_of_accounts.chart_of_account_id','=','COAPM.chart_of_account_id')->where(['COAPM.project_id'=>$SelectedProjectID])->get();
         $customers = Customers::join('chart_of_accounts AS COA', 'COA.chart_of_account_id', '=', 'customers.chart_of_account_id', 'left')->get();
         return view('User.customers', ['chart_of_accounts' => $chart_of_accounts, 'customers' => $customers]);
     }
