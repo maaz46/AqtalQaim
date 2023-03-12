@@ -152,7 +152,7 @@
             <td>{{$item->account_code}}</td>
             <td>{{$item->chart_of_account}}</td>
             <td style="text-align:center;"><a href="/EditSupplier/{{$item->supplier_id}}"><i class="far fa-edit" style="font-size:24px;"></i></a></td>
-            <td style="text-align:center;"><a href="/EditSupplier/{{$item->supplier_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
+            <td style="text-align:center;"><a href="/DeleteSupplier/{{$item->supplier_id}}"><i class="fas fa-trash-alt" style="font-size:24px;"></i></a></td>
         </tr>
         @php
         endforeach;

@@ -8,20 +8,22 @@ use App\Models\GroupCodes;
 use App\Models\ControlTypes;
 use App\Models\ControlCodes;
 use App\Models\ProjectCategories;
-use App\Models\Projects;
-use App\Models\Roles;
+// use App\Models\Projects;
+// use App\Models\Roles;
 use App\Models\Users;
 use App\Models\ChartOfAccounts;
 use App\Models\Suppliers;
 use App\Models\Customers;
-use App\Models\Pages;
-use App\Models\Rights;
-use App\Models\RightsMapping;
-use App\Models\UserRolePageMapping;
-use App\Models\UserProjectMapping;
+// use App\Models\Pages;
+// use App\Models\Rights;
+// use App\Models\RightsMapping;
+// use App\Models\UserRolePageMapping;
+// use App\Models\UserProjectMapping;
 use App\Models\ChartOfAccountsProjectMapping;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
+use App\Models\BankPaymentVouchers;
+use App\Models\BankPaymentVoucherPayments;
+// use Illuminate\Support\Facades\Hash;
+// use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -54,9 +56,9 @@ class UserController extends Controller
 
             endif;
         endforeach;
-        if($isGoodToGo):
+        if ($isGoodToGo) :
             return redirect('Dashboard');
-        else:
+        else :
             $req->session()->flash('status', 'Invalid Request');
             return redirect('SetDefaultProject');
         endif;
@@ -357,9 +359,13 @@ class UserController extends Controller
     public function Suppliers()
     {
         $SelectedProjectID = Session::get('selected_project_id');
-        $chart_of_accounts = ChartOfAccounts::join('chart_of_accounts_project_mapping AS COAPM','chart_of_accounts.chart_of_account_id','=','COAPM.chart_of_account_id')->where(['COAPM.project_id'=>$SelectedProjectID])->get();
+        $chart_of_accounts = ChartOfAccounts::join('chart_of_accounts_project_mapping AS COAPM', 'chart_of_accounts.chart_of_account_id', '=', 'COAPM.chart_of_account_id')->where(['COAPM.project_id' => $SelectedProjectID])->get();
         // $this->PrintR(json_decode(json_encode($chart_of_accounts),true));
-        $suppliers = Suppliers::join('chart_of_accounts AS COA', 'COA.chart_of_account_id', '=', 'suppliers.chart_of_account_id', 'left')->get();
+        $suppliers = Suppliers::join('chart_of_accounts AS COA', 'COA.chart_of_account_id', '=', 'suppliers.chart_of_account_id', 'left')
+            ->join('control_codes AS CC', 'CC.control_code_id', '=', 'COA.control_code_id', 'left')
+            ->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')
+            ->where(['GC.project_id' => $SelectedProjectID])
+            ->get();
         return view('User.suppliers', ['chart_of_accounts' => $chart_of_accounts, 'suppliers' => $suppliers]);
     }
 
@@ -396,7 +402,8 @@ class UserController extends Controller
 
     public function EditSupplier(Request $req)
     {
-        $chart_of_accounts = ChartOfAccounts::get();
+        $SelectedProjectID = Session::get('selected_project_id');
+        $chart_of_accounts = ChartOfAccounts::join('chart_of_accounts_project_mapping AS COAPM', 'chart_of_accounts.chart_of_account_id', '=', 'COAPM.chart_of_account_id')->where(['COAPM.project_id' => $SelectedProjectID])->get();
         $result = Suppliers::where(['supplier_id' => $req->SupplierID])->first();
         return view('User.edit_suppliers', ['chart_of_accounts' => $chart_of_accounts, 'result' => $result]);
     }
@@ -431,15 +438,16 @@ class UserController extends Controller
         return redirect('Suppliers');
     }
 
-    // public function DeleteGroupType(Request $req){
-    //    if(GroupTypes::where(['group_type_id'=>$req->GroupTypeID])->delete()):
-    //         $req->session()->flash('status', 'Group Type Deleted Successfully');
-    //    else:
-    //         $req->session()->flash('status', 'Some Error Occured');
-    //    endif;
+    public function DeleteSupplier(Request $req)
+    {
+        if (Suppliers::where(['supplier_id' => $req->SupplierID])->delete()) :
+            $req->session()->flash('status', 'Supplier Deleted Successfully');
+        else :
+            $req->session()->flash('status', 'Some Error Occured');
+        endif;
 
-    //    return redirect('GroupTypes');
-    // }
+        return redirect('Suppliers');
+    }
     #endregion SUPPLIERS
 
 
@@ -447,8 +455,15 @@ class UserController extends Controller
     public function Customers()
     {
         $SelectedProjectID = Session::get('selected_project_id');
-        $chart_of_accounts = ChartOfAccounts::join('chart_of_accounts_project_mapping AS COAPM','chart_of_accounts.chart_of_account_id','=','COAPM.chart_of_account_id')->where(['COAPM.project_id'=>$SelectedProjectID])->get();
-        $customers = Customers::join('chart_of_accounts AS COA', 'COA.chart_of_account_id', '=', 'customers.chart_of_account_id', 'left')->get();
+        $chart_of_accounts = ChartOfAccounts::join('chart_of_accounts_project_mapping AS COAPM', 'chart_of_accounts.chart_of_account_id', '=', 'COAPM.chart_of_account_id')->where(['COAPM.project_id' => $SelectedProjectID])->get();
+        // $customers = Customers::join('chart_of_accounts AS COA', 'COA.chart_of_account_id', '=', 'customers.chart_of_account_id', 'left')->get();
+
+        $customers = Customers::join('chart_of_accounts AS COA', 'COA.chart_of_account_id', '=', 'customers.chart_of_account_id', 'left')
+            ->join('control_codes AS CC', 'CC.control_code_id', '=', 'COA.control_code_id', 'left')
+            ->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')
+            ->where(['GC.project_id' => $SelectedProjectID])
+            ->get();
+
         return view('User.customers', ['chart_of_accounts' => $chart_of_accounts, 'customers' => $customers]);
     }
 
@@ -549,7 +564,59 @@ class UserController extends Controller
 
     function BankPaymentVouchers()
     {
-        return view('User.bankpaymentvouchers');
+        $SelectedProjectID = Session::get('selected_project_id');
+        $chart_of_accounts = ChartOfAccounts::join('control_codes AS CC', 'CC.control_code_id', '=', 'chart_of_accounts.control_code_id')
+            ->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id')
+            ->where(['GC.project_id' => $SelectedProjectID])->get();
+
+        // $this->PrintR(json_decode(json_encode($chart_of_accounts),true));
+        $suppliers = Suppliers::join('chart_of_accounts AS COA', 'COA.chart_of_account_id', '=', 'suppliers.chart_of_account_id', 'left')
+            ->join('control_codes AS CC', 'CC.control_code_id', '=', 'COA.control_code_id', 'left')
+            ->join('group_codes AS GC', 'GC.group_code_id', '=', 'CC.group_code_id', 'left')
+            ->where(['GC.project_id' => $SelectedProjectID])
+            ->get(['suppliers.supplier_id', 'suppliers.supplier_code', 'suppliers.supplier_name', 'suppliers.chart_of_account_id']);
+        return view('User.bankpaymentvouchers', ['suppliers' => $suppliers, 'chart_of_accounts' => $chart_of_accounts]);
+    }
+
+    function AddBankPaymentVoucher(Request $req)
+    {
+        $bank_payment_vouchers = new BankPaymentVouchers();
+        if ($req->supplier_id == "0") :
+            $bank_payment_vouchers->party_name = $req->party_name;
+            $bank_payment_vouchers->supplier_id = null;
+
+        else :
+            $bank_payment_vouchers->party_name = $req->party_name;
+            $bank_payment_vouchers->supplier_id = $req->supplier_id;
+        endif;
+        $bank_payment_vouchers->bank_payment_voucher_code = $req->bank_payment_voucher_code;
+        $bank_payment_vouchers->bank_payment_voucher_date = $req->bank_payment_voucher_date;
+        $bank_payment_vouchers->cheque_no = $req->cheque_no;
+        $bank_payment_vouchers->cheque_date = $req->cheque_date;
+
+        if ($bank_payment_vouchers->save()) :
+            $bank_payment_voucher_id = $bank_payment_vouchers->id;
+            if (!empty($req->chart_of_account_id)) :
+                if (count($req->chart_of_account_id) > 0) :
+                    $datatoadd = array();
+                    foreach($req->chart_of_account_id as $key=>$item):
+                        $datatoadd[$key]['bank_payment_voucher_id'] = $bank_payment_voucher_id;
+                        $datatoadd[$key]['chart_of_account_id'] = $item;
+                        $datatoadd[$key]['narration'] = $req->narration[$key];
+                        $datatoadd[$key]['ref_no'] = $req->ref_no[$key];
+                        $datatoadd[$key]['ref_date'] = $req->ref_date[$key];
+                        $datatoadd[$key]['DC'] = $req->DC[$key];
+                    endforeach;
+                    BankPaymentVoucherPayments::upsert($datatoadd,['bank_payment_voucher_id','chart_of_account_id','narration','ref_no','ref_data','DC']);
+                endif;
+            endif;
+            $req->session()->flash('status', 'Bank Payment Voucher Created Successfully');
+
+        else :
+            $req->session()->flash('status', 'Some Error Occured');
+        endif;
+
+        return redirect('BankPaymentVouchers');
     }
 
     #endregion BANKPAYMENTVOUCHER
