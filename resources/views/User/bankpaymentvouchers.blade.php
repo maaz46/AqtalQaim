@@ -33,15 +33,15 @@
 
           <div class="col-md-12">
             <div class="buon">
-              <button class=bet1 type="button">Search</button>
-              <button class=bet1 type="button">Prev</button>
-              <button class=bet1 type="button">Next</button>
-              <button class=bet1 type="button">New</button>
-              <button class=bet1 type="submit">Save</button>
-              <button class=bet1 type="button">Cancel</button>
-              <button class=bet1 type="button">Edit</button>
-              <button class=bet1 type="button">Delete</button>
-              <button class=bet1 type="button">Approved</button>
+              <button class="bet1 BtnSearch" type="button">Search</button>
+              <button class="bet1 BtnPrev" type="button">Prev</button>
+              <button class="bet1 BtnNext" type="button">Next</button>
+              <button class="bet1 BtnNew" type="button">New</button>
+              <button class="bet1 BtnSave" type="submit" disabled>Save</button>
+              <button class="bet1 BtnCancel" type="button" disabled>Cancel</button>
+              <button class="bet1 BtnEdit" type="button">Edit</button>
+              <button class="bet1 BtnDelete" type="button">Delete</button>
+              <button class="bet1 BtnApproved" type="button">Approved</button>
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@
             </div>
             <div class="sel">
               <label class="weight" style="margin-right:12px;">Select A Party</label>
-              <select name="supplier_id" required id="select_supplier_id" class="Maintype" style="color: white;">
+              <select name="supplier_id" disabled required id="select_supplier_id" class="Maintype FormField" style="color: white;">
                 <option value="" disabled selected>Select A Party</option>
                 <option value="0">Custom Party Name</option>
                 @foreach($suppliers as $key=>$item)
@@ -90,15 +90,15 @@
             <div class="col-md-12">
               <div class="form">
                 <label class="weight" style="margin-right: 96px;">BPV</label>
-                <input type="text" name="bank_payment_voucher_code" class="type7" style="margin-bottom:20px;">
+                <input type="text" disabled name="bank_payment_voucher_code" class="type7 FormField" style="margin-bottom:20px;">
                 <br>
                 <label class="weight" style="margin-right: 38px;">Cheque No.</label>
-                <input type="text" name="cheque_no" class="type7"><br>
+                <input type="text" disabled name="cheque_no" class="type7 FormField"><br>
                 <div class="arrange">
                   <label class="weight" style="margin-right:64px;">Date</label>
-                  <input type="date" name="bank_payment_voucher_date" class="type5" style="margin-bottom:20px;"><br>
+                  <input type="date" disabled name="bank_payment_voucher_date" class="type5 FormField" style="margin-bottom:20px;"><br>
                   <label class="weight">Cheque Date</label>
-                  <input type="date" name="cheque_date" class="type5"><br>
+                  <input type="date" disabled name="cheque_date" class="type5 FormField"><br>
                 </div>
               </div>
             </div>
@@ -116,12 +116,23 @@
         <th>Ref No.</th>
         <th>Ref Date</th>
         <th>D/C</th>
+        <th>Amount</th>
 
       </thead>
       <tbody>
       </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="6"></th>
+          <th>
+            <p class="mb-0">Debit:<span id="TotalDebitAmount">0</span></p>
+            <p class="mb-0">Credit:<span id="TotalCreditAmount">0</span></p>
+            <p class="mb-0">Difference:<span id="TotalDifferenceAmount">0</span></p>
+          </th>
+        </tr>
+      </tfoot>
     </table>
-    <button class="btn btn-success btn-sm BtnAddMore" type="button">Add More</button>
+    <button class="btn btn-success btn-sm BtnAddMore FormField" disabled type="button">Add More</button>
 
   </form>
 
@@ -146,8 +157,8 @@
 @section('IndividualScript')
 <script>
   $(function() {
-    BankVoucherTableStructure();
-    $('#select_supplier_id').val('').trigger('change');
+    ResetFields();
+    // BankVoucherTableStructure();
     $('#select_supplier_id').on('change', function() {
       $('#CustomPartyNameDiv').empty();
       var SupplierID = $(this).val();
@@ -174,13 +185,66 @@
       BankVoucherTableStructure();
     });
 
+    $('.BtnNew').on('click', function(){
+      ResetFields();
+      $('.FormField').prop('disabled',false);
+      $('.BtnSearch, .BtnPrev, .BtnNext, .BtnNew, .BtnEdit, .BtnDelete, .BtnApproved').prop('disabled',true);
+      $('.BtnSave, .BtnCancel').prop('disabled',false);
+    });
+
+    $('.BtnCancel').on('click', function(){
+      // ResetFields();
+      $('.FormField').prop('disabled',true);
+      $('.BtnSearch, .BtnPrev, .BtnNext, .BtnNew, .BtnEdit, .BtnDelete, .BtnApproved').prop('disabled',false);
+      $('.BtnSave, .BtnCancel').prop('disabled',true);
+    });
+
+    $('.BtnEdit').on('click', function(){
+      // ResetFields();
+      $('.FormField').prop('disabled',false);
+      $('.BtnSearch, .BtnPrev, .BtnNext, .BtnNew, .BtnEdit, .BtnDelete, .BtnApproved').prop('disabled',true);
+      $('.BtnCancel').prop('disabled',false);
+    });
+
+    $(document.body).on('keyup', 'input[name="amount[]"]', function(){
+      Calculation();
+    });
+
+    $(document.body).on('change', 'select[name="DC[]"]', function(){
+      Calculation();
+    });
+
   });
+
+  function Calculation(){
+    var TotalDebitAmount = 0;
+    var TotalCreditAmount = 0;
+    var TotalDifferenceAmount = 0;
+
+    $('select[name="DC[]"]').each(function(){
+      console.log($(this).val());
+      var DC = $(this).val();
+      var Amount = $(this).closest('tr').find('input[name="amount[]"]').val();
+      if(DC=="D"){
+        TotalDebitAmount += parseFloat(Amount);
+      }
+      if(DC=="C"){
+        TotalCreditAmount += parseFloat(Amount);
+      }
+    });
+
+    TotalDifferenceAmount = TotalDebitAmount - TotalCreditAmount;
+
+    $('#TotalDebitAmount').text(TotalDebitAmount);
+    $('#TotalCreditAmount').text(TotalCreditAmount);
+    $('#TotalDifferenceAmount').text(TotalDifferenceAmount);
+  }
 
   function BankVoucherTableStructure() {
     $('#BankVoucherTable tbody').append('<tr class=TRMain>' +
       '<td class="TDAccountCode"></td>' +
       '<td>' +
-      '<select class=sel name=chart_of_account_id[]>' +
+      '<select class="sel FormField" name=chart_of_account_id[]>' +
       '<option value=""disabled selected>Select Chart Of Account</option>' +
       '@foreach($chart_of_accounts as $key=>$item)' +
       '<option value="{{$item->chart_of_account_id}}" ControlCode="{{$item->control_code}}" GroupCode="{{$item->group_code}}" chartofaccountcode="{{$item->chart_of_account_code}}">{{$item->chart_of_account}}</option>@endforeach' +
@@ -188,19 +252,31 @@
       '<div class="COAInfoDiv"></div>'+
       '</td>' +
       '<td>' +
-      '<textarea name="narration[]"></textarea>' +
+      '<textarea class="FormField" name="narration[]"></textarea>' +
       '</td>' +
       '<td>' +
-      '<input name="ref_no[]">' +
+      '<input class="FormField" name="ref_no[]">' +
       '</td>' +
-      '<td><input name="ref_date[]" type=date></td>' +
+      '<td><input class="FormField" name="ref_date[]" type=date></td>' +
       '<td>' +
-      '<select name="DC[]" class="sel">' +
+      '<select name="DC[]" class="sel FormField">' +
       '<option value="D">D</option>' +
       '<option value="C">C</option>' +
       '</select>' +
       '</td>' +
+      '<td><input class="FormField" name="amount[]" value="0" type="number"></td>' +
       '</tr>');
   }
+
+  function ResetFields(){
+    $('#BankVoucherTable tbody').empty();
+    $('select[name="supplier_id"]').val('').trigger('change');
+    $('input[name="bank_payment_voucher_code"]').val('');
+    $('input[name="bank_payment_voucher_date"]').val('');
+    $('input[name="cheque_no"]').val('');
+    $('input[name="cheque_date"]').val('');
+    Calculation();
+  }
+
 </script>
 @endsection
