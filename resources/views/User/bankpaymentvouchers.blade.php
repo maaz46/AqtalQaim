@@ -25,7 +25,7 @@
       </div>
     </div>
   </div>
-  <form action="/BankPaymentVouchers" method="post">
+  <form action="/BankPaymentVouchers" id="FormBankPaymentVoucher" method="post">
     @csrf
     <div class="aboot1">
       <div class="container">
@@ -110,6 +110,7 @@
 
     <table id="BankVoucherTable" class="table table-responsive-sm">
       <thead class="thead-dark">
+        <th>Action</th>
         <th>A/C Code</th>
         <th>A/C Descripton</th>
         <th>Narration</th>
@@ -123,16 +124,16 @@
       </tbody>
       <tfoot>
         <tr>
-          <th colspan="6"></th>
+          <th colspan="7"></th>
           <th>
-            <p class="mb-0">Debit:<span id="TotalDebitAmount">0</span></p>
-            <p class="mb-0">Credit:<span id="TotalCreditAmount">0</span></p>
-            <p class="mb-0">Difference:<span id="TotalDifferenceAmount">0</span></p>
+            <p class="mb-0 d-flex justify-content-between align-items-center">Debit:<span id="TotalDebitAmount">0</span></p>
+            <p class="mb-0 d-flex justify-content-between align-items-center">Credit:<span id="TotalCreditAmount">0</span></p>
+            <p class="mb-0 d-flex justify-content-between align-items-center">Difference:<span id="TotalDifferenceAmount">0</span></p>
           </th>
         </tr>
       </tfoot>
     </table>
-    <button class="btn btn-success btn-sm BtnAddMore FormField" disabled type="button">Add More</button>
+    <button class="btn btn-success btn-sm BtnAdd FormField" disabled type="button">Add</button>
 
   </form>
 
@@ -151,6 +152,25 @@
 
 </div>
 
+<div class="modal fade" id="RemoveRowModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-center">Are you sure you want to remove this row?</p>
+        <div class="text-center">
+          <button class="btn btn-success btn-sm rounded-0 BtnConfirmRemoveRow">Yes</button>
+          <button class="btn btn-danger btn-sm rounded-0" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 @endsection
@@ -177,79 +197,134 @@
       var ControlCode = $(this).find('option:selected').attr('ControlCode');
       var GroupCode = $(this).find('option:selected').attr('GroupCode');
       $(this).closest('tr').find('.TDAccountCode').text(ChartOfAccountCode);
-      $(this).closest('td').find('.COAInfoDiv').html('<p class="mb-0"><small>Control Code: '+ControlCode+'</small></p>'
-      +'<p class="mb-0"><small>Group Code: '+GroupCode+'</small></p>');
+      $(this).closest('td').find('.COAInfoDiv').html('<p class="mb-0"><small>Control Code: ' + ControlCode + '</small></p>' +
+        '<p class="mb-0"><small>Group Code: ' + GroupCode + '</small></p>');
     });
 
-    $('.BtnAddMore').on('click', function() {
+    $('.BtnAdd').on('click', function() {
       BankVoucherTableStructure();
     });
 
-    $('.BtnNew').on('click', function(){
+    $('.BtnNew').on('click', function() {
       ResetFields();
-      $('.FormField').prop('disabled',false);
-      $('.BtnSearch, .BtnPrev, .BtnNext, .BtnNew, .BtnEdit, .BtnDelete, .BtnApproved').prop('disabled',true);
-      $('.BtnSave, .BtnCancel').prop('disabled',false);
+      $('.FormField').prop('disabled', false);
+      $('.BtnSearch, .BtnPrev, .BtnNext, .BtnNew, .BtnEdit, .BtnDelete, .BtnApproved').prop('disabled', true);
+      $('.BtnSave, .BtnCancel').prop('disabled', false);
     });
 
-    $('.BtnCancel').on('click', function(){
+
+    $('.BtnCancel').on('click', function() {
       // ResetFields();
-      $('.FormField').prop('disabled',true);
-      $('.BtnSearch, .BtnPrev, .BtnNext, .BtnNew, .BtnEdit, .BtnDelete, .BtnApproved').prop('disabled',false);
-      $('.BtnSave, .BtnCancel').prop('disabled',true);
+      $('.FormField').prop('disabled', true);
+      $('.BtnSearch, .BtnPrev, .BtnNext, .BtnNew, .BtnEdit, .BtnDelete, .BtnApproved').prop('disabled', false);
+      $('.BtnSave, .BtnCancel').prop('disabled', true);
     });
+    $('.BtnCancel').click();
 
-    $('.BtnEdit').on('click', function(){
+    $('.BtnEdit').on('click', function() {
       // ResetFields();
-      $('.FormField').prop('disabled',false);
-      $('.BtnSearch, .BtnPrev, .BtnNext, .BtnNew, .BtnEdit, .BtnDelete, .BtnApproved').prop('disabled',true);
-      $('.BtnCancel').prop('disabled',false);
+      $('.FormField').prop('disabled', false);
+      $('.BtnSearch, .BtnPrev, .BtnNext, .BtnNew, .BtnEdit, .BtnDelete, .BtnApproved').prop('disabled', true);
+      $('.BtnCancel').prop('disabled', false);
     });
 
-    $(document.body).on('keyup', 'input[name="amount[]"]', function(){
+    $(document.body).on('keyup', 'input[name="amount[]"]', function() {
       Calculation();
     });
 
-    $(document.body).on('change', 'select[name="DC[]"]', function(){
+    $(document.body).on('change', 'select[name="DC[]"]', function() {
       Calculation();
+    });
+
+    $(document.body).on('click', '.BtnRemoveRow', function() {
+      $('#RemoveRowModal').attr('TRIndexToRemove', $(this).closest('tr').index());
+      $('#RemoveRowModal').modal('show');
+    });
+
+    $('.BtnConfirmRemoveRow').on('click', function() {
+      var TRIndexToRemove = $('#RemoveRowModal').attr('TRIndexToRemove');
+      $('.TRMain').eq(TRIndexToRemove).remove();
+      Calculation();
+      if ($('.TRMain').length == 0) {
+        $('#BankVoucherTable tbody').html('<tr class="TRNoData"><td colspan="8" class="text-center">No data available in table</td></tr>');
+
+      }
+      $('#RemoveRowModal').modal('hide');
+    });
+
+    $('#FormBankPaymentVoucher').on('submit', function(e) {
+      var isGoodToGo = true;
+      if (Calculation() === false) {
+        isGoodToGo = false;
+        alert('Voucher Not Balanced');
+      }
+      var isAllChartOfAccountSelected = true;
+      if ($('.TRMain').length > 0) {
+
+        $('select[name="chart_of_account_id[]"]').each(function() {
+          if ($(this).val() == null) {
+            isAllChartOfAccountSelected = false;
+          }
+        });
+        if (isAllChartOfAccountSelected === false) {
+          isGoodToGo = false;
+          alert('No Empty Chart Of Account Allowed');
+        }
+      } else {
+        isGoodToGo = false;
+        alert('No Empty Chart Of Account Allowed');
+      }
+      if (isGoodToGo === false) {
+        e.preventDefault();
+      }
+
     });
 
   });
 
-  function Calculation(){
+  function Calculation() {
     var TotalDebitAmount = 0;
     var TotalCreditAmount = 0;
     var TotalDifferenceAmount = 0;
 
-    $('select[name="DC[]"]').each(function(){
+    $('select[name="DC[]"]').each(function() {
       console.log($(this).val());
       var DC = $(this).val();
       var Amount = $(this).closest('tr').find('input[name="amount[]"]').val();
-      if(DC=="D"){
+      if (DC == "D") {
         TotalDebitAmount += parseFloat(Amount);
       }
-      if(DC=="C"){
+      if (DC == "C") {
         TotalCreditAmount += parseFloat(Amount);
       }
     });
 
     TotalDifferenceAmount = TotalDebitAmount - TotalCreditAmount;
-
     $('#TotalDebitAmount').text(TotalDebitAmount);
     $('#TotalCreditAmount').text(TotalCreditAmount);
     $('#TotalDifferenceAmount').text(TotalDifferenceAmount);
+
+    var isGoodToGo = false;
+    if (parseFloat(TotalCreditAmount) > 0 || parseFloat(TotalCreditAmount) > 0) {
+      if (parseFloat(TotalDifferenceAmount) == 0) {
+        isGoodToGo = true;
+      }
+    }
+    return isGoodToGo;
   }
 
   function BankVoucherTableStructure() {
-    $('#BankVoucherTable tbody').append('<tr class=TRMain>' +
+    $('.TRNoData').remove();
+    $('#BankVoucherTable tbody').append('<tr class="TRMain">' +
+      '<td class="TDAction"><div class="text-center"><a href="javascript:void(0)" class="BtnRemoveRow"><i class="fas fa-trash"></i></a></div></td>' +
       '<td class="TDAccountCode"></td>' +
       '<td>' +
-      '<select class="sel FormField" name=chart_of_account_id[]>' +
+      '<select class="sel FormField" name="chart_of_account_id[]">' +
       '<option value=""disabled selected>Select Chart Of Account</option>' +
       '@foreach($chart_of_accounts as $key=>$item)' +
       '<option value="{{$item->chart_of_account_id}}" ControlCode="{{$item->control_code}}" GroupCode="{{$item->group_code}}" chartofaccountcode="{{$item->chart_of_account_code}}">{{$item->chart_of_account}}</option>@endforeach' +
       '</select>' +
-      '<div class="COAInfoDiv"></div>'+
+      '<div class="COAInfoDiv"></div>' +
       '</td>' +
       '<td>' +
       '<textarea class="FormField" name="narration[]"></textarea>' +
@@ -268,8 +343,8 @@
       '</tr>');
   }
 
-  function ResetFields(){
-    $('#BankVoucherTable tbody').empty();
+  function ResetFields() {
+    $('#BankVoucherTable tbody').html('<tr class="TRNoData"><td colspan="8" class="text-center">No data available in table</td></tr>');
     $('select[name="supplier_id"]').val('').trigger('change');
     $('input[name="bank_payment_voucher_code"]').val('');
     $('input[name="bank_payment_voucher_date"]').val('');
@@ -277,6 +352,5 @@
     $('input[name="cheque_date"]').val('');
     Calculation();
   }
-
 </script>
 @endsection

@@ -606,8 +606,9 @@ class UserController extends Controller
                         $datatoadd[$key]['ref_no'] = $req->ref_no[$key];
                         $datatoadd[$key]['ref_date'] = $req->ref_date[$key];
                         $datatoadd[$key]['DC'] = $req->DC[$key];
+                        $datatoadd[$key]['amount'] = $req->amount[$key];
                     endforeach;
-                    BankPaymentVoucherPayments::upsert($datatoadd,['bank_payment_voucher_id','chart_of_account_id','narration','ref_no','ref_data','DC']);
+                    BankPaymentVoucherPayments::upsert($datatoadd,['bank_payment_voucher_id','chart_of_account_id','narration','ref_no','ref_data','DC','amount']);
                 endif;
             endif;
             $req->session()->flash('status', 'Bank Payment Voucher Created Successfully');
